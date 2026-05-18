@@ -3,281 +3,410 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mansi Toshniwal — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;700&family=Instrument+Sans:wght@600;700&display=swap" rel="stylesheet"/>
+  <title>Mansi Toshniwal — Bauhaus Engineering Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg:        #fffdf6; /* Warm cream background from reference image */
-      --card-bg:   #ffffff; /* Flat white for crisp card backgrounds */
-      --text:      #000000; /* Crisp flat ink black */
-      --white:     #ffffff;
-      --border:    #000000; /* Sharp, flat outline */
-      
-      /* Pure flat highlighter accents directly from reference image */
-      --yellow:    #fbeb19; /* Highlighter Yellow */
-      --pink:      #f45285; /* Highlighter Pink */
-      --lime:      #a2fe21; /* Highlighter Lime */
-      --cyan:      #4ccff6; /* Highlighter Cyan */
-      --purple:    #7b2cbf; /* Subtle Purple accent text */
+      --bg:             #F0F0F0; /* Off-white canvas */
+      --foreground:     #121212; /* Stark Black */
+      --primary-red:    #D02020; /* Bauhaus Red */
+      --primary-blue:   #1040C0; /* Bauhaus Blue */
+      --primary-yellow: #F0C020; /* Bauhaus Yellow */
+      --border:         #121212;
+      --muted:          #E0E0E0;
+      --white:          #FFFFFF;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    
     body {
       background: var(--bg);
-      color: var(--text);
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 600;
+      color: var(--foreground);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Core Bauhaus Layout Utilities */
+    .border-b-4 { border-bottom: 4px solid var(--border); }
+    .border-4 { border: 4px solid var(--border); }
+    .border-2 { border: 2px solid var(--border); }
+    
+    .rounded-none { border-radius: 0px !important; }
+    .rounded-full { border-radius: 9999px !important; }
+
+    /* Layout Divisions */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      padding: 1.2rem 2rem;
+      padding: 1.5rem 2rem;
       display: flex; justify-content: space-between; align-items: center;
       background: var(--white);
-      border-bottom: 2px solid var(--border);
+      border-bottom: 4px solid var(--border);
     }
-    .logo {
-      font-family: 'Clash Display', sans-serif;
-      font-size: 1.35rem; font-weight: 700; color: var(--text);
-      letter-spacing: -.01em;
-    }
-    .logo span { color: var(--pink); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--text); font-size: 0.9rem; font-weight: 700;
-      text-decoration: none; text-transform: uppercase;
-      transition: color 0.15s ease;
-    }
-    .nav-links a:hover { color: var(--pink); }
 
+    .brand-composer {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .geometric-logo {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .logo-circle { width: 16px; height: 16px; background: var(--primary-red); border-radius: 50%; border: 2px solid var(--border); }
+    .logo-square { width: 16px; height: 16px; background: var(--primary-blue); border: 2px solid var(--border); }
+    .logo-triangle { 
+      width: 0; height: 0; 
+      border-left: 9px solid transparent; border-right: 9px solid transparent;
+      border-bottom: 16px solid var(--primary-yellow);
+      position: relative;
+    }
+    .logo-triangle::after {
+      content: ''; position: absolute; top: 2px; left: -11px;
+      width: 0; height: 0;
+      border-left: 11px solid transparent; border-right: 11px solid transparent;
+      border-bottom: 18px solid var(--border);
+      z-index: -1;
+    }
+
+    .brand-text {
+      font-size: 1.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--foreground); font-size: 1rem; font-weight: 700;
+      text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .nav-links a:hover { color: var(--primary-red); }
+
+    /* Constructivist Hero Styling */
+    .hero-wrapper {
+      border-bottom: 4px solid var(--border);
+      background: var(--white);
+    }
     .hero {
-      min-height: 85vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: flex-start;
-      padding: 9rem 2rem 4rem; max-width: 1100px; margin: 0 auto;
+      min-height: 95vh; display: grid; grid-template-columns: 1.2fr 1fr;
+      max-width: 100%; margin: 0 auto; padding-top: 5rem;
+    }
+    .hero-left {
+      padding: 6rem 4rem 4rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+      border-right: 4px solid var(--border);
     }
     .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: .5rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
       background: var(--white); border: 2px solid var(--border);
-      border-radius: 6px; padding: .4rem .8rem; 
-      font-size: .8rem; font-weight: 700; text-transform: uppercase;
-      color: var(--purple); margin-bottom: 1.5rem;
+      padding: 0.5rem 1rem; font-size: 0.85rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em; color: var(--foreground);
+      margin-bottom: 2.5rem; width: fit-content;
     }
-    .dot { width: 8px; height: 8px; background: var(--lime); border: 1px solid var(--border); border-radius: 50%; }
+    .dot { width: 10px; height: 10px; background: var(--primary-red); border: 2px solid var(--border); border-radius: 50%; }
     
     .hero h1 {
-      font-family: 'Clash Display', sans-serif;
-      font-size: clamp(3rem, 7.5vw, 6.5rem);
-      font-weight: 700; line-height: 1.0;
-      color: var(--text); margin-bottom: 1.5rem;
-      letter-spacing: -.02em;
+      font-size: clamp(3.5rem, 7vw, 6.5rem); font-weight: 900; line-height: 0.9;
+      text-transform: uppercase; letter-spacing: -0.05em; color: var(--foreground); margin-bottom: 2.5rem;
     }
-    .hero h1 em { 
-      font-style: normal; 
-      color: var(--pink);
-    }
+    .hero h1 em { font-style: normal; color: var(--primary-red); display: block; }
     .hero h1 small {
-      font-size: .4em; font-weight: 600; color: var(--text);
-      display: block; margin-top: 1rem; font-family: 'Instrument Sans', sans-serif; 
-      text-transform: uppercase; letter-spacing: 0.05em;
+      font-size: 1.75rem; font-weight: 700; color: var(--foreground);
+      display: block; margin-top: 1.5rem; letter-spacing: 0.05em; line-height: 1.1;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem; line-height: 1.6; max-width: 580px; margin-bottom: 2.5rem; font-weight: 500;
     }
     
-    .hero-desc {
-      font-size: 1.1rem; color: var(--text);
-      max-width: 600px; line-height: 1.6; margin-bottom: 2rem;
-    }
-    .hero-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3rem; }
     .chip {
-      padding: .4rem .8rem; background: var(--white);
-      border: 2px solid var(--border); border-radius: 8px;
-      font-size: .85rem; font-weight: 700; color: var(--text);
+      padding: 0.5rem 1rem; background: var(--bg); border: 2px solid var(--border);
+      font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
     }
 
-    .hero-btns { display: flex; gap: 1rem; }
-    .btn-solid {
-      background: var(--text); color: var(--white);
-      padding: .9rem 2rem; border: 2px solid var(--border); border-radius: 24px;
-      font-size: 0.95rem; font-weight: 700; text-decoration: none; text-transform: uppercase;
-      cursor: pointer; transition: background 0.15s ease;
+    .hero-btns { display: flex; gap: 1.5rem; }
+    
+    /* Buttons Component */
+    .btn {
+      padding: 1.2rem 2.5rem; border: 4px solid var(--border); font-size: 1rem;
+      font-weight: 900; text-transform: uppercase; tracking: 0.1em; text-decoration: none;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 0.75rem;
+      transition: transform 0.1s ease-out, background 0.1s ease-out;
     }
-    .btn-solid:hover { background: var(--pink); }
-    .btn-ghost {
-      background: var(--white); color: var(--text);
-      padding: .9rem 2rem; border: 2px solid var(--border); border-radius: 24px;
-      font-size: 0.95rem; font-weight: 700; text-decoration: none; text-transform: uppercase;
-      cursor: pointer; transition: background 0.15s ease;
+    .btn-red { background: var(--primary-red); color: var(--white); box-shadow: 4px 4px 0px 0px var(--border); }
+    .btn-red:hover { background: #b01818; }
+    .btn-outline { background: var(--white); color: var(--foreground); box-shadow: 4px 4px 0px 0px var(--border); }
+    .btn-outline:hover { background: var(--bg); }
+    
+    .btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: none !important;
     }
-    .btn-ghost:hover { background: var(--yellow); }
 
+    /* Hero Right Panel Color Blocking & Geometric Abstract Form */
+    .hero-right {
+      background: var(--primary-blue);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .poster-composition {
+      position: relative; width: 400px; height: 400px;
+    }
+    .comp-circle {
+      position: absolute; top: 10%; left: 10%; width: 240px; height: 240px;
+      background: var(--primary-red); border-radius: 50%; border: 4px solid var(--border);
+    }
+    .comp-square-rot {
+      position: absolute; bottom: 15%; right: 10%; width: 200px; height: 200px;
+      background: var(--primary-yellow); border: 4px solid var(--border);
+      transform: rotate(45deg);
+    }
+    .comp-square-inner {
+      position: absolute; bottom: 25%; left: 25%; width: 120px; height: 120px;
+      background: var(--white); border: 4px solid var(--border);
+    }
+    .comp-triangle {
+      position: absolute; top: 35%; right: 25%;
+      width: 0; height: 0;
+      border-left: 50px solid transparent; border-right: 50px solid transparent;
+      border-bottom: 86px solid var(--foreground);
+    }
+
+    /* Asymmetric Marquee Section */
     .marquee-wrap {
-      overflow: hidden; background: var(--text);
-      padding: .7rem 0; white-space: nowrap; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border);
+      overflow: hidden; background: var(--foreground);
+      padding: 1.2rem 0; white-space: nowrap; border-bottom: 4px solid var(--border);
     }
-    .marquee-inner { display: inline-block; animation: marquee 20s linear infinite; }
+    .marquee-inner { display: inline-block; animation: marquee 25s linear infinite; }
     .marquee-inner span {
-      font-family: 'Clash Display', sans-serif; font-size: 0.95rem; font-weight: 700;
-      color: var(--white); margin: 0 2rem; text-transform: uppercase; letter-spacing: 0.05em;
+      font-size: 1.25rem; font-weight: 900; color: var(--white); margin: 0 3rem; text-transform: uppercase; letter-spacing: 0.08em;
     }
-    .marquee-inner b { color: var(--lime); }
+    .marquee-inner b { color: var(--primary-yellow); }
 
-    section { padding: 5rem 2rem; border-bottom: 2px solid var(--border); }
-    .container { max-width: 1100px; margin: 0 auto; }
+    /* Work / Portfolio Section Layout */
+    section { padding: 8rem 4rem; border-bottom: 4px solid var(--border); position: relative; }
+    .container { max-w: 1200px; margin: 0 auto; }
     
     .sec-label {
-      font-size: .8rem; text-transform: uppercase; color: var(--text); font-weight: 700;
-      margin-bottom: .5rem; background: var(--white); display: inline-block; 
-      padding: 0.2rem 0.5rem; border: 2px solid var(--border); border-radius: 4px;
+      font-size: 0.85rem; text-transform: uppercase; color: var(--white); font-weight: 900;
+      letter-spacing: 0.15em; background: var(--foreground); display: inline-block; 
+      padding: 0.4rem 0.8rem; margin-bottom: 1.5rem;
     }
     .sec-title {
-      font-family: 'Clash Display', sans-serif; font-size: clamp(2.2rem, 4vw, 3.2rem);
-      font-weight: 700; color: var(--text); margin-top: 0.5rem; margin-bottom: .5rem;
+      font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; color: var(--foreground);
+      text-transform: uppercase; letter-spacing: -0.03em; line-height: 1.0; margin-bottom: 1.5rem;
     }
-    .sec-sub { color: var(--text); font-size: 1rem; max-width: 500px; margin-bottom: 2.5rem; opacity: 0.8; }
+    .sec-sub { color: var(--foreground); font-size: 1.1rem; max-width: 600px; margin-bottom: 4rem; line-height: 1.6; }
     
-    .tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+    /* Tabs & Filtering Controls */
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 4rem; }
     .tab {
-      padding: .5rem 1.2rem; background: var(--white); border: 2px solid var(--border); border-radius: 8px;
-      color: var(--text); font-size: .85rem; font-weight: 700; text-transform: uppercase; cursor: pointer;
+      padding: 0.8rem 1.8rem; background: var(--white); border: 4px solid var(--border);
+      color: var(--foreground); font-size: 0.9rem; font-weight: 900; text-transform: uppercase;
+      letter-spacing: 0.05em; cursor: pointer; transition: background 0.1s ease-out;
     }
-    .tab.active { background: var(--yellow); }
+    .tab:hover { background: var(--muted); }
+    .tab.active { background: var(--primary-yellow); }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
+    /* Cards Grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
     .card {
-      background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px;
-      overflow: hidden; position: relative; display: flex; flex-direction: column;
+      background: var(--white); border: 4px solid var(--border);
+      position: relative; display: flex; flex-direction: column;
+      box-shadow: 8px 8px 0px 0px var(--border);
+      transition: transform 0.2s ease-out;
     }
+    .card:hover { transform: translateY(-4px); }
+    
     .card-thumb {
-      height: 80px; display: flex; align-items: center; padding-left: 1.5rem;
-      font-size: 2.2rem; border-bottom: 2px solid var(--border);
+      height: 120px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem;
+      border-bottom: 4px solid var(--border); position: relative;
     }
-    .card-body { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-    .card-cat { font-size: .75rem; text-transform: uppercase; font-weight: 700; margin-bottom: .5rem; display: inline-block; }
-    .card-name { font-family: 'Clash Display', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
-    .card-desc { font-size: .9rem; color: var(--text); line-height: 1.5; margin-bottom: 1.2rem; opacity: 0.85; }
-    .card-tools { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: auto; padding-bottom: 1.5rem; }
-    .tool { font-size: .75rem; padding: .2rem .5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; font-weight: 700; }
+    .card-emoji { font-size: 2.5rem; z-index: 2; }
+    
+    /* Custom Decorative Geometric Shapes inside Card Headers */
+    .card-corner-shape {
+      position: absolute; top: 1.5rem; right: 1.5rem; width: 16px; height: 16px; z-index: 1;
+    }
+    
+    .card-body { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; }
+    .card-cat {
+      font-size: 0.8rem; text-transform: uppercase; font-weight: 900; letter-spacing: 0.05em;
+      margin-bottom: 0.75rem; color: var(--foreground); opacity: 0.7;
+    }
+    .card-name { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; color: var(--foreground); margin-bottom: 1rem; line-height: 1.1; }
+    .card-desc { font-size: 1rem; color: var(--foreground); line-height: 1.6; margin-bottom: 2rem; font-weight: 500; }
+    .card-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: auto; padding-bottom: 2rem; }
+    .tool { font-size: 0.75rem; padding: 0.3rem 0.6rem; background: var(--bg); border: 2px solid var(--border); font-weight: 700; text-transform: uppercase; }
     
     .card-link {
-      display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
-      font-size: .85rem; font-weight: 700; text-decoration: none; text-transform: uppercase;
-      padding: .6rem 1.2rem; border: 2px solid var(--border); border-radius: 8px; color: var(--text); background: var(--white);
-      transition: background 0.15s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      font-size: 0.9rem; font-weight: 900; text-decoration: none; text-transform: uppercase;
+      padding: 1rem 1.5rem; border: 4px solid var(--border); color: var(--text); background: var(--white);
+      box-shadow: 4px 4px 0px 0px var(--border); transition: transform 0.1s ease, background 0.1s ease;
     }
-    .card-link:hover { background: var(--bg); }
+    .card-link:hover { background: var(--primary-yellow); }
+    .card-link:active { transform: translate(2px, 2px); box-shadow: none; }
 
     .del-btn {
-      position: absolute; top: .7rem; right: .7rem;
-      width: 28px; height: 28px; border: 2px solid var(--border); border-radius: 6px;
-      background: var(--pink); color: var(--white); font-size: .8rem; font-weight: 700;
+      position: absolute; top: 1rem; left: 1rem;
+      width: 32px; height: 32px; border: 3px solid var(--border);
+      background: var(--primary-red); color: var(--white); font-size: 0.9rem; font-weight: 900;
       display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 10;
     }
     .card:hover .del-btn { display: flex; }
 
     .add-card {
-      background: var(--white); border: 2px dashed var(--border); border-radius: 12px;
+      background: var(--white); border: 4px dashed var(--border);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: .5rem; padding: 2.5rem; cursor: pointer; min-height: 280px;
+      gap: 1rem; padding: 3rem; cursor: pointer; min-height: 380px; box-shadow: 8px 8px 0px 0px var(--border);
     }
     .add-card:hover { background: var(--bg); }
-    .add-card .plus { font-size: 2.5rem; font-weight: 700; }
-    .add-card p { font-size: .9rem; font-weight: 700; text-transform: uppercase; }
+    .add-card .plus { font-size: 4rem; font-weight: 900; line-height: 1; }
+    .add-card p { font-size: 1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; }
 
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    /* About Section with Primary Yellow Color Blocking Grid Split */
+    .about-section { background: var(--primary-yellow); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 6rem; align-items: center; }
     .about-block {
-      background: var(--white); border: 2px solid var(--border); border-radius: 12px;
-      padding: 3rem; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      aspect-ratio: 1; max-width: 360px; position: relative;
+      background: var(--white); border: 4px solid var(--border);
+      padding: 4rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      aspect-ratio: 1; max-width: 420px; position: relative; box-shadow: 8px 8px 0px 0px var(--border); margin: 0 auto;
     }
-    .big-m {
-      font-family: 'Clash Display', sans-serif; font-size: 10rem; font-weight: 700; color: rgba(0,0,0,0.03);
+    .about-block .big-m {
+      font-size: 14rem; font-weight: 900; color: rgba(18,18,18,0.04);
       line-height: 1; position: absolute; user-select: none;
     }
-    .monogram { font-family: 'Clash Display', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--text); z-index: 1; text-transform: uppercase; }
-    .role-tag { font-size: .8rem; color: var(--purple); font-weight: 700; z-index: 1; margin-top: .3rem; text-transform: uppercase; }
-    .stat-badge { margin-top: 1.5rem; z-index: 1; text-align: center; background: var(--cyan); border: 2px solid var(--border); border-radius: 8px; padding: .4rem 1rem; }
-    .stat-badge .num { font-family: 'Clash Display', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--text); }
-    .stat-badge .lbl { font-size: .7rem; color: var(--text); font-weight: 700; text-transform: uppercase; }
+    .monogram { font-size: 1.75rem; font-weight: 900; color: var(--foreground); z-index: 1; text-transform: uppercase; letter-spacing: -0.02em; }
+    .role-tag { font-size: 0.85rem; color: var(--primary-red); font-weight: 900; z-index: 1; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
     
-    .about-text p { color: var(--text); line-height: 1.6; font-size: 1rem; margin-bottom: 1.2rem; }
+    .stat-badge { 
+      margin-top: 2.5rem; z-index: 1; text-align: center; background: var(--primary-blue); 
+      border: 4px solid var(--border); padding: 0.6rem 1.5rem; box-shadow: 4px 4px 0px 0px var(--border);
+    }
+    .stat-badge .num { font-size: 2.5rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .stat-badge .lbl { font-size: 0.75rem; color: var(--white); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
     
-    .skills-list { display: flex; flex-direction: column; gap: .8rem; margin-top: 1.5rem; }
-    .skill-row { display: flex; align-items: center; gap: 1rem; }
-    .skill-name { font-size: .85rem; font-weight: 700; color: var(--text); width: 160px; text-transform: uppercase; }
-    .skill-bar { flex: 1; height: 12px; background: var(--white); border: 2px solid var(--border); border-radius: 4px; overflow: hidden; }
-    .skill-fill { height: 100%; background: var(--text); }
+    .about-text p { color: var(--foreground); line-height: 1.7; font-size: 1.15rem; margin-bottom: 1.5rem; font-weight: 500; }
+    
+    /* Hard-Border Graphic Progress Bars */
+    .skills-list { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2.5rem; }
+    .skill-row { display: flex; align-items: center; gap: 1.5rem; }
+    .skill-name { font-size: 0.9rem; font-weight: 900; color: var(--foreground); width: 180px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .skill-bar { flex: 1; height: 24px; background: var(--white); border: 4px solid var(--border); overflow: hidden; position: relative; }
+    .skill-fill { height: 100%; background: var(--primary-red); border-right: 4px solid var(--border); }
 
+    /* Contact Section Layout with Red Backdrop Accents */
+    .contact-section { background: var(--white); }
     .contact-block {
-      background: var(--white); border: 2px solid var(--border); border-radius: 12px;
-      padding: 4rem; text-align: center;
+      background: var(--bg); border: 4px solid var(--border);
+      padding: 5rem 3rem; text-align: center; box-shadow: 8px 8px 0px 0px var(--border);
+      position: relative; overflow: hidden;
     }
-    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 2rem; }
+    /* Abstract Opacity Shapes inside final CTA */
+    .cta-deco-circle { position: absolute; top: -50px; left: -50px; width: 150px; height: 150px; background: var(--primary-blue); border-radius: 50%; opacity: 0.15; border: 4px solid var(--border); }
+    .cta-deco-square { position: absolute; bottom: -50px; right: -50px; width: 150px; height: 150px; background: var(--primary-red); transform: rotate(15deg); opacity: 0.15; border: 4px solid var(--border); }
+
+    .contact-links { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin-top: 3rem; position: relative; z-index: 2; }
     .c-link {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .7rem 1.4rem; border: 2px solid var(--border); border-radius: 8px; color: var(--text);
-      text-decoration: none; font-size: .9rem; font-weight: 700; text-transform: uppercase;
-      background: var(--white); transition: background 0.15s ease;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 1rem 2rem; border: 4px solid var(--border); color: var(--foreground);
+      text-decoration: none; font-size: 1rem; font-weight: 900; text-transform: uppercase;
+      background: var(--white); box-shadow: 4px 4px 0px 0px var(--border);
+      transition: transform 0.1s ease, background 0.1s ease;
     }
-    .c-link:hover { background: var(--bg); }
+    .c-link:hover { background: var(--primary-blue); color: var(--white); }
+    .c-link:active { transform: translate(2px, 2px); box-shadow: none; }
 
+    /* Constructivist Footer */
     footer {
-      text-align: center; padding: 2rem; color: var(--text); background: var(--white);
-      font-size: .85rem; font-weight: 700; border-top: 2px solid var(--border); text-transform: uppercase;
+      text-align: center; padding: 3rem; color: var(--white); background: var(--foreground);
+      font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
     }
+    footer b { color: var(--primary-yellow); font-weight: 900; }
 
+    /* Mechanical Sticky Control FAB */
     .fab {
-      position: fixed; bottom: 2rem; right: 2rem;
-      background: var(--text); color: var(--white);
-      border: 2px solid var(--border); border-radius: 24px; padding: .8rem 1.5rem;
-      font-family: 'Instrument Sans', sans-serif; font-size: .9rem; font-weight: 700; text-transform: uppercase;
-      cursor: pointer; z-index: 300;
+      position: fixed; bottom: 2.5rem; right: 2.5rem;
+      background: var(--primary-red); color: var(--white);
+      border: 4px solid var(--border); padding: 1.2rem 2rem;
+      font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 900; text-transform: uppercase;
+      cursor: pointer; z-index: 300; box-shadow: 4px 4px 0px 0px var(--border);
+      transition: transform 0.1s ease, background 0.1s ease;
     }
-    .fab:hover { background: var(--pink); }
+    .fab:hover { background: var(--foreground); }
+    .fab:active { transform: translate(2px, 2px); box-shadow: none; }
 
+    /* Overlay Overlay / Modal Structures */
     .overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.4);
-      backdrop-filter: blur(2px); z-index: 500;
-      display: none; align-items: center; justify-content: center; padding: 1rem;
+      position: fixed; inset: 0; background: rgba(18,18,18,0.8);
+      z-index: 500; display: none; align-items: center; justify-content: center; padding: 1.5rem;
     }
     .overlay.open { display: flex; }
     .modal {
-      background: var(--white); border: 2px solid var(--border); border-radius: 12px;
-      padding: 2.5rem; width: 100%; max-width: 480px;
+      background: var(--white); border: 4px solid var(--border);
+      padding: 3rem; width: 100%; max-width: 520px; box-shadow: 8px 8px 0px 0px var(--border);
+      position: relative;
     }
-    .modal h2 { font-family: 'Clash Display', sans-serif; font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: .5rem; }
-    .modal-sub { font-size: .85rem; margin-bottom: 1.5rem; opacity: 0.8; }
-    .fg { margin-bottom: 1rem; }
-    .fg label { display: block; font-size: .75rem; font-weight: 700; text-transform: uppercase; margin-bottom: .4rem; }
+    .modal h2 { font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .modal-sub { font-size: 1rem; margin-bottom: 2rem; font-weight: 500; opacity: 0.8; }
+    
+    .fg { margin-bottom: 1.25rem; }
+    .fg label { display: block; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
     .fg input, .fg select, .fg textarea {
-      width: 100%; background: var(--white); border: 2px solid var(--border); border-radius: 6px;
-      padding: .6rem .8rem; color: var(--text); font-family: 'Instrument Sans', sans-serif;
-      font-size: .9rem; font-weight: 600; outline: none;
+      width: 100%; background: var(--bg); border: 4px solid var(--border); border-radius: 0;
+      padding: 0.8rem 1rem; color: var(--foreground); font-family: 'Outfit', sans-serif;
+      font-size: 1rem; font-weight: 500; outline: none;
     }
-    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--pink); }
-    .modal-btns { display: flex; gap: .5rem; margin-top: 1.5rem; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { background: var(--white); border-color: var(--primary-red); }
+    
+    .modal-btns { display: flex; gap: 1rem; margin-top: 2rem; }
     .m-confirm {
-      flex: 1; background: var(--text); color: var(--white); border: 2px solid var(--border); border-radius: 6px;
-      padding: .7rem; font-weight: 700; text-transform: uppercase; cursor: pointer;
+      flex: 1; background: var(--primary-blue); color: var(--white); border: 4px solid var(--border);
+      padding: 1rem; font-weight: 900; text-transform: uppercase; cursor: pointer;
+      box-shadow: 4px 4px 0px 0px var(--border);
     }
+    .m-confirm:active { transform: translate(2px, 2px); box-shadow: none; }
     .m-cancel {
-      background: var(--white); color: var(--text); border: 2px solid var(--border); border-radius: 6px;
-      padding: .7rem 1.2rem; font-weight: 700; text-transform: uppercase; cursor: pointer;
+      background: var(--white); color: var(--foreground); border: 4px solid var(--border);
+      padding: 1rem 1.5rem; font-weight: 900; text-transform: uppercase; cursor: pointer;
+      box-shadow: 4px 4px 0px 0px var(--border);
+    }
+    .m-cancel:active { transform: translate(2px, 2px); box-shadow: none; }
+
+    /* Image Grayscale Mechanical Rules Layout */
+    .grayscale-img-block {
+      filter: grayscale(100%); transition: filter 0.2s ease-out;
+    }
+    .grayscale-img-block:hover {
+      filter: grayscale(0%);
     }
 
     @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    
+    /* Responsive Adaptations */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 6rem 2rem 4rem 2rem; border-right: none; border-bottom: 4px solid var(--border); }
+      .hero-right { min-height: 400px; padding: 4rem 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 4rem; }
+      section { padding: 6rem 2rem; }
+    }
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .hero { padding: 7rem 1.5rem 3rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      nav { padding: 1rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">Mansi<span>.</span></div>
+  <div class="brand-composer">
+    <div class="geometric-logo">
+      <div class="logo-circle"></div>
+      <div class="logo-square"></div>
+      <div class="logo-triangle"></div>
+    </div>
+    <div class="brand-text">Mansi<span>.</span></div>
+  </div>
   <ul class="nav-links">
     <li><a href="#projects">Work</a></li>
     <li><a href="#about">About</a></li>
@@ -285,136 +414,165 @@
   </ul>
 </nav>
 
-<div class="hero">
-  <div class="hero-eyebrow"><div class="dot"></div> CSE UNDERGRADUATE · PORTFOLIO 2026</div>
-  <h1>
-    MANSI
-    <em>TOSHNIWAL</em>
-    <small>Developer // UI/UX Designer // Content Strategist</small>
-  </h1>
-  <p class="hero-desc">Computer Science Engineering student bridging the gap between algorithmic logic and high-retention digital media. Specializing in high-fidelity Figma engineering and scalable user experiences.</p>
-  <div class="hero-chips">
-    <span class="chip">Java &amp; C</span>
-    <span class="chip">Python Data Structures</span>
-    <span class="chip">Figma UI/UX</span>
-    <span class="chip">Product Design</span>
-    <span class="chip">Retention Video Editing</span>
-    <span class="chip">Audience Analytics</span>
-  </div>
-  <div class="hero-btns">
-    <a href="#projects" class="btn-solid">View Work →</a>
-    <a href="#contact" class="btn-ghost">Get in Touch</a>
+<div class="hero-wrapper">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><div class="dot"></div> FORM FOLLOWS FUNCTION // ARCHIVE 2026</div>
+      <h1>
+        MANSI
+        <em>TOSHNIWAL</em>
+        <small>Developer // UI/UX Designer // Content Strategist</small>
+      </h1>
+      <p class="hero-desc">Computer Science Engineering student bridging the gap between algorithmic logic and high-retention digital media. Specializing in high-fidelity Figma engineering and scalable user experiences.</p>
+      <div class="hero-chips">
+        <span class="chip">Java &amp; C Programming</span>
+        <span class="chip">Python Data Structures</span>
+        <span class="chip">Figma UI/UX Layout</span>
+        <span class="chip">Product Blueprinting</span>
+        <span class="chip">Retention Video Editing</span>
+        <span class="chip">Audience Analytics</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-red rounded-none">View Work →</a>
+        <a href="#contact" class="btn btn-outline rounded-none">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="poster-composition">
+        <div class="comp-circle"></div>
+        <div class="comp-square-rot"></div>
+        <div class="comp-square-inner"></div>
+        <div class="comp-triangle"></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="marquee-wrap">
   <div class="marquee-inner">
-    <span>UI/UX Design</span><b>✦</b><span>Java &amp; C Programming</span><b>✦</b><span>Figma Architecture</span><b>✦</b><span>Social Media Strategy</span><b>✦</b><span>Video Editing</span><b>✦</b><span>Product Blueprinting</span><b>✦</b><span>Data Structures</span><b>✦</b>
-    <span>UI/UX Design</span><b>✦</b><span>Java &amp; C Programming</span><b>✦</b><span>Figma Architecture</span><b>✦</b><span>Social Media Strategy</span><b>✦</b><span>Video Editing</span><b>✦</b><span>Product Blueprinting</span><b>✦</b><span>Data Structures</span><b>✦</b>
+    <span>CONSTRUCTIVIST MODERNISM</span><b>✦</b><span>JAVA &amp; C LOGIC</span><b>✦</b><span>PIXEL-PERFECT FIGMA WIREFRAMING</span><b>✦</b><span>RETENTION VIDEO PIPELINES</span><b>✦</b><span>DATA STRUCTURES</span><b>✦</b>
+    <span>CONSTRUCTIVIST MODERNISM</span><b>✦</b><span>JAVA &amp; C LOGIC</span><b>✦</b><span>PIXEL-PERFECT FIGMA WIREFRAMING</span><b>✦</b><span>RETENTION VIDEO PIPELINES</span><b>✦</b><span>DATA STRUCTURES</span><b>✦</b>
   </div>
 </div>
 
 <section id="projects">
   <div class="container">
-    <div class="sec-label">My Work</div>
-    <h2 class="sec-title">Selected Projects</h2>
-    <p class="sec-sub">Verified live files, repositories, and platform links.</p>
+    <div class="sec-label">INDEXED RETRIEVAL</div>
+    <h2 class="sec-title">SELECTED ARCHITECTURE</h2>
+    <p class="sec-sub">Verified structural code bases, interactive platform layouts, and production repositories.</p>
     <div class="tabs" id="tabs">
-      <button class="tab active" data-cat="all">All</button>
-      <button class="tab" data-cat="figma">UI/UX Design</button>
-      <button class="tab" data-cat="dev">Software &amp; Logic</button>
-      <button class="tab" data-cat="social">Media &amp; Strategy</button>
-      <button class="tab" data-cat="video">Video Editing</button>
-      <button class="tab" data-cat="other">Other</button>
+      <button class="tab rounded-none active" data-cat="all">All Compositions</button>
+      <button class="tab rounded-none" data-cat="figma">UI/UX Design</button>
+      <button class="tab rounded-none" data-cat="dev">Software &amp; Logic</button>
+      <button class="tab rounded-none" data-cat="social">Media &amp; Strategy</button>
+      <button class="tab rounded-none" data-cat="video">Video Editing</button>
+      <button class="tab rounded-none" data-cat="other">Other Initiatives</button>
     </div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
 
-<section id="about" style="background: var(--white);">
+<section id="about" class="about-section">
   <div class="container">
     <div class="about-grid">
-      <div class="about-block">
+      <div class="about-block rounded-none">
         <div class="big-m">M</div>
         <div class="monogram">Mansi Toshniwal</div>
-        <div class="role-tag">Engineering Undergraduate</div>
-        <div class="stat-badge">
+        <div class="role-tag">CSE Undergraduate</div>
+        <div class="stat-badge rounded-none">
           <div class="num" id="pCount">0</div>
-          <div class="lbl">Projects Indexed</div>
+          <div class="lbl">COMPOSITIONS LOADED</div>
         </div>
       </div>
       <div class="about-text">
-        <div class="sec-label">About Me</div>
-        <h2 class="sec-title">Creative mind,<br/>logical execution.</h2>
-        <p>I am a Computer Science Engineering student focused on building digital assets from the ground up. Whether architecting logical software structures or designing independent, pixel-perfect user interfaces in Figma, I treat every project as a problem-solving case study.</p>
-        <p>Simultaneously, I execute media distribution pipelines — handling scriptwriting, pacing, and retention editing to transform concepts into highly engaging social media assets.</p>
+        <div class="sec-label">BIOGRAPHICAL FORM</div>
+        <h2 class="sec-title">CREATIVE INTENT,<br/>GEOMETRIC RIGOR.</h2>
+        <p>I am a Computer Science Engineering student focused on building clean digital assets from the foundation level up. Whether mapping sorting methodologies inside programming scripts or assembling zero-AI components in Figma, every system I build adheres to functional parameters.</p>
+        <p>Simultaneously, I run media distribution pipelines — parsing raw analytics, optimizing pacing grids, and executing deliberate frame-cuts to convert engagement metrics into predictable audience retention.</p>
         <div class="skills-list">
-          <div class="skill-row"><span class="skill-name">Figma (UI/UX)</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Java &amp; C Code</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Python Basics</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Video Editing</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Media Analytics</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-row">
+            <span class="skill-name">Figma UI Architecture</span>
+            <div class="skill-bar rounded-none"><div class="skill-fill rounded-none" style="width:92%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Java &amp; C Engineering</span>
+            <div class="skill-bar rounded-none"><div class="skill-fill rounded-none" style="width:75%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Python Logic Blocks</span>
+            <div class="skill-bar rounded-none"><div class="skill-fill rounded-none" style="width:80%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Retention Video Cuts</span>
+            <div class="skill-bar rounded-none"><div class="skill-fill rounded-none" style="width:88%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Distribution Analytics</span>
+            <div class="skill-bar rounded-none"><div class="skill-fill rounded-none" style="width:85%"></div></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="contact">
+<section id="contact" class="contact-section">
   <div class="container">
-    <div class="contact-block">
-      <div class="sec-label">Contact</div>
-      <h2 class="sec-title">Let's connect.</h2>
-      <p>Open for collaborative research, software development roles, and creative partnerships.</p>
+    <div class="contact-block rounded-none">
+      <div class="cta-deco-circle"></div>
+      <div class="cta-deco-square"></div>
+      <div class="sec-label">COMMUNICATION PIPELINE</div>
+      <h2 class="sec-title">INITIATE COLLABORATION</h2>
+      <p>Available for core engineering assignments, user flow blueprint validation, and creative asset management.</p>
       <div class="contact-links">
-        <a href="mailto:your.email@example.com" class="c-link">✉ Email</a>
-        <a href="https://linkedin.com" target="_blank" class="c-link">💼 LinkedIn</a>
-        <a href="https://github.com" target="_blank" class="c-link">🛠 GitHub</a>
+        <a href="mailto:your.email@example.com" class="c-link rounded-none">✉ Direct Mail</a>
+        <a href="https://linkedin.com" target="_blank" class="c-link rounded-none">💼 LinkedIn Connection</a>
+        <a href="https://github.com" target="_blank" class="c-link rounded-none">🛠 GitHub Repository</a>
       </div>
     </div>
   </div>
 </section>
 
-<footer>DESIGNED &amp; BUILT BY <b>MANSI TOSHNIWAL</b> · 2026</footer>
+<footer>CONSTRUCTED AND DEPLOYED BY <b>MANSI TOSHNIWAL</b> · AUDIT CYCLE 2026</footer>
 
-<button class="fab" onclick="openModal()">+ Add Project</button>
+<button class="fab rounded-none" onclick="openModal()">+ APPEND ACCRETION</button>
 
 <div class="overlay" id="overlay">
-  <div class="modal">
-    <h2>Add New Project</h2>
-    <p class="modal-sub">Input project criteria. Links resolve straight to your target repository.</p>
-    <div class="fg"><label>Project Name *</label><input id="pName" placeholder="e.g. Food Delivery App UI"/></div>
+  <div class="modal rounded-none">
+    <h2>APPEND SKILL ASSET</h2>
+    <p class="modal-sub">Deploy a brand new structural record item directly into the active matrix rendering pipeline.</p>
+    <div class="fg"><label>Asset Label Name *</label><input class="rounded-none" id="pName" placeholder="e.g., Unified Checkout Interface Flow"/></div>
     <div class="fg">
-      <label>Category *</label>
-      <select id="pCat">
-        <option value="figma">UI/UX Design</option>
+      <label>System Categorization *</label>
+      <select class="rounded-none" id="pCat">
+        <option value="figma">UI/UX Design (Figma)</option>
         <option value="dev">Software &amp; Logic</option>
         <option value="social">Media &amp; Strategy</option>
         <option value="video">Video Editing</option>
-        <option value="other">Other</option>
+        <option value="other">Other Initiatives</option>
       </select>
     </div>
-    <div class="fg"><label>Project Link *</label><input id="pLink" type="url" placeholder="https://figma.com/... or github.com/..."/></div>
-    <div class="fg"><label>Short Description</label><textarea id="pDesc" placeholder="What is this project about?"></textarea></div>
-    <div class="fg"><label>Tools Used</label><input id="pTools" placeholder="Figma, Java, Python... (comma separated)"/></div>
+    <div class="fg"><label>Target Source Uniform Resource Locator *</label><input class="rounded-none" id="pLink" type="url" placeholder="https://figma.com/... or github.com/..."/></div>
+    <div class="fg"><label>Functional System Description</label><textarea class="rounded-none" id="pDesc" placeholder="State structural problem solved and engineering methodology used..."></textarea></div>
+    <div class="fg"><label>Compacted Tools (Comma-Delimited)</label><input class="rounded-none" id="pTools" placeholder="Figma, Java, GCC, Python Core..."/></div>
     <div class="modal-btns">
-      <button class="m-cancel" onclick="closeModal()">Cancel</button>
-      <button class="m-confirm" onclick="addProject()">Add Project</button>
+      <button class="m-cancel rounded-none" onclick="closeModal()">Abort System Add</button>
+      <button class="m-confirm rounded-none" onclick="addProject()">Commit Compelled Entry</button>
     </div>
   </div>
 </div>
 
 <script>
-  // Highlighters matching your reference image file exactly
+  // Pure Bauhaus Primary Color Configurations mapped systematically
   const cats = {
-    figma:  { label:'UI/UX Design (Figma)', color:'var(--pink)',   emoji:'📐' },
-    dev:    { label:'Software & Logic',     color:'var(--lime)',   emoji:'💻' },
-    social: { label:'Media & Capstone',    color:'var(--yellow)', emoji:'📱' },
-    video:  { label:'Video Editing',        color:'var(--cyan)',   emoji:'🎬' },
-    other:  { label:'Other Initiatives',    color:'var(--purple)', emoji:'✦' },
+    figma:  { label:'UI/UX Design (Figma)', color:'var(--primary-red)',    emoji:'📐', shapeClass:'logo-circle' },
+    dev:    { label:'Software & Logic',     color:'var(--primary-blue)',   emoji:'💻', shapeClass:'logo-square' },
+    social: { label:'Media & Capstone',    color:'var(--primary-yellow)', emoji:'📱', shapeClass:'logo-triangle' },
+    video:  { label:'Video Editing',        color:'var(--primary-red)',    emoji:'🎬', shapeClass:'logo-circle' },
+    other:  { label:'Other Initiatives',    color:'var(--foreground)',     emoji:'✦', shapeClass:'logo-square' },
   };
 
-  let projects = JSON.parse(localStorage.getItem('mansi_v3'));
+  let projects = JSON.parse(localStorage.getItem('mansi_v4_bauhaus'));
 
   if (!projects || projects.length === 0) {
     projects = [
@@ -440,7 +598,7 @@
         tools: "Python, Data Structures, Git"
       }
     ];
-    localStorage.setItem('mansi_v3', JSON.stringify(projects));
+    localStorage.setItem('mansi_v4_bauhaus', JSON.stringify(projects));
   }
 
   let filter = 'all';
@@ -449,30 +607,43 @@
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
     const list = filter === 'all' ? projects : projects.filter(p => p.cat === filter);
+    
     list.forEach((p, i) => {
       const c = cats[p.cat] || cats.other;
       const ri = projects.indexOf(p);
-      const tools = p.tools ? p.tools.split(',').map(t => `<span class="tool">${t.trim()}</span>`).join('') : '';
+      const tools = p.tools ? p.tools.split(',').map(t => `<span class="tool rounded-none">${t.trim()}</span>`).join('') : '';
+      
+      // Determine individual header shapes dynamically to sustain the Bauhaus composition theme
+      let headerShapeHTML = '';
+      if(p.cat === 'figma' || p.cat === 'video') headerShapeHTML = `<div class="logo-circle rounded-full" style="background:${c.color}; border-width:3px; width:20px; height:20px; position:absolute; top:1.5rem; right:1.5rem;"></div>`;
+      else if(p.cat === 'dev') headerShapeHTML = `<div class="logo-square rounded-none" style="background:${c.color}; border-width:3px; width:20px; height:20px; position:absolute; top:1.5rem; right:1.5rem;"></div>`;
+      else headerShapeHTML = `<div class="logo-triangle" style="position:absolute; top:1.5rem; right:2.2rem; transform:scale(1.3);"></div>`;
+
       const card = document.createElement('div');
-      card.className = 'card';
+      card.className = 'card rounded-none';
       card.innerHTML = `
-        <button class="del-btn" onclick="del(${ri})">✕</button>
-        <div class="card-thumb" style="background:${c.color}"><span>${c.emoji}</span></div>
-        <div class="card-body">
-          <div class="card-cat" style="color:var(--text); font-weight:700;">${c.label}</div>
+        <button class="del-btn rounded-none" onclick="del(${ri})">✕</button>
+        <div class="card-thumb rounded-none" style="background:${c.color}">
+          <span class="card-emoji">${c.emoji}</span>
+          ${headerShapeHTML}
+        </div>
+        <div class="card-body rounded-none">
+          <div class="card-cat">${c.label}</div>
           <div class="card-name">${p.name}</div>
           ${p.desc?`<div class="card-desc">${p.desc}</div>`:''}
           ${tools?`<div class="card-tools">${tools}</div>`:''}
-          <a href="${p.link}" target="_blank" rel="noopener" class="card-link">View Project →</a>
+          <a href="${p.link}" target="_blank" rel="noopener" class="card-link rounded-none">Verify Composition Source →</a>
         </div>`;
       grid.appendChild(card);
     });
+    
     const add = document.createElement('div');
-    add.className = 'add-card'; add.onclick = openModal;
-    add.innerHTML = `<div class="plus">+</div><p>Add new project</p>`;
+    add.className = 'add-card rounded-none'; add.onclick = openModal;
+    add.innerHTML = `<div class="plus">+</div><p>Append Accretion Unit</p>`;
     grid.appendChild(add);
+    
     document.getElementById('pCount').textContent = projects.length;
-    localStorage.setItem('mansi_v3', JSON.stringify(projects));
+    localStorage.setItem('mansi_v4_bauhaus', JSON.stringify(projects));
   }
 
   document.getElementById('tabs').addEventListener('click', e => {
@@ -494,14 +665,14 @@
   function addProject() {
     const name = document.getElementById('pName').value.trim();
     const link = document.getElementById('pLink').value.trim();
-    if(!name||!link) { alert('Name and link are required!'); return; }
+    if(!name||!link) { alert('Name and link tracking locations are mandatory variables!'); return; }
     projects.push({ name, cat: document.getElementById('pCat').value, link,
       desc: document.getElementById('pDesc').value.trim(),
       tools: document.getElementById('pTools').value.trim() });
     closeModal(); render();
   }
 
-  function del(i) { if(confirm('Remove this project?')) { projects.splice(i,1); render(); } }
+  function del(i) { if(confirm('Purge this asset node permanently from system execution storage?')) { projects.splice(i,1); render(); } }
 
   render();
 </script>

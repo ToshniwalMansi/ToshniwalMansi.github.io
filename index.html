@@ -101,12 +101,12 @@
     }
     .hero h1 em { font-style: normal; color: var(--blue); display: block; }
     .hero h1 small {
-      font-size: .5em; font-weight: 400; color: var(--muted);
-      display: block; letter-spacing: -.01em; margin-top: .4rem;
+      font-size: .45em; font-weight: 400; color: var(--muted);
+      display: block; letter-spacing: -.01em; margin-top: .6rem;
     }
     .hero-desc {
       font-size: 1rem; color: var(--muted);
-      max-width: 440px; line-height: 1.8;
+      max-width: 520px; line-height: 1.8;
       margin-bottom: 2.5rem; animation: up .7s ease .24s both;
     }
     .hero-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 3rem; animation: up .7s ease .36s both; }
@@ -238,7 +238,7 @@
     .about-text p { color: var(--muted); line-height: 1.8; font-size: .95rem; margin-bottom: .9rem; }
     .skills-list { display: flex; flex-direction: column; gap: .65rem; margin-top: 1.5rem; }
     .skill-row { display: flex; align-items: center; gap: 1rem; }
-    .skill-name { font-size: .82rem; font-weight: 600; color: var(--text); width: 115px; flex-shrink: 0; }
+    .skill-name { font-size: .82rem; font-weight: 600; color: var(--text); width: 150px; flex-shrink: 0; }
     .skill-bar { flex: 1; height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
     .skill-fill { height: 100%; background: var(--blue); border-radius: 2px; }
     .contact-block {
@@ -340,20 +340,20 @@
 </nav>
 
 <div class="hero">
-  <div class="hero-eyebrow"><div class="dot"></div> Available for work · Creative Portfolio 2025</div>
+  <div class="hero-eyebrow"><div class="dot"></div> Engineering Undergraduate · Active Portfolio 2026</div>
   <h1>
     Mansi
     <em>Toshniwal</em>
-    <small>Designer · Storyteller · Creator</small>
+    <small>Developer · UI/UX Designer · Content Strategist</small>
   </h1>
-  <p class="hero-desc">Multidisciplinary creative — UI/UX, graphics, social media, video editing, app design and everything in between.</p>
+  <p class="hero-desc">Computer Science Engineering student bridging the gap between algorithmic logic and high-retention digital media. Specializing in high-fidelity Figma engineering and scalable user experiences.</p>
   <div class="hero-chips">
-    <span class="chip">Figma</span>
-    <span class="chip">Canva</span>
-    <span class="chip">UI/UX</span>
-    <span class="chip">App Design</span>
-    <span class="chip">Video Editing</span>
-    <span class="chip">Social Media</span>
+    <span class="chip">Java &amp; C</span>
+    <span class="chip">Python Data Structures</span>
+    <span class="chip">Figma UI/UX</span>
+    <span class="chip">Product Design</span>
+    <span class="chip">Retention Video Editing</span>
+    <span class="chip">Audience Analytics</span>
   </div>
   <div class="hero-btns">
     <a href="#projects" class="btn-solid">View Work →</a>
@@ -363,8 +363,8 @@
 
 <div class="marquee-wrap">
   <div class="marquee-inner">
-    <span>UI/UX Design</span><b>✦</b><span>Figma</span><b>✦</b><span>Canva</span><b>✦</b><span>Social Media</span><b>✦</b><span>Video Editing</span><b>✦</b><span>App Design</span><b>✦</b><span>Branding</span><b>✦</b><span>Motion</span><b>✦</b>
-    <span>UI/UX Design</span><b>✦</b><span>Figma</span><b>✦</b><span>Canva</span><b>✦</b><span>Social Media</span><b>✦</b><span>Video Editing</span><b>✦</b><span>App Design</span><b>✦</b><span>Branding</span><b>✦</b><span>Motion</span><b>✦</b>
+    <span>UI/UX Design</span><b>✦</b><span>Java &amp; C Programming</span><b>✦</b><span>Figma Architecture</span><b>✦</b><span>Social Media Strategy</span><b>✦</b><span>Video Editing</span><b>✦</b><span>Product Blueprinting</span><b>✦</b><span>Data Structures</span><b>✦</b>
+    <span>UI/UX Design</span><b>✦</b><span>Java &amp; C Programming</span><b>✦</b><span>Figma Architecture</span><b>✦</b><span>Social Media Strategy</span><b>✦</b><span>Video Editing</span><b>✦</b><span>Product Blueprinting</span><b>✦</b><span>Data Structures</span><b>✦</b>
   </div>
 </div>
 
@@ -372,15 +372,14 @@
   <div class="container">
     <div class="sec-label">My Work</div>
     <h2 class="sec-title">Selected Projects</h2>
-    <p class="sec-sub">Click any project to open it directly — Figma, Canva, YouTube, whatever the link is.</p>
+    <p class="sec-sub">Click any project to open it directly — verified live files, repositories, and platform links.</p>
     <div class="tabs" id="tabs">
       <button class="tab active" data-cat="all">All</button>
-      <button class="tab" data-cat="figma">Figma / UI</button>
-      <button class="tab" data-cat="canva">Canva / Graphics</button>
-      <button class="tab" data-cat="social">Social Media</button>
-      <button class="tab" data-cat="video">Video Edits</button>
-      <button class="tab" data-cat="app">App Design</button>
-      <button class="tab" data-cat="other">Other</button>
+      <button class="tab" data-cat="figma">UI/UX Design</button>
+      <button class="tab" data-cat="dev">Software &amp; Logic</button>
+      <button class="tab" data-cat="social">Media &amp; Strategy</button>
+      <button class="tab" data-cat="video">Video Editing</button>
+      <button class="tab" data-cat="other">Other Initiatives</button>
     </div>
     <div class="grid" id="grid"></div>
   </div>
@@ -392,7 +391,7 @@
       <div class="about-block">
         <div class="big-m">M</div>
         <div class="monogram">Mansi Toshniwal</div>
-        <div class="role-tag">Multidisciplinary Designer</div>
+        <div class="role-tag">Engineering Undergraduate</div>
         <div class="stat-badge">
           <div class="num" id="pCount">0</div>
           <div class="lbl">Projects &amp; Counting</div>
@@ -400,15 +399,15 @@
       </div>
       <div class="about-text">
         <div class="sec-label">About Me</div>
-        <h2 class="sec-title">Creative mind,<br/>sharp execution.</h2>
-        <p>Hi, I'm Mansi — a designer who works across every medium. From crafting pixel-perfect UI in Figma to producing scroll-stopping social content and slick video edits.</p>
-        <p>I believe great design is invisible — it just feels right. I bring that thinking to every project, big or small.</p>
+        <h2 class="sec-title">Creative mind,<br/>logical execution.</h2>
+        <p>I am a Computer Science Engineering student focused on building digital assets from the ground up. Whether architecting logical software structures or designing independent, pixel-perfect user interfaces in Figma, I treat every project as a problem-solving case study.</p>
+        <p>Simultaneously, I execute media distribution pipelines — handling scriptwriting, pacing, and retention editing to transform concepts into highly engaging social media assets.</p>
         <div class="skills-list">
-          <div class="skill-row"><span class="skill-name">Figma / UI</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Canva</span><div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">App Design</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Video Editing</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Social Media</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Figma (UI/UX Layout)</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Java &amp; C Programming</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Python Data Structures</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Retention Video Editing</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Social Media Analytics</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
         </div>
       </div>
     </div>
@@ -419,41 +418,39 @@
   <div class="container">
     <div class="contact-block">
       <div class="sec-label" style="justify-content:center">Contact</div>
-      <h2 class="sec-title">Let's work together.</h2>
-      <p>Open for freelance, collabs, and new opportunities. Reach out!</p>
+      <h2 class="sec-title">Let's connect.</h2>
+      <p>Open for collaborative research, software development roles, and creative partnerships.</p>
       <div class="contact-links">
-        <a href="mailto:your@email.com" class="c-link">✉ Email</a>
-        <a href="https://instagram.com" target="_blank" class="c-link">📸 Instagram</a>
+        <a href="mailto:your.email@example.com" class="c-link">✉ Email</a>
         <a href="https://linkedin.com" target="_blank" class="c-link">💼 LinkedIn</a>
-        <a href="https://behance.net" target="_blank" class="c-link">🎨 Behance</a>
+        <a href="https://github.com" target="_blank" class="c-link">🛠 GitHub</a>
       </div>
     </div>
   </div>
 </section>
 
-<footer>Designed &amp; built by <b>Mansi Toshniwal</b> · 2025</footer>
+<footer>Designed &amp; built by <b>Mansi Toshniwal</b> · 2026</footer>
 
 <button class="fab" onclick="openModal()">+ Add Project</button>
 
 <div class="overlay" id="overlay">
   <div class="modal">
     <h2>Add New Project</h2>
-    <p class="modal-sub">Your link opens directly when clicked — no uploads needed.</p>
+    <p class="modal-sub">Input project criteria. Links will resolve straight to your target repository or file.</p>
     <div class="fg"><label>Project Name *</label><input id="pName" placeholder="e.g. Food Delivery App UI"/></div>
     <div class="fg">
       <label>Category *</label>
       <select id="pCat">
-        <option value="figma">Figma / UI</option>
-        <option value="canva">Canva / Graphics</option>
-        <option value="social">Social Media</option>
-        <option value="video">Video Edits</option>
-        <option value="app">App Design</option>
-        <option value="other">Other</option>
+        <option value="figma">UI/UX Design</option>
+        <option value="dev">Software &amp; Logic</option>
+        <option value="social">Media &amp; Strategy</option>
+        <option value="video">Video Editing</option>
+        <option value="other">Other Initiatives</option>
       </select>
     </div>
-    <div class="fg"><label>Project Link *</label><input id="pLink" type="url" placeholder="https://figma.com/... or youtube.com/..."/></div>
+    <div class="fg"><label>Project Link *</label><input id="pLink" type="url" placeholder="https://figma.com/... or github.com/..."/></div>
     <div class="fg"><label>Short Description</label><textarea id="pDesc" placeholder="What is this project about?"></textarea></div>
-    <div class="fg"><label>Tools Used</label><input id="pTools" placeholder="Figma, Canva, Premiere... (comma separated)"/></div>
+    <div class="fg"><label>Tools Used</label><input id="pTools" placeholder="Figma, Java, Python... (comma separated)"/></div>
     <div class="modal-btns">
       <button class="m-cancel" onclick="closeModal()">Cancel</button>
       <button class="m-confirm" onclick="addProject()">Add to Portfolio →</button>
@@ -469,15 +466,42 @@
   });
 
   const cats = {
-    figma:  { label:'Figma / UI',       color:'#2b7fff', bg:'#0b1a32', emoji:'🖼' },
-    canva:  { label:'Canva / Graphics',  color:'#00c8c8', bg:'#061e1e', emoji:'✏️' },
-    social: { label:'Social Media',      color:'#5bc4ff', bg:'#091c2e', emoji:'📱' },
-    video:  { label:'Video Edits',       color:'#7ba8ff', bg:'#0d1530', emoji:'🎬' },
-    app:    { label:'App Design',        color:'#00c8c8', bg:'#061e1e', emoji:'📐' },
-    other:  { label:'Other',             color:'#5bc4ff', bg:'#091c2e', emoji:'✦'  },
+    figma:  { label:'UI/UX Design (Figma)', color:'#2b7fff', bg:'#0b1a32', emoji:'📐' },
+    dev:    { label:'Software & Logic',     color:'#00c8c8', bg:'#061e1e', emoji:'💻' },
+    social: { label:'Media & Capstone',    color:'#5bc4ff', bg:'#091c2e', emoji:'📱' },
+    video:  { label:'Video Editing',        color:'#7ba8ff', bg:'#0d1530', emoji:'🎬' },
+    other:  { label:'Other Initiatives',    color:'#5bc4ff', bg:'#091c2e', emoji:'✦'  },
   };
 
-  let projects = JSON.parse(localStorage.getItem('mansi_v3') || '[]');
+  let projects = JSON.parse(localStorage.getItem('mansi_v3'));
+
+  if (!projects || projects.length === 0) {
+    projects = [
+      {
+        name: "Blinkit High-Fidelity UI Interface",
+        cat: "figma",
+        link: "#",
+        desc: "An independent, pixel-perfect replication of the Blinkit interface built completely from scratch in Figma. Designed structural layout components and optimized overall user navigation flow without automated tools.",
+        tools: "Figma, UI Layout, Component Architecture"
+      },
+      {
+        name: "Rain: Campus Social Framework Blueprint",
+        cat: "figma",
+        link: "#",
+        desc: "Conceptual design and comprehensive user flow prototyping for a campus-exclusive social layer app. Engineered identity latency screens and intuitive navigation utility layouts.",
+        tools: "Figma, Product Strategy, Wireframing"
+      },
+      {
+        name: "Algorithmic Data Structures Framework",
+        cat: "dev",
+        link: "#",
+        desc: "Implementation of standard data structures and algorithmic operations using clean, highly structured execution blocks to validate code patterns and processing runtime.",
+        tools: "Python, Data Structures, Git"
+      }
+    ];
+    localStorage.setItem('mansi_v3', JSON.stringify(projects));
+  }
+
   let filter = 'all';
 
   function render() {

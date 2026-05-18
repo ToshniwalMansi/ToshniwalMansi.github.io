@@ -4,21 +4,17 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mansi Toshniwal — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;700&family=Instrument+Sans:wght@600;800&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg:        #050a14;
-      --bg2:       #0b1220;
-      --bg3:       #101b2e;
-      --ice:       #e8f4ff;
-      --blue:      #2b7fff;
-      --teal:      #00c8c8;
-      --sky:       #5bc4ff;
-      --navy:      #0d2040;
-      --slate:     #1e3454;
-      --muted:     #4a6a8a;
-      --text:      #bdd8f0;
-      --white:     #f0f8ff;
+      --bg:        #f0f0f0;
+      --card-bg:   #ffffff;
+      --text:      #000000;
+      --white:     #ffffff;
+      --lime:      #c3ff00;
+      --pink:      #ff007f;
+      --cyan:      #00f0ff;
+      --border:    #000000;
     }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -26,309 +22,229 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
       overflow-x: hidden;
-      cursor: none;
-    }
-    #cur {
-      width: 10px; height: 10px;
-      background: var(--teal);
-      border-radius: 50%;
-      position: fixed; pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-    }
-    #cur-ring {
-      width: 36px; height: 36px;
-      border: 1.5px solid var(--blue);
-      border-radius: 50%;
-      position: fixed; pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: all .12s ease;
-    }
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(43,127,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(43,127,255,.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none; z-index: 0;
     }
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      padding: 1.1rem 3rem;
+      padding: 1rem 2rem;
       display: flex; justify-content: space-between; align-items: center;
-      background: rgba(5,10,20,.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--slate);
+      background: var(--white);
+      border-bottom: 4px solid var(--border);
     }
     .logo {
       font-family: 'Clash Display', sans-serif;
-      font-size: 1.15rem; font-weight: 700; color: var(--white);
-      letter-spacing: -.02em;
+      font-size: 1.5rem; font-weight: 700; color: var(--text);
     }
-    .logo span { color: var(--teal); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .logo span { color: var(--pink); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
     .nav-links a {
-      color: var(--muted); font-size: .88rem; font-weight: 500;
-      text-decoration: none; transition: color .2s; letter-spacing: .02em;
+      color: var(--text); font-size: 0.95rem; font-weight: 800;
+      text-decoration: none; text-transform: uppercase;
+      border: 2px solid transparent; padding: 0.2rem 0.5rem;
     }
-    .nav-links a:hover { color: var(--teal); }
+    .nav-links a:hover { background: var(--lime); border: 2px solid var(--border); }
     .hero {
-      min-height: 100vh;
+      min-height: 90vh;
       display: flex; flex-direction: column;
       justify-content: center; align-items: flex-start;
-      padding: 8rem 3rem 4rem; max-width: 1100px; margin: 0 auto;
-      position: relative; z-index: 1;
+      padding: 8rem 2rem 4rem; max-width: 1100px; margin: 0 auto;
     }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: .6rem;
-      background: var(--bg3); border: 1px solid var(--slate);
-      border-left: 3px solid var(--teal);
-      padding: .4rem 1rem; border-radius: 4px;
-      font-size: .78rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: .12em;
-      color: var(--teal); margin-bottom: 2rem;
-      animation: up .7s ease both;
+      background: var(--pink); border: 3px solid var(--border);
+      padding: .5rem 1rem; font-size: .85rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: var(--white); margin-bottom: 1.5rem;
+      box-shadow: 3px 3px 0px var(--border);
     }
-    .dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; animation: blink 1.4s infinite; }
+    .dot { width: 8px; height: 8px; background: var(--lime); border: 1.5px solid var(--border); border-radius: 50%; }
     .hero h1 {
       font-family: 'Clash Display', sans-serif;
-      font-size: clamp(3.8rem, 9vw, 8.5rem);
-      font-weight: 700; line-height: .92;
-      letter-spacing: -.04em; color: var(--white);
-      margin-bottom: 2rem;
-      animation: up .7s ease .12s both;
+      font-size: clamp(3.5rem, 8vw, 7.5rem);
+      font-weight: 700; line-height: .95;
+      color: var(--text); margin-bottom: 1.5rem;
     }
-    .hero h1 em { font-style: normal; color: var(--blue); display: block; }
+    .hero h1 em { font-style: normal; background: var(--lime); padding: 0 1rem; border: 4px solid var(--border); display: inline-block; box-shadow: 6px 6px 0px var(--border); margin-top: 0.5rem;}
     .hero h1 small {
-      font-size: .45em; font-weight: 400; color: var(--muted);
-      display: block; letter-spacing: -.01em; margin-top: .6rem;
+      font-size: .38em; font-weight: 600; color: var(--text);
+      display: block; margin-top: 1.5rem; font-family: 'Instrument Sans', sans-serif; text-transform: uppercase;
     }
     .hero-desc {
-      font-size: 1rem; color: var(--muted);
-      max-width: 520px; line-height: 1.8;
-      margin-bottom: 2.5rem; animation: up .7s ease .24s both;
+      font-size: 1.15rem; color: var(--text);
+      max-width: 600px; line-height: 1.6;
+      margin-bottom: 2rem; background: var(--white); border: 3px solid var(--border); padding: 1rem; box-shadow: 4px 4px 0px var(--border);
     }
-    .hero-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 3rem; animation: up .7s ease .36s both; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
     .chip {
-      padding: .35rem .9rem; background: var(--bg3);
-      border: 1px solid var(--slate); border-radius: 3px;
-      font-size: .78rem; font-weight: 600; color: var(--sky); letter-spacing: .04em;
+      padding: .4rem .9rem; background: var(--cyan);
+      border: 2px solid var(--border); font-size: .85rem; font-weight: 800; color: var(--text); box-shadow: 2px 2px 0px var(--border);
     }
-    .hero-btns { display: flex; gap: 1rem; animation: up .7s ease .48s both; }
+    .hero-btns { display: flex; gap: 1rem; }
     .btn-solid {
-      background: var(--blue); color: var(--white);
-      padding: .85rem 2rem; border-radius: 4px;
-      font-size: .9rem; font-weight: 600; text-decoration: none;
-      border: none; cursor: pointer; font-family: 'Instrument Sans', sans-serif;
-      transition: background .2s, transform .2s;
-      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--pink); color: var(--white);
+      padding: 1rem 2rem; border: 3px solid var(--border);
+      font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase;
+      box-shadow: 4px 4px 0px var(--border); cursor: pointer; transition: transform 0.1s;
     }
-    .btn-solid:hover { background: var(--sky); transform: translateY(-2px); }
+    .btn-solid:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border); background: var(--lime); color: var(--text); }
     .btn-ghost {
-      background: transparent; color: var(--text);
-      padding: .85rem 2rem; border-radius: 4px;
-      font-size: .9rem; font-weight: 600; text-decoration: none;
-      border: 1px solid var(--slate); cursor: pointer;
-      font-family: 'Instrument Sans', sans-serif;
-      transition: border-color .2s, color .2s;
-      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--white); color: var(--text);
+      padding: 1rem 2rem; border: 3px solid var(--border);
+      font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase;
+      box-shadow: 4px 4px 0px var(--border); cursor: pointer;
     }
-    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-ghost:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border); background: var(--cyan); }
     .marquee-wrap {
-      overflow: hidden; background: var(--blue);
-      padding: .65rem 0; white-space: nowrap; position: relative; z-index: 1;
+      overflow: hidden; background: var(--text);
+      padding: .8rem 0; white-space: nowrap; border-top: 4px solid var(--border); border-bottom: 4px solid var(--border);
     }
-    .marquee-inner { display: inline-block; animation: marquee 22s linear infinite; }
+    .marquee-inner { display: inline-block; animation: marquee 18s linear infinite; }
     .marquee-inner span {
-      font-family: 'Clash Display', sans-serif;
-      font-size: .78rem; font-weight: 600;
-      color: var(--white); letter-spacing: .1em;
-      text-transform: uppercase; margin: 0 1.8rem;
+      font-family: 'Clash Display', sans-serif; font-size: 1rem; font-weight: 700;
+      color: var(--white); margin: 0 2rem; text-transform: uppercase;
     }
-    .marquee-inner b { color: var(--teal); }
-    section { padding: 5rem 2rem; position: relative; z-index: 1; }
+    .marquee-inner b { color: var(--lime); }
+    section { padding: 5rem 2rem; border-bottom: 4px solid var(--border); }
     .container { max-width: 1100px; margin: 0 auto; }
     .sec-label {
-      font-size: .72rem; text-transform: uppercase;
-      letter-spacing: .16em; color: var(--teal); font-weight: 600;
-      margin-bottom: .7rem;
-      display: flex; align-items: center; gap: .6rem;
+      font-size: .85rem; text-transform: uppercase; color: var(--text); font-weight: 800;
+      margin-bottom: .5rem; background: var(--cyan); display: inline-block; padding: 0.2rem 0.6rem; border: 2px solid var(--border); box-shadow: 2px 2px 0px var(--border);
     }
-    .sec-label::before { content: ''; width: 24px; height: 2px; background: var(--teal); display: block; }
     .sec-title {
-      font-family: 'Clash Display', sans-serif;
-      font-size: clamp(2rem, 4.5vw, 3.2rem);
-      font-weight: 700; letter-spacing: -.03em;
-      color: var(--white); margin-bottom: .8rem; line-height: 1.1;
+      font-family: 'Clash Display', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700; color: var(--text); margin-top: 1rem; margin-bottom: .8rem; text-transform: uppercase;
     }
-    .sec-sub { color: var(--muted); font-size: .95rem; line-height: 1.7; max-width: 480px; margin-bottom: 2.5rem; }
-    .tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
+    .sec-sub { color: var(--text); font-size: 1.05rem; max-width: 500px; margin-bottom: 2.5rem; background: var(--white); padding: 0.5rem; border: 2px solid var(--border); }
+    .tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
     .tab {
-      padding: .45rem 1.1rem; background: var(--bg3);
-      border: 1px solid var(--slate); border-radius: 3px;
-      color: var(--muted); font-size: .82rem; font-weight: 600;
-      cursor: pointer; transition: all .2s;
-      font-family: 'Instrument Sans', sans-serif; letter-spacing: .02em;
+      padding: .6rem 1.2rem; background: var(--white); border: 2px solid var(--border);
+      color: var(--text); font-size: .88rem; font-weight: 800; text-transform: uppercase;
+      cursor: pointer; box-shadow: 3px 3px 0px var(--border);
     }
-    .tab:hover { border-color: var(--blue); color: var(--sky); }
-    .tab.active { background: var(--blue); border-color: var(--blue); color: var(--white); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.2rem; }
+    .tab:hover { background: var(--cyan); }
+    .tab.active { background: var(--lime); box-shadow: 1px 1px 0px var(--border); transform: translate(2px, 2px); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
     .card {
-      background: var(--bg2); border: 1px solid var(--slate);
-      border-radius: 6px; overflow: hidden;
-      transition: transform .25s, border-color .25s, box-shadow .25s;
-      animation: up .5s ease both; position: relative;
+      background: var(--card-bg); border: 4px solid var(--border);
+      overflow: hidden; box-shadow: 6px 6px 0px var(--border); position: relative;
     }
-    .card:hover { transform: translateY(-5px); border-color: var(--blue); box-shadow: 0 12px 40px rgba(43,127,255,.15); }
     .card-thumb {
-      height: 180px; display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem; position: relative; overflow: hidden;
+      height: 160px; display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; border-bottom: 4px solid var(--border);
     }
-    .card-body { padding: 1.4rem; }
-    .card-cat { font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; margin-bottom: .45rem; }
-    .card-name { font-family: 'Clash Display', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: .45rem; }
-    .card-desc { font-size: .85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
-    .card-tools { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1rem; }
-    .tool { font-size: .7rem; padding: .2rem .55rem; background: var(--bg3); border: 1px solid var(--slate); border-radius: 3px; color: var(--muted); font-weight: 500; }
+    .card-body { padding: 1.5rem; }
+    .card-cat { font-size: .75rem; text-transform: uppercase; font-weight: 800; margin-bottom: .5rem; display: inline-block; padding: 0.1rem 0.4rem; border: 2px solid var(--border); background: var(--white); }
+    .card-name { font-family: 'Clash Display', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+    .card-desc { font-size: .95rem; color: var(--text); line-height: 1.5; margin-bottom: 1.2rem; }
+    .card-tools { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1.5rem; }
+    .tool { font-size: .75rem; padding: .2rem .6rem; background: var(--white); border: 1px solid var(--border); font-weight: 800; }
     .card-link {
       display: inline-flex; align-items: center; gap: .4rem;
-      font-size: .82rem; font-weight: 600; text-decoration: none;
-      padding: .5rem 1rem; border-radius: 3px; border: 1px solid; transition: all .2s;
+      font-size: .9rem; font-weight: 800; text-decoration: none; text-transform: uppercase;
+      padding: .6rem 1.2rem; border: 3px solid var(--border); box-shadow: 3px 3px 0px var(--border); color: var(--text);
     }
+    .card-link:hover { background: var(--lime); transform: translate(-1px, -1px); box-shadow: 4px 4px 0px var(--border); }
     .del-btn {
       position: absolute; top: .7rem; right: .7rem;
-      width: 28px; height: 28px; border-radius: 3px;
-      background: rgba(5,10,20,.85); border: 1px solid var(--slate);
-      color: var(--muted); font-size: .75rem;
-      display: none; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 10; transition: all .2s;
+      width: 32px; height: 32px; border: 2px solid var(--border);
+      background: var(--pink); color: var(--white); font-size: .9rem; font-weight: 800;
+      display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 2px 2px 0px var(--border);
     }
     .card:hover .del-btn { display: flex; }
-    .del-btn:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
     .add-card {
-      background: var(--bg2); border: 1px dashed var(--slate);
-      border-radius: 6px; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: .7rem; padding: 2.5rem; cursor: pointer;
-      transition: all .25s; min-height: 280px; color: var(--muted);
+      background: var(--white); border: 4px dashed var(--border);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .7rem; padding: 2.5rem; cursor: pointer; box-shadow: 6px 6px 0px var(--border); min-height: 280px;
     }
-    .add-card:hover { border-color: var(--teal); color: var(--teal); background: rgba(0,200,200,.04); }
-    .add-card .plus { font-size: 2.5rem; font-weight: 200; line-height: 1; }
-    .add-card p { font-size: .88rem; font-weight: 600; }
+    .add-card:hover { background: var(--lime); }
+    .add-card .plus { font-size: 3.5rem; font-weight: 700; }
+    .add-card p { font-size: 1rem; font-weight: 800; text-transform: uppercase; }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
     .about-block {
-      background: var(--bg2); border: 1px solid var(--slate);
-      border-top: 3px solid var(--blue); border-radius: 6px;
+      background: var(--lime); border: 4px solid var(--border);
       padding: 3rem; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      aspect-ratio: 1; max-width: 380px; position: relative; overflow: hidden;
+      aspect-ratio: 1; max-width: 380px; position: relative; box-shadow: 8px 8px 0px var(--border);
     }
     .big-m {
-      font-family: 'Clash Display', sans-serif;
-      font-size: 10rem; font-weight: 700; color: var(--bg3);
+      font-family: 'Clash Display', sans-serif; font-size: 12rem; font-weight: 700; color: rgba(0,0,0,0.06);
       line-height: 1; position: absolute; user-select: none;
     }
-    .monogram { font-family: 'Clash Display', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--white); z-index: 1; }
-    .role-tag { font-size: .78rem; color: var(--teal); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; z-index: 1; margin-top: .3rem; }
-    .stat-badge { margin-top: 2rem; z-index: 1; text-align: center; }
-    .stat-badge .num { font-family: 'Clash Display', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--sky); }
-    .stat-badge .lbl { font-size: .72rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
-    .about-text .sec-title { margin-bottom: 1rem; }
-    .about-text p { color: var(--muted); line-height: 1.8; font-size: .95rem; margin-bottom: .9rem; }
-    .skills-list { display: flex; flex-direction: column; gap: .65rem; margin-top: 1.5rem; }
+    .monogram { font-family: 'Clash Display', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text); z-index: 1; text-transform: uppercase; }
+    .role-tag { font-size: .8rem; background: var(--white); border: 2px solid var(--border); padding: 0.2rem 0.5rem; font-weight: 800; z-index: 1; margin-top: .5rem; }
+    .stat-badge { margin-top: 2rem; z-index: 1; text-align: center; background: var(--cyan); border: 2px solid var(--border); padding: 0.5rem 1rem; box-shadow: 4px 4px 0px var(--border); }
+    .stat-badge .num { font-family: 'Clash Display', sans-serif; font-size: 3rem; font-weight: 700; color: var(--text); }
+    .stat-badge .lbl { font-size: .75rem; color: var(--text); font-weight: 800; text-transform: uppercase; }
+    .about-text p { color: var(--text); line-height: 1.6; font-size: 1.05rem; margin-bottom: 1rem; background: var(--white); padding: 0.8rem; border: 2px solid var(--border); }
+    .skills-list { display: flex; flex-direction: column; gap: .8rem; margin-top: 1.5rem; }
     .skill-row { display: flex; align-items: center; gap: 1rem; }
-    .skill-name { font-size: .82rem; font-weight: 600; color: var(--text); width: 150px; flex-shrink: 0; }
-    .skill-bar { flex: 1; height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
-    .skill-fill { height: 100%; background: var(--blue); border-radius: 2px; }
+    .skill-name { font-size: .9rem; font-weight: 800; color: var(--text); width: 160px; text-transform: uppercase; }
+    .skill-bar { flex: 1; height: 16px; background: var(--white); border: 2px solid var(--border); box-shadow: 2px 2px 0px var(--border); }
+    .skill-fill { height: 100%; background: var(--pink); border-right: 2px solid var(--border); }
     .contact-block {
-      background: var(--bg2); border: 1px solid var(--slate);
-      border-top: 3px solid var(--teal); border-radius: 6px;
-      padding: 4rem; text-align: center;
+      background: var(--white); border: 4px solid var(--border);
+      padding: 4rem; text-align: center; box-shadow: 8px 8px 0px var(--border);
     }
-    .contact-block .sec-title { margin-bottom: .7rem; }
-    .contact-block p { color: var(--muted); margin-bottom: 2rem; }
-    .contact-links { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 2rem; }
     .c-link {
       display: inline-flex; align-items: center; gap: .5rem;
-      padding: .7rem 1.4rem; border-radius: 3px;
-      border: 1px solid var(--slate); color: var(--text);
-      text-decoration: none; font-size: .88rem; font-weight: 600;
-      background: var(--bg3); transition: all .2s;
+      padding: .8rem 1.5rem; border: 3px solid var(--border); color: var(--text);
+      text-decoration: none; font-size: 1rem; font-weight: 800; text-transform: uppercase;
+      background: var(--white); box-shadow: 4px 4px 0px var(--border);
     }
-    .c-link:hover { border-color: var(--teal); color: var(--teal); background: rgba(0,200,200,.06); }
+    .c-link:hover { background: var(--lime); transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border); }
     footer {
-      text-align: center; padding: 2rem; color: var(--muted);
-      font-size: .83rem; border-top: 1px solid var(--slate);
-      position: relative; z-index: 1;
+      text-align: center; padding: 2rem; color: var(--text); background: var(--white);
+      font-size: .95rem; font-weight: 800; border-top: 4px solid var(--border);
     }
-    footer b { color: var(--sky); }
     .fab {
       position: fixed; bottom: 2rem; right: 2rem;
-      background: var(--blue); color: var(--white);
-      border: none; border-radius: 4px; padding: .8rem 1.5rem;
-      font-family: 'Instrument Sans', sans-serif; font-size: .88rem; font-weight: 700;
-      cursor: pointer; z-index: 300;
-      box-shadow: 0 8px 30px rgba(43,127,255,.3);
-      transition: background .2s, transform .2s;
-      display: flex; align-items: center; gap: .45rem;
+      background: var(--lime); color: var(--text);
+      border: 3px solid var(--border); padding: 1rem 1.5rem;
+      font-family: 'Instrument Sans', sans-serif; font-size: 1rem; font-weight: 800; text-transform: uppercase;
+      cursor: pointer; z-index: 300; box-shadow: 4px 4px 0px var(--border);
     }
-    .fab:hover { background: var(--sky); transform: translateY(-2px); }
+    .fab:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border); background: var(--pink); color: var(--white); }
     .overlay {
-      position: fixed; inset: 0; background: rgba(5,10,20,.92);
-      backdrop-filter: blur(12px); z-index: 500;
+      position: fixed; inset: 0; background: rgba(0,0,0,.7);
+      backdrop-filter: blur(4px); z-index: 500;
       display: none; align-items: center; justify-content: center; padding: 1rem;
     }
     .overlay.open { display: flex; }
     .modal {
-      background: var(--bg2); border: 1px solid var(--slate);
-      border-top: 3px solid var(--blue); border-radius: 6px;
-      padding: 2.5rem; width: 100%; max-width: 480px;
-      animation: up .3s ease both;
+      background: var(--white); border: 4px solid var(--border);
+      padding: 2.5rem; width: 100%; max-width: 480px; box-shadow: 8px 8px 0px var(--border);
     }
-    .modal h2 { font-family: 'Clash Display', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); margin-bottom: .3rem; }
-    .modal-sub { color: var(--muted); font-size: .85rem; margin-bottom: 1.8rem; }
+    .modal h2 { font-family: 'Clash Display', sans-serif; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: .5rem; }
+    .modal-sub { font-size: .9rem; margin-bottom: 1.8rem; }
     .fg { margin-bottom: 1.1rem; }
-    .fg label { display: block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .45rem; }
+    .fg label { display: block; font-size: .8rem; font-weight: 800; text-transform: uppercase; margin-bottom: .45rem; }
     .fg input, .fg select, .fg textarea {
-      width: 100%; background: var(--bg3); border: 1px solid var(--slate);
-      border-radius: 4px; padding: .7rem .9rem; color: var(--white);
-      font-family: 'Instrument Sans', sans-serif; font-size: .92rem;
-      outline: none; transition: border-color .2s;
+      width: 100%; background: var(--white); border: 2px solid var(--border);
+      padding: .7rem .9rem; color: var(--text); font-family: 'Instrument Sans', sans-serif;
+      font-size: .95rem; font-weight: 600; outline: none;
     }
-    .fg textarea { resize: vertical; min-height: 75px; }
-    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--blue); }
-    .fg select option { background: var(--bg2); }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { background: var(--lime); }
     .modal-btns { display: flex; gap: .7rem; margin-top: 1.5rem; }
     .m-confirm {
-      flex: 1; background: var(--blue); color: var(--white);
-      border: none; border-radius: 4px; padding: .8rem;
-      font-family: 'Instrument Sans', sans-serif; font-size: .92rem;
-      font-weight: 700; cursor: pointer; transition: background .2s;
+      flex: 1; background: var(--cyan); color: var(--text); border: 3px solid var(--border);
+      padding: .8rem; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 3px 3px 0px var(--border);
     }
-    .m-confirm:hover { background: var(--sky); }
+    .m-confirm:hover { background: var(--lime); }
     .m-cancel {
-      background: var(--bg3); color: var(--muted);
-      border: 1px solid var(--slate); border-radius: 4px;
-      padding: .8rem 1.4rem; font-family: 'Instrument Sans', sans-serif;
-      font-size: .92rem; cursor: pointer; transition: all .2s;
+      background: var(--white); color: var(--text); border: 3px solid var(--border);
+      padding: .8rem 1.4rem; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 3px 3px 0px var(--border);
     }
-    .m-cancel:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
-    @keyframes up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
     @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
       .hero { padding: 6rem 1.5rem 3rem; }
       .about-grid { grid-template-columns: 1fr; }
-      .contact-block { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
 <body>
-<div id="cur"></div>
-<div id="cur-ring"></div>
 
 <nav>
   <div class="logo">Mansi<span>.</span></div>
@@ -340,11 +256,11 @@
 </nav>
 
 <div class="hero">
-  <div class="hero-eyebrow"><div class="dot"></div> Engineering Undergraduate · Active Portfolio 2026</div>
+  <div class="hero-eyebrow"><div class="dot"></div> CSE UNDERGRADUATE · ACTIVE PORTFOLIO 2026</div>
   <h1>
-    Mansi
-    <em>Toshniwal</em>
-    <small>Developer · UI/UX Designer · Content Strategist</small>
+    MANSI
+    <em>TOSHNIWAL</em>
+    <small>Developer // UI/UX Designer // Content Strategist</small>
   </h1>
   <p class="hero-desc">Computer Science Engineering student bridging the gap between algorithmic logic and high-retention digital media. Specializing in high-fidelity Figma engineering and scalable user experiences.</p>
   <div class="hero-chips">
@@ -372,7 +288,7 @@
   <div class="container">
     <div class="sec-label">My Work</div>
     <h2 class="sec-title">Selected Projects</h2>
-    <p class="sec-sub">Click any project to open it directly — verified live files, repositories, and platform links.</p>
+    <p class="sec-sub">Verified live files, repositories, and platform links.</p>
     <div class="tabs" id="tabs">
       <button class="tab active" data-cat="all">All</button>
       <button class="tab" data-cat="figma">UI/UX Design</button>
@@ -385,7 +301,7 @@
   </div>
 </section>
 
-<section id="about" style="background:var(--bg2);border-top:1px solid var(--slate);border-bottom:1px solid var(--slate)">
+<section id="about" style="background:var(--white)">
   <div class="container">
     <div class="about-grid">
       <div class="about-block">
@@ -394,7 +310,7 @@
         <div class="role-tag">Engineering Undergraduate</div>
         <div class="stat-badge">
           <div class="num" id="pCount">0</div>
-          <div class="lbl">Projects &amp; Counting</div>
+          <div class="lbl">Projects Indexed</div>
         </div>
       </div>
       <div class="about-text">
@@ -403,11 +319,11 @@
         <p>I am a Computer Science Engineering student focused on building digital assets from the ground up. Whether architecting logical software structures or designing independent, pixel-perfect user interfaces in Figma, I treat every project as a problem-solving case study.</p>
         <p>Simultaneously, I execute media distribution pipelines — handling scriptwriting, pacing, and retention editing to transform concepts into highly engaging social media assets.</p>
         <div class="skills-list">
-          <div class="skill-row"><span class="skill-name">Figma (UI/UX Layout)</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Java &amp; C Programming</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Python Data Structures</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Retention Video Editing</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
-          <div class="skill-row"><span class="skill-name">Social Media Analytics</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Figma (UI/UX)</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Java &amp; C Code</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Python Basics</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Video Editing</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Media Analytics</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
         </div>
       </div>
     </div>
@@ -417,7 +333,7 @@
 <section id="contact">
   <div class="container">
     <div class="contact-block">
-      <div class="sec-label" style="justify-content:center">Contact</div>
+      <div class="sec-label">Contact</div>
       <h2 class="sec-title">Let's connect.</h2>
       <p>Open for collaborative research, software development roles, and creative partnerships.</p>
       <div class="contact-links">
@@ -429,14 +345,14 @@
   </div>
 </section>
 
-<footer>Designed &amp; built by <b>Mansi Toshniwal</b> · 2026</footer>
+<footer>DESIGNED &amp; BUILT BY <b>MANSI TOSHNIWAL</b> · 2026</footer>
 
 <button class="fab" onclick="openModal()">+ Add Project</button>
 
 <div class="overlay" id="overlay">
   <div class="modal">
     <h2>Add New Project</h2>
-    <p class="modal-sub">Input project criteria. Links will resolve straight to your target repository or file.</p>
+    <p class="modal-sub">Input project criteria. Links resolve straight to your target repository.</p>
     <div class="fg"><label>Project Name *</label><input id="pName" placeholder="e.g. Food Delivery App UI"/></div>
     <div class="fg">
       <label>Category *</label>
@@ -453,24 +369,18 @@
     <div class="fg"><label>Tools Used</label><input id="pTools" placeholder="Figma, Java, Python... (comma separated)"/></div>
     <div class="modal-btns">
       <button class="m-cancel" onclick="closeModal()">Cancel</button>
-      <button class="m-confirm" onclick="addProject()">Add to Portfolio →</button>
+      <button class="m-confirm" onclick="addProject()">Add Project</button>
     </div>
   </div>
 </div>
 
 <script>
-  const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
-  document.addEventListener('mousemove', e => {
-    cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
-    setTimeout(() => { ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px'; }, 90);
-  });
-
   const cats = {
-    figma:  { label:'UI/UX Design (Figma)', color:'#2b7fff', bg:'#0b1a32', emoji:'📐' },
-    dev:    { label:'Software & Logic',     color:'#00c8c8', bg:'#061e1e', emoji:'💻' },
-    social: { label:'Media & Capstone',    color:'#5bc4ff', bg:'#091c2e', emoji:'📱' },
-    video:  { label:'Video Editing',        color:'#7ba8ff', bg:'#0d1530', emoji:'🎬' },
-    other:  { label:'Other Initiatives',    color:'#5bc4ff', bg:'#091c2e', emoji:'✦'  },
+    figma:  { label:'UI/UX Design (Figma)', color:'#ff007f', bg:'#ffffff', emoji:'📐' },
+    dev:    { label:'Software & Logic',     color:'#00f0ff', bg:'#ffffff', emoji:'💻' },
+    social: { label:'Media & Capstone',    color:'#c3ff00', bg:'#ffffff', emoji:'📱' },
+    video:  { label:'Video Editing',        color:'#ff007f', bg:'#ffffff', emoji:'🎬' },
+    other:  { label:'Other Initiatives',    color:'#00f0ff', bg:'#ffffff', emoji:'✦'  },
   };
 
   let projects = JSON.parse(localStorage.getItem('mansi_v3'));
@@ -514,17 +424,15 @@
       const tools = p.tools ? p.tools.split(',').map(t => `<span class="tool">${t.trim()}</span>`).join('') : '';
       const card = document.createElement('div');
       card.className = 'card';
-      card.style.animationDelay = (i*.07)+'s';
       card.innerHTML = `
         <button class="del-btn" onclick="del(${ri})">✕</button>
-        <div class="card-thumb" style="background:${c.bg}"><span>${c.emoji}</span></div>
+        <div class="card-thumb" style="background:${c.color}"><span>${c.emoji}</span></div>
         <div class="card-body">
-          <div class="card-cat" style="color:${c.color}">${c.label}</div>
+          <div class="card-cat" style="border-color:var(--border); color:var(--text)">${c.label}</div>
           <div class="card-name">${p.name}</div>
           ${p.desc?`<div class="card-desc">${p.desc}</div>`:''}
           ${tools?`<div class="card-tools">${tools}</div>`:''}
-          <a href="${p.link}" target="_blank" rel="noopener" class="card-link"
-             style="color:${c.color};border-color:${c.color};background:${c.bg}">View Project →</a>
+          <a href="${p.link}" target="_blank" rel="noopener" class="card-link">View Project →</a>
         </div>`;
       grid.appendChild(card);
     });

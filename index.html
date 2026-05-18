@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mansi Toshniwal — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #050a14;
+      --bg2:       #0b1220;
+      --bg3:       #101b2e;
+      --ice:       #e8f4ff;
+      --blue:      #2b7fff;
+      --teal:      #00c8c8;
+      --sky:       #5bc4ff;
+      --navy:      #0d2040;
+      --slate:     #1e3454;
+      --muted:     #4a6a8a;
+      --text:      #bdd8f0;
+      --white:     #f0f8ff;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Instrument Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    #cur {
+      width: 10px; height: 10px;
+      background: var(--teal);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+    }
+    #cur-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--blue);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: all .12s ease;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(43,127,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43,127,255,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none; z-index: 0;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 1.1rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(5,10,20,.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--slate);
+    }
+    .logo {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--white);
+      letter-spacing: -.02em;
+    }
+    .logo span { color: var(--teal); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); font-size: .88rem; font-weight: 500;
+      text-decoration: none; transition: color .2s; letter-spacing: .02em;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 8rem 3rem 4rem; max-width: 1100px; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--bg3); border: 1px solid var(--slate);
+      border-left: 3px solid var(--teal);
+      padding: .4rem 1rem; border-radius: 4px;
+      font-size: .78rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .12em;
+      color: var(--teal); margin-bottom: 2rem;
+      animation: up .7s ease both;
+    }
+    .dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; animation: blink 1.4s infinite; }
+    .hero h1 {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(3.8rem, 9vw, 8.5rem);
+      font-weight: 700; line-height: .92;
+      letter-spacing: -.04em; color: var(--white);
+      margin-bottom: 2rem;
+      animation: up .7s ease .12s both;
+    }
+    .hero h1 em { font-style: normal; color: var(--blue); display: block; }
+    .hero h1 small {
+      font-size: .5em; font-weight: 400; color: var(--muted);
+      display: block; letter-spacing: -.01em; margin-top: .4rem;
+    }
+    .hero-desc {
+      font-size: 1rem; color: var(--muted);
+      max-width: 440px; line-height: 1.8;
+      margin-bottom: 2.5rem; animation: up .7s ease .24s both;
+    }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 3rem; animation: up .7s ease .36s both; }
+    .chip {
+      padding: .35rem .9rem; background: var(--bg3);
+      border: 1px solid var(--slate); border-radius: 3px;
+      font-size: .78rem; font-weight: 600; color: var(--sky); letter-spacing: .04em;
+    }
+    .hero-btns { display: flex; gap: 1rem; animation: up .7s ease .48s both; }
+    .btn-solid {
+      background: var(--blue); color: var(--white);
+      padding: .85rem 2rem; border-radius: 4px;
+      font-size: .9rem; font-weight: 600; text-decoration: none;
+      border: none; cursor: pointer; font-family: 'Instrument Sans', sans-serif;
+      transition: background .2s, transform .2s;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-solid:hover { background: var(--sky); transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      padding: .85rem 2rem; border-radius: 4px;
+      font-size: .9rem; font-weight: 600; text-decoration: none;
+      border: 1px solid var(--slate); cursor: pointer;
+      font-family: 'Instrument Sans', sans-serif;
+      transition: border-color .2s, color .2s;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+    .marquee-wrap {
+      overflow: hidden; background: var(--blue);
+      padding: .65rem 0; white-space: nowrap; position: relative; z-index: 1;
+    }
+    .marquee-inner { display: inline-block; animation: marquee 22s linear infinite; }
+    .marquee-inner span {
+      font-family: 'Clash Display', sans-serif;
+      font-size: .78rem; font-weight: 600;
+      color: var(--white); letter-spacing: .1em;
+      text-transform: uppercase; margin: 0 1.8rem;
+    }
+    .marquee-inner b { color: var(--teal); }
+    section { padding: 5rem 2rem; position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .sec-label {
+      font-size: .72rem; text-transform: uppercase;
+      letter-spacing: .16em; color: var(--teal); font-weight: 600;
+      margin-bottom: .7rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .sec-label::before { content: ''; width: 24px; height: 2px; background: var(--teal); display: block; }
+    .sec-title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 700; letter-spacing: -.03em;
+      color: var(--white); margin-bottom: .8rem; line-height: 1.1;
+    }
+    .sec-sub { color: var(--muted); font-size: .95rem; line-height: 1.7; max-width: 480px; margin-bottom: 2.5rem; }
+    .tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
+    .tab {
+      padding: .45rem 1.1rem; background: var(--bg3);
+      border: 1px solid var(--slate); border-radius: 3px;
+      color: var(--muted); font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+      font-family: 'Instrument Sans', sans-serif; letter-spacing: .02em;
+    }
+    .tab:hover { border-color: var(--blue); color: var(--sky); }
+    .tab.active { background: var(--blue); border-color: var(--blue); color: var(--white); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.2rem; }
+    .card {
+      background: var(--bg2); border: 1px solid var(--slate);
+      border-radius: 6px; overflow: hidden;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      animation: up .5s ease both; position: relative;
+    }
+    .card:hover { transform: translateY(-5px); border-color: var(--blue); box-shadow: 0 12px 40px rgba(43,127,255,.15); }
+    .card-thumb {
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; position: relative; overflow: hidden;
+    }
+    .card-body { padding: 1.4rem; }
+    .card-cat { font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; margin-bottom: .45rem; }
+    .card-name { font-family: 'Clash Display', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: .45rem; }
+    .card-desc { font-size: .85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .card-tools { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1rem; }
+    .tool { font-size: .7rem; padding: .2rem .55rem; background: var(--bg3); border: 1px solid var(--slate); border-radius: 3px; color: var(--muted); font-weight: 500; }
+    .card-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .82rem; font-weight: 600; text-decoration: none;
+      padding: .5rem 1rem; border-radius: 3px; border: 1px solid; transition: all .2s;
+    }
+    .del-btn {
+      position: absolute; top: .7rem; right: .7rem;
+      width: 28px; height: 28px; border-radius: 3px;
+      background: rgba(5,10,20,.85); border: 1px solid var(--slate);
+      color: var(--muted); font-size: .75rem;
+      display: none; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10; transition: all .2s;
+    }
+    .card:hover .del-btn { display: flex; }
+    .del-btn:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .add-card {
+      background: var(--bg2); border: 1px dashed var(--slate);
+      border-radius: 6px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: .7rem; padding: 2.5rem; cursor: pointer;
+      transition: all .25s; min-height: 280px; color: var(--muted);
+    }
+    .add-card:hover { border-color: var(--teal); color: var(--teal); background: rgba(0,200,200,.04); }
+    .add-card .plus { font-size: 2.5rem; font-weight: 200; line-height: 1; }
+    .add-card p { font-size: .88rem; font-weight: 600; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-block {
+      background: var(--bg2); border: 1px solid var(--slate);
+      border-top: 3px solid var(--blue); border-radius: 6px;
+      padding: 3rem; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      aspect-ratio: 1; max-width: 380px; position: relative; overflow: hidden;
+    }
+    .big-m {
+      font-family: 'Clash Display', sans-serif;
+      font-size: 10rem; font-weight: 700; color: var(--bg3);
+      line-height: 1; position: absolute; user-select: none;
+    }
+    .monogram { font-family: 'Clash Display', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--white); z-index: 1; }
+    .role-tag { font-size: .78rem; color: var(--teal); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; z-index: 1; margin-top: .3rem; }
+    .stat-badge { margin-top: 2rem; z-index: 1; text-align: center; }
+    .stat-badge .num { font-family: 'Clash Display', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--sky); }
+    .stat-badge .lbl { font-size: .72rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .about-text .sec-title { margin-bottom: 1rem; }
+    .about-text p { color: var(--muted); line-height: 1.8; font-size: .95rem; margin-bottom: .9rem; }
+    .skills-list { display: flex; flex-direction: column; gap: .65rem; margin-top: 1.5rem; }
+    .skill-row { display: flex; align-items: center; gap: 1rem; }
+    .skill-name { font-size: .82rem; font-weight: 600; color: var(--text); width: 115px; flex-shrink: 0; }
+    .skill-bar { flex: 1; height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--blue); border-radius: 2px; }
+    .contact-block {
+      background: var(--bg2); border: 1px solid var(--slate);
+      border-top: 3px solid var(--teal); border-radius: 6px;
+      padding: 4rem; text-align: center;
+    }
+    .contact-block .sec-title { margin-bottom: .7rem; }
+    .contact-block p { color: var(--muted); margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
+    .c-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.4rem; border-radius: 3px;
+      border: 1px solid var(--slate); color: var(--text);
+      text-decoration: none; font-size: .88rem; font-weight: 600;
+      background: var(--bg3); transition: all .2s;
+    }
+    .c-link:hover { border-color: var(--teal); color: var(--teal); background: rgba(0,200,200,.06); }
+    footer {
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: .83rem; border-top: 1px solid var(--slate);
+      position: relative; z-index: 1;
+    }
+    footer b { color: var(--sky); }
+    .fab {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--blue); color: var(--white);
+      border: none; border-radius: 4px; padding: .8rem 1.5rem;
+      font-family: 'Instrument Sans', sans-serif; font-size: .88rem; font-weight: 700;
+      cursor: pointer; z-index: 300;
+      box-shadow: 0 8px 30px rgba(43,127,255,.3);
+      transition: background .2s, transform .2s;
+      display: flex; align-items: center; gap: .45rem;
+    }
+    .fab:hover { background: var(--sky); transform: translateY(-2px); }
+    .overlay {
+      position: fixed; inset: 0; background: rgba(5,10,20,.92);
+      backdrop-filter: blur(12px); z-index: 500;
+      display: none; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .overlay.open { display: flex; }
+    .modal {
+      background: var(--bg2); border: 1px solid var(--slate);
+      border-top: 3px solid var(--blue); border-radius: 6px;
+      padding: 2.5rem; width: 100%; max-width: 480px;
+      animation: up .3s ease both;
+    }
+    .modal h2 { font-family: 'Clash Display', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); margin-bottom: .3rem; }
+    .modal-sub { color: var(--muted); font-size: .85rem; margin-bottom: 1.8rem; }
+    .fg { margin-bottom: 1.1rem; }
+    .fg label { display: block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .45rem; }
+    .fg input, .fg select, .fg textarea {
+      width: 100%; background: var(--bg3); border: 1px solid var(--slate);
+      border-radius: 4px; padding: .7rem .9rem; color: var(--white);
+      font-family: 'Instrument Sans', sans-serif; font-size: .92rem;
+      outline: none; transition: border-color .2s;
+    }
+    .fg textarea { resize: vertical; min-height: 75px; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--blue); }
+    .fg select option { background: var(--bg2); }
+    .modal-btns { display: flex; gap: .7rem; margin-top: 1.5rem; }
+    .m-confirm {
+      flex: 1; background: var(--blue); color: var(--white);
+      border: none; border-radius: 4px; padding: .8rem;
+      font-family: 'Instrument Sans', sans-serif; font-size: .92rem;
+      font-weight: 700; cursor: pointer; transition: background .2s;
+    }
+    .m-confirm:hover { background: var(--sky); }
+    .m-cancel {
+      background: var(--bg3); color: var(--muted);
+      border: 1px solid var(--slate); border-radius: 4px;
+      padding: .8rem 1.4rem; font-family: 'Instrument Sans', sans-serif;
+      font-size: .92rem; cursor: pointer; transition: all .2s;
+    }
+    .m-cancel:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
+    @keyframes up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-block { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<nav>
+  <div class="logo">Mansi<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow"><div class="dot"></div> Available for work · Creative Portfolio 2025</div>
+  <h1>
+    Mansi
+    <em>Toshniwal</em>
+    <small>Designer · Storyteller · Creator</small>
+  </h1>
+  <p class="hero-desc">Multidisciplinary creative — UI/UX, graphics, social media, video editing, app design and everything in between.</p>
+  <div class="hero-chips">
+    <span class="chip">Figma</span>
+    <span class="chip">Canva</span>
+    <span class="chip">UI/UX</span>
+    <span class="chip">App Design</span>
+    <span class="chip">Video Editing</span>
+    <span class="chip">Social Media</span>
+  </div>
+  <div class="hero-btns">
+    <a href="#projects" class="btn-solid">View Work →</a>
+    <a href="#contact" class="btn-ghost">Get in Touch</a>
+  </div>
+</div>
+
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>UI/UX Design</span><b>✦</b><span>Figma</span><b>✦</b><span>Canva</span><b>✦</b><span>Social Media</span><b>✦</b><span>Video Editing</span><b>✦</b><span>App Design</span><b>✦</b><span>Branding</span><b>✦</b><span>Motion</span><b>✦</b>
+    <span>UI/UX Design</span><b>✦</b><span>Figma</span><b>✦</b><span>Canva</span><b>✦</b><span>Social Media</span><b>✦</b><span>Video Editing</span><b>✦</b><span>App Design</span><b>✦</b><span>Branding</span><b>✦</b><span>Motion</span><b>✦</b>
+  </div>
+</div>
+
+<section id="projects">
+  <div class="container">
+    <div class="sec-label">My Work</div>
+    <h2 class="sec-title">Selected Projects</h2>
+    <p class="sec-sub">Click any project to open it directly — Figma, Canva, YouTube, whatever the link is.</p>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-cat="all">All</button>
+      <button class="tab" data-cat="figma">Figma / UI</button>
+      <button class="tab" data-cat="canva">Canva / Graphics</button>
+      <button class="tab" data-cat="social">Social Media</button>
+      <button class="tab" data-cat="video">Video Edits</button>
+      <button class="tab" data-cat="app">App Design</button>
+      <button class="tab" data-cat="other">Other</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="about" style="background:var(--bg2);border-top:1px solid var(--slate);border-bottom:1px solid var(--slate)">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-block">
+        <div class="big-m">M</div>
+        <div class="monogram">Mansi Toshniwal</div>
+        <div class="role-tag">Multidisciplinary Designer</div>
+        <div class="stat-badge">
+          <div class="num" id="pCount">0</div>
+          <div class="lbl">Projects &amp; Counting</div>
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="sec-label">About Me</div>
+        <h2 class="sec-title">Creative mind,<br/>sharp execution.</h2>
+        <p>Hi, I'm Mansi — a designer who works across every medium. From crafting pixel-perfect UI in Figma to producing scroll-stopping social content and slick video edits.</p>
+        <p>I believe great design is invisible — it just feels right. I bring that thinking to every project, big or small.</p>
+        <div class="skills-list">
+          <div class="skill-row"><span class="skill-name">Figma / UI</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Canva</span><div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">App Design</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Video Editing</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Social Media</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-block">
+      <div class="sec-label" style="justify-content:center">Contact</div>
+      <h2 class="sec-title">Let's work together.</h2>
+      <p>Open for freelance, collabs, and new opportunities. Reach out!</p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="c-link">✉ Email</a>
+        <a href="https://instagram.com" target="_blank" class="c-link">📸 Instagram</a>
+        <a href="https://linkedin.com" target="_blank" class="c-link">💼 LinkedIn</a>
+        <a href="https://behance.net" target="_blank" class="c-link">🎨 Behance</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Designed &amp; built by <b>Mansi Toshniwal</b> · 2025</footer>
+
+<button class="fab" onclick="openModal()">+ Add Project</button>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Add New Project</h2>
+    <p class="modal-sub">Your link opens directly when clicked — no uploads needed.</p>
+    <div class="fg"><label>Project Name *</label><input id="pName" placeholder="e.g. Food Delivery App UI"/></div>
+    <div class="fg">
+      <label>Category *</label>
+      <select id="pCat">
+        <option value="figma">Figma / UI</option>
+        <option value="canva">Canva / Graphics</option>
+        <option value="social">Social Media</option>
+        <option value="video">Video Edits</option>
+        <option value="app">App Design</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="fg"><label>Project Link *</label><input id="pLink" type="url" placeholder="https://figma.com/... or youtube.com/..."/></div>
+    <div class="fg"><label>Short Description</label><textarea id="pDesc" placeholder="What is this project about?"></textarea></div>
+    <div class="fg"><label>Tools Used</label><input id="pTools" placeholder="Figma, Canva, Premiere... (comma separated)"/></div>
+    <div class="modal-btns">
+      <button class="m-cancel" onclick="closeModal()">Cancel</button>
+      <button class="m-confirm" onclick="addProject()">Add to Portfolio →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
+    setTimeout(() => { ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px'; }, 90);
+  });
+
+  const cats = {
+    figma:  { label:'Figma / UI',       color:'#2b7fff', bg:'#0b1a32', emoji:'🖼' },
+    canva:  { label:'Canva / Graphics',  color:'#00c8c8', bg:'#061e1e', emoji:'✏️' },
+    social: { label:'Social Media',      color:'#5bc4ff', bg:'#091c2e', emoji:'📱' },
+    video:  { label:'Video Edits',       color:'#7ba8ff', bg:'#0d1530', emoji:'🎬' },
+    app:    { label:'App Design',        color:'#00c8c8', bg:'#061e1e', emoji:'📐' },
+    other:  { label:'Other',             color:'#5bc4ff', bg:'#091c2e', emoji:'✦'  },
+  };
+
+  let projects = JSON.parse(localStorage.getItem('mansi_v3') || '[]');
+  let filter = 'all';
+
+  function render() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    const list = filter === 'all' ? projects : projects.filter(p => p.cat === filter);
+    list.forEach((p, i) => {
+      const c = cats[p.cat] || cats.other;
+      const ri = projects.indexOf(p);
+      const tools = p.tools ? p.tools.split(',').map(t => `<span class="tool">${t.trim()}</span>`).join('') : '';
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.animationDelay = (i*.07)+'s';
+      card.innerHTML = `
+        <button class="del-btn" onclick="del(${ri})">✕</button>
+        <div class="card-thumb" style="background:${c.bg}"><span>${c.emoji}</span></div>
+        <div class="card-body">
+          <div class="card-cat" style="color:${c.color}">${c.label}</div>
+          <div class="card-name">${p.name}</div>
+          ${p.desc?`<div class="card-desc">${p.desc}</div>`:''}
+          ${tools?`<div class="card-tools">${tools}</div>`:''}
+          <a href="${p.link}" target="_blank" rel="noopener" class="card-link"
+             style="color:${c.color};border-color:${c.color};background:${c.bg}">View Project →</a>
+        </div>`;
+      grid.appendChild(card);
+    });
+    const add = document.createElement('div');
+    add.className = 'add-card'; add.onclick = openModal;
+    add.innerHTML = `<div class="plus">+</div><p>Add new project</p>`;
+    grid.appendChild(add);
+    document.getElementById('pCount').textContent = projects.length;
+    localStorage.setItem('mansi_v3', JSON.stringify(projects));
+  }
+
+  document.getElementById('tabs').addEventListener('click', e => {
+    if (!e.target.classList.contains('tab')) return;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+    filter = e.target.dataset.cat;
+    render();
+  });
+
+  function openModal() { document.getElementById('overlay').classList.add('open'); }
+  function closeModal() {
+    document.getElementById('overlay').classList.remove('open');
+    ['pName','pLink','pDesc','pTools'].forEach(id => document.getElementById(id).value='');
+    document.getElementById('pCat').value='figma';
+  }
+  document.getElementById('overlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+  function addProject() {
+    const name = document.getElementById('pName').value.trim();
+    const link = document.getElementById('pLink').value.trim();
+    if(!name||!link) { alert('Name and link are required!'); return; }
+    projects.push({ name, cat: document.getElementById('pCat').value, link,
+      desc: document.getElementById('pDesc').value.trim(),
+      tools: document.getElementById('pTools').value.trim() });
+    closeModal(); render();
+  }
+
+  function del(i) { if(confirm('Remove this project?')) { projects.splice(i,1); render(); } }
+
+  render();
+</script>
+</body>
+</html>

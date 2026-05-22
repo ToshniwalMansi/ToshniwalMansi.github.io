@@ -7,250 +7,230 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --ink:    #0a0a0a;
-      --paper:  #f5f0e8;
-      --cream:  #ede8dc;
-      --white:  #ffffff;
-      --acid:   #c8f135;
-      --coral:  #ff4d4d;
-      --sky:    #a8d8ff;
-      --muted:  #7a7468;
-      --border: #0a0a0a;
+      --ink:#0a0a0a; --paper:#f5f0e8; --cream:#ede8dc; --white:#ffffff;
+      --acid:#c8f135; --coral:#ff4d4d; --sky:#a8d8ff; --muted:#7a7468; --border:#0a0a0a;
     }
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--paper); color: var(--ink); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--paper);color:var(--ink);font-family:'Outfit',sans-serif;overflow-x:hidden}
 
-    /* ── Edit Mode Banner ── */
-    #edit-banner {
-      display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-      background: var(--coral); color: #fff;
-      padding: .55rem 1.5rem; text-align: center;
-      font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
-      border-bottom: 2px solid var(--border);
-    }
-    #edit-banner.on { display: flex; align-items: center; justify-content: center; gap: 1rem; }
-    #lock-btn {
-      background: #fff; color: var(--coral); border: 2px solid var(--border);
-      padding: .25rem .8rem; border-radius: 2px; font-size: .72rem; font-weight: 700;
-      cursor: pointer; text-transform: uppercase; letter-spacing: .06em; font-family: 'Outfit', sans-serif;
-    }
-    #export-btn, #import-label {
-      background: var(--ink); color: #fff; border: 2px solid var(--border);
-      padding: .25rem .8rem; border-radius: 2px; font-size: .72rem; font-weight: 700;
-      cursor: pointer; text-transform: uppercase; letter-spacing: .06em; font-family: 'Outfit', sans-serif;
-    }
-    #import-label { display: inline-block; }
-    #import-file { display: none; }
+    /* ── Edit Banner ── */
+    #edit-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:var(--coral);color:#fff;padding:.5rem 1rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid var(--border);flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem}
+    #edit-banner.on{display:flex}
+    .eb-btn{background:var(--ink);color:#fff;border:2px solid var(--border);padding:.22rem .7rem;border-radius:2px;font-size:.7rem;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;font-family:'Outfit',sans-serif}
+    .eb-btn.white{background:#fff;color:var(--coral)}
+    #import-label{display:inline-block}
+    #import-file{display:none}
 
     /* ── Nav ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.2rem 2.5rem; background: var(--paper); border-bottom: 2px solid var(--border);
-      transition: top .3s;
-    }
-    nav.shifted { top: 38px; }
-    .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: .06em; }
-    .logo-dot { color: var(--coral); }
-    .nav-right { display: flex; align-items: center; gap: 2rem; }
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
-    .nav-links a { font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .nav-links a:hover { color: var(--ink); }
-    .nav-cta { background: var(--ink); color: var(--paper); padding: .5rem 1.2rem; border-radius: 2px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; text-decoration: none; border: 2px solid var(--border); transition: background .2s; }
-    .nav-cta:hover { background: var(--coral); }
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2.5rem;background:var(--paper);border-bottom:2px solid var(--border);transition:top .3s}
+    nav.shifted{top:36px}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em}
+    .logo-dot{color:var(--coral)}
+    .nav-right{display:flex;align-items:center;gap:2rem}
+    .nav-links{display:flex;gap:1.8rem;list-style:none}
+    .nav-links a{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:var(--ink)}
+    .nav-cta{background:var(--ink);color:var(--paper);padding:.5rem 1.2rem;border-radius:2px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;border:2px solid var(--border);transition:background .2s}
+    .nav-cta:hover{background:var(--coral)}
 
     /* ── Hero ── */
-    .hero { min-height: 100vh; padding: 7rem 2.5rem 3rem; display: grid; grid-template-rows: auto 1fr auto; max-width: 1200px; margin: 0 auto; }
-    .hero-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; opacity: 0; animation: fadeIn .8s ease .1s forwards; }
-    .hero-tag { display: inline-flex; align-items: center; gap: .5rem; background: var(--acid); border: 2px solid var(--border); padding: .35rem .9rem; border-radius: 2px; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
-    .pulse { width: 7px; height: 7px; background: var(--ink); border-radius: 50%; animation: pulse 1.5s infinite; }
-    .hero-year { font-size: .75rem; font-weight: 600; color: var(--muted); letter-spacing: .06em; }
-    .hero-title-wrap { display: flex; flex-direction: column; justify-content: center; opacity: 0; animation: fadeUp .9s ease .2s forwards; }
-    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 14vw, 13rem); line-height: .9; letter-spacing: .01em; }
-    .hero-title .stroke { -webkit-text-stroke: 3px var(--ink); color: transparent; }
-    .hero-title .filled { color: var(--ink); }
-    .hero-title .accent { color: var(--coral); }
-    .hero-bottom { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; align-items: end; padding-top: 2rem; border-top: 2px solid var(--border); opacity: 0; animation: fadeUp .9s ease .4s forwards; }
-    .hero-desc { font-size: .95rem; line-height: 1.7; color: var(--muted); max-width: 280px; }
-    .hero-roles { display: flex; flex-direction: column; gap: .4rem; }
-    .role-item { display: flex; align-items: center; gap: .6rem; font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
-    .role-num { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--coral); }
-    .hero-cta { display: flex; flex-direction: column; align-items: flex-end; gap: .8rem; }
-    .big-btn { display: inline-flex; align-items: center; gap: .6rem; background: var(--ink); color: var(--paper); padding: 1rem 2rem; border: 2px solid var(--border); border-radius: 2px; font-size: .88rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; text-decoration: none; transition: background .2s, transform .2s; }
-    .big-btn:hover { background: var(--coral); transform: translateY(-2px); }
-    .big-btn-ghost { display: inline-flex; align-items: center; gap: .6rem; background: transparent; color: var(--ink); padding: 1rem 2rem; border: 2px solid var(--border); border-radius: 2px; font-size: .88rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; text-decoration: none; transition: background .2s, transform .2s; }
-    .big-btn-ghost:hover { background: var(--acid); transform: translateY(-2px); }
+    .hero{min-height:100vh;padding:7rem 2.5rem 3rem;display:grid;grid-template-rows:auto 1fr auto;max-width:1200px;margin:0 auto}
+    .hero-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;opacity:0;animation:fadeIn .8s ease .1s forwards}
+    .hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--acid);border:2px solid var(--border);padding:.35rem .9rem;border-radius:2px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+    .pulse{width:7px;height:7px;background:var(--ink);border-radius:50%;animation:pulse 1.5s infinite}
+    .hero-year{font-size:.75rem;font-weight:600;color:var(--muted);letter-spacing:.06em}
+    .hero-title-wrap{display:flex;flex-direction:column;justify-content:center;opacity:0;animation:fadeUp .9s ease .2s forwards}
+    .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,14vw,13rem);line-height:.9;letter-spacing:.01em}
+    .hero-title .stroke{-webkit-text-stroke:3px var(--ink);color:transparent}
+    .hero-title .filled{color:var(--ink)}
+    .hero-title .accent{color:var(--coral)}
+    .hero-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;align-items:end;padding-top:2rem;border-top:2px solid var(--border);opacity:0;animation:fadeUp .9s ease .4s forwards}
+    .hero-desc{font-size:.95rem;line-height:1.7;color:var(--muted);max-width:280px}
+    .hero-roles{display:flex;flex-direction:column;gap:.4rem}
+    .role-item{display:flex;align-items:center;gap:.6rem;font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+    .role-num{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--coral)}
+    .hero-cta{display:flex;flex-direction:column;align-items:flex-end;gap:.8rem}
+    .big-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--ink);color:var(--paper);padding:1rem 2rem;border:2px solid var(--border);border-radius:2px;font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;transition:background .2s,transform .2s}
+    .big-btn:hover{background:var(--coral);transform:translateY(-2px)}
+    .big-btn-ghost{display:inline-flex;align-items:center;gap:.6rem;background:transparent;color:var(--ink);padding:1rem 2rem;border:2px solid var(--border);border-radius:2px;font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;transition:background .2s,transform .2s}
+    .big-btn-ghost:hover{background:var(--acid);transform:translateY(-2px)}
 
     /* ── Marquee ── */
-    .marquee-strip { overflow: hidden; background: var(--ink); border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); padding: .9rem 0; white-space: nowrap; }
-    .marquee-inner { display: inline-block; animation: marquee 18s linear infinite; }
-    .marquee-inner span { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: .1em; color: var(--paper); margin: 0 2rem; }
-    .marquee-inner b { color: var(--acid); }
+    .marquee-strip{overflow:hidden;background:var(--ink);border-top:2px solid var(--border);border-bottom:2px solid var(--border);padding:.9rem 0;white-space:nowrap}
+    .marquee-inner{display:inline-block;animation:marquee 18s linear infinite}
+    .marquee-inner span{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;color:var(--paper);margin:0 2rem}
+    .marquee-inner b{color:var(--acid)}
 
     /* ── Sections ── */
-    section { padding: 5rem 2.5rem; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .divider { width: 100%; height: 2px; background: var(--border); }
-    .sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
-    .sec-left .label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin-bottom: .4rem; display: flex; align-items: center; gap: .5rem; }
-    .label::before { content: ''; width: 20px; height: 2px; background: var(--coral); display: inline-block; }
-    .sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: .03em; color: var(--ink); line-height: 1; }
+    section{padding:5rem 2.5rem}
+    .container{max-width:1200px;margin:0 auto}
+    .divider{width:100%;height:2px;background:var(--border)}
+    .sec-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
+    .sec-left .label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+    .label::before{content:'';width:20px;height:2px;background:var(--coral);display:inline-block}
+    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.03em;color:var(--ink);line-height:1}
+
+    /* ── Inline edit button (shows only in edit mode) ── */
+    .edit-add-btn{display:none;background:var(--acid);border:2px solid var(--border);padding:.35rem .9rem;border-radius:2px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;font-family:'Outfit',sans-serif}
+    body.edit-mode .edit-add-btn{display:inline-flex;align-items:center;gap:.4rem}
+    .edit-add-btn:hover{background:var(--ink);color:#fff}
 
     /* ── Platforms ── */
-    .platforms { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-    .platform-card { background: var(--white); border: 2px solid var(--border); border-radius: 4px; padding: 1.5rem; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 1rem; transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; }
-    .platform-card::after { content: '→'; position: absolute; bottom: 1.2rem; right: 1.2rem; font-size: 1.1rem; font-weight: 700; transition: transform .2s; }
-    .platform-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--border); }
-    .platform-card:hover::after { transform: translate(3px,-3px); }
-    .p-icon { font-size: 2rem; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--border); border-radius: 4px; }
-    .p-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: .04em; }
-    .p-sub { font-size: .78rem; color: var(--muted); font-weight: 500; }
+    .platforms{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    .platform-card{background:var(--white);border:2px solid var(--border);border-radius:4px;padding:1.5rem;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:1rem;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+    .platform-card::after{content:'→';position:absolute;bottom:1.2rem;right:1.2rem;font-size:1.1rem;font-weight:700;transition:transform .2s}
+    .platform-card:hover{transform:translateY(-4px);box-shadow:6px 6px 0 var(--border)}
+    .platform-card:hover::after{transform:translate(3px,-3px)}
+    .p-icon{font-size:2rem;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border:2px solid var(--border);border-radius:4px}
+    .p-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.04em}
+    .p-sub{font-size:.78rem;color:var(--muted);font-weight:500}
+    /* platform delete btn */
+    .p-del{display:none;position:absolute;top:.5rem;right:.5rem;background:var(--coral);border:2px solid var(--border);width:24px;height:24px;border-radius:2px;color:#fff;font-size:.7rem;font-weight:700;align-items:center;justify-content:center;cursor:pointer;z-index:5}
+    body.edit-mode .p-del{display:flex}
 
     /* ── Tabs ── */
-    .tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
-    .tab { padding: .5rem 1.2rem; background: var(--white); border: 2px solid var(--border); border-radius: 2px; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; cursor: pointer; transition: all .15s; font-family: 'Outfit', sans-serif; }
-    .tab:hover { background: var(--cream); }
-    .tab.active { background: var(--ink); color: var(--paper); }
+    .tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem}
+    .tab{padding:.5rem 1.2rem;background:var(--white);border:2px solid var(--border);border-radius:2px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:all .15s;font-family:'Outfit',sans-serif}
+    .tab:hover{background:var(--cream)}
+    .tab.active{background:var(--ink);color:var(--paper)}
 
     /* ── Project Grid ── */
-    .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .proj-card { background: var(--white); border: 2px solid var(--border); border-radius: 4px; overflow: hidden; transition: transform .25s, box-shadow .25s; display: flex; flex-direction: column; position: relative; }
-    .proj-card:hover { transform: translateY(-6px) rotate(-.4deg); box-shadow: 8px 8px 0 var(--border); }
-    .proj-thumb { height: 200px; display: flex; align-items: center; justify-content: center; border-bottom: 2px solid var(--border); position: relative; overflow: hidden; background: var(--cream); }
-    .proj-thumb img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; transition: transform .4s ease; }
-    .proj-card:hover .proj-thumb img { transform: scale(1.06); }
-    .proj-thumb .emoji { position: relative; z-index: 1; font-size: 3.5rem; }
-    .proj-thumb-num { position: absolute; bottom: .6rem; right: .8rem; font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: rgba(0,0,0,.08); line-height: 1; }
-    .proj-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
-    .proj-cat { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; margin-bottom: .6rem; padding: .2rem .55rem; border: 1.5px solid; border-radius: 2px; display: inline-block; }
-    .proj-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; letter-spacing: .03em; color: var(--ink); margin-bottom: .5rem; line-height: 1.1; }
-    .proj-desc { font-size: .83rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; flex: 1; }
-    .proj-tools { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: 1rem; }
-    .tool { font-size: .68rem; font-weight: 600; padding: .18rem .5rem; background: var(--cream); border: 1.5px solid var(--border); border-radius: 2px; }
-    .proj-link { display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: var(--ink); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: .65rem 1rem; border: 2px solid var(--border); border-radius: 2px; background: var(--paper); transition: background .15s; }
-    .proj-link:hover { background: var(--acid); }
-
-    /* Edit-mode only elements */
-    .del-btn { position: absolute; top: .6rem; right: .6rem; width: 30px; height: 30px; background: var(--coral); border: 2px solid var(--border); border-radius: 2px; color: #fff; font-size: .8rem; font-weight: 700; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 5; }
-    body.edit-mode .del-btn { display: flex; }
-    .add-card { background: var(--cream); border: 2px dashed var(--muted); border-radius: 4px; display: none; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; min-height: 300px; cursor: pointer; transition: all .2s; color: var(--muted); }
-    .add-card:hover { border-color: var(--ink); color: var(--ink); background: var(--acid); }
-    .add-card .plus { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; line-height: 1; }
-    .add-card p { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
-    body.edit-mode .add-card { display: flex; }
+    .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .proj-card{background:var(--white);border:2px solid var(--border);border-radius:4px;overflow:hidden;transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;position:relative}
+    .proj-card:hover{transform:translateY(-6px) rotate(-.4deg);box-shadow:8px 8px 0 var(--border)}
+    .proj-thumb{height:200px;display:flex;align-items:center;justify-content:center;border-bottom:2px solid var(--border);position:relative;overflow:hidden;background:var(--cream)}
+    .proj-thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .4s ease}
+    .proj-card:hover .proj-thumb img{transform:scale(1.06)}
+    .proj-thumb video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+    .proj-thumb .emoji{position:relative;z-index:1;font-size:3.5rem}
+    .proj-thumb-num{position:absolute;bottom:.6rem;right:.8rem;font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(0,0,0,.08);line-height:1}
+    .proj-body{padding:1.4rem;flex:1;display:flex;flex-direction:column}
+    .proj-cat{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem;padding:.2rem .55rem;border:1.5px solid;border-radius:2px;display:inline-block}
+    .proj-name{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.03em;color:var(--ink);margin-bottom:.5rem;line-height:1.1}
+    .proj-desc{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;flex:1}
+    .proj-tools{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1rem}
+    .tool{font-size:.68rem;font-weight:600;padding:.18rem .5rem;background:var(--cream);border:1.5px solid var(--border);border-radius:2px}
+    .proj-link{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--ink);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.65rem 1rem;border:2px solid var(--border);border-radius:2px;background:var(--paper);transition:background .15s}
+    .proj-link:hover{background:var(--acid)}
+    .del-btn{position:absolute;top:.6rem;right:.6rem;width:28px;height:28px;background:var(--coral);border:2px solid var(--border);border-radius:2px;color:#fff;font-size:.8rem;font-weight:700;display:none;align-items:center;justify-content:center;cursor:pointer;z-index:5}
+    body.edit-mode .del-btn{display:flex}
+    .add-card{background:var(--cream);border:2px dashed var(--muted);border-radius:4px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;min-height:300px;cursor:pointer;transition:all .2s;color:var(--muted)}
+    .add-card:hover{border-color:var(--ink);color:var(--ink);background:var(--acid)}
+    .add-card .plus{font-family:'Bebas Neue',sans-serif;font-size:4rem;line-height:1}
+    .add-card p{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+    body.edit-mode .add-card{display:flex}
 
     /* ── Experience ── */
-    .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .exp-col-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: .05em; margin-bottom: 1rem; }
-    .exp-card { background: var(--white); border: 2px solid var(--border); border-radius: 4px; padding: 1.4rem 1.4rem 1.4rem 1.8rem; margin-bottom: 1rem; position: relative; transition: transform .2s, box-shadow .2s; }
-    .exp-card:hover { transform: translateX(4px); box-shadow: -4px 4px 0 var(--border); }
-    .exp-accent { width: 4px; height: calc(100% - 2.8rem); position: absolute; left: .8rem; top: 1.4rem; border-radius: 4px; }
-    .exp-card-title { font-weight: 700; font-size: .95rem; margin-bottom: .3rem; }
-    .exp-card-sub { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+    .exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .exp-col-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.05em;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+    .exp-card{background:var(--white);border:2px solid var(--border);border-radius:4px;padding:1.4rem 1.4rem 1.4rem 1.8rem;margin-bottom:1rem;position:relative;transition:transform .2s,box-shadow .2s}
+    .exp-card:hover{transform:translateX(4px);box-shadow:-4px 4px 0 var(--border)}
+    .exp-accent{width:4px;height:calc(100% - 2.8rem);position:absolute;left:.8rem;top:1.4rem;border-radius:4px}
+    .exp-card-title{font-weight:700;font-size:.95rem;margin-bottom:.3rem}
+    .exp-card-sub{font-size:.8rem;color:var(--muted);line-height:1.5}
+    .exp-del{display:none;position:absolute;top:.5rem;right:.5rem;background:var(--coral);border:2px solid var(--border);width:24px;height:24px;border-radius:2px;color:#fff;font-size:.7rem;font-weight:700;align-items:center;justify-content:center;cursor:pointer}
+    body.edit-mode .exp-del{display:flex}
 
     /* ── About ── */
-    .about-layout { display: grid; grid-template-columns: 400px 1fr; gap: 5rem; align-items: start; }
-    .about-card { background: var(--white); border: 2px solid var(--border); border-radius: 4px; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; }
-    .about-card-bg { position: absolute; top: -1rem; right: -1rem; font-family: 'Bebas Neue', sans-serif; font-size: 12rem; color: var(--cream); line-height: 1; user-select: none; pointer-events: none; }
-    .about-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: .04em; z-index: 1; text-align: center; }
-    .about-role { font-size: .8rem; font-weight: 600; color: var(--coral); letter-spacing: .1em; text-transform: uppercase; z-index: 1; margin-bottom: 2rem; }
-    .about-stat-row { display: flex; gap: 1rem; z-index: 1; }
-    .stat-box { flex: 1; background: var(--paper); border: 2px solid var(--border); border-radius: 4px; padding: 1rem; text-align: center; }
-    .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--ink); line-height: 1; }
-    .stat-l { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: .2rem; }
-    .about-right p { font-size: .95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .about-layout{display:grid;grid-template-columns:400px 1fr;gap:5rem;align-items:start}
+    .about-card{background:var(--white);border:2px solid var(--border);border-radius:4px;padding:3rem 2rem;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+    .about-card-bg{position:absolute;top:-1rem;right:-1rem;font-family:'Bebas Neue',sans-serif;font-size:12rem;color:var(--cream);line-height:1;user-select:none;pointer-events:none}
+    .about-name{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.04em;z-index:1;text-align:center}
+    .about-role{font-size:.8rem;font-weight:600;color:var(--coral);letter-spacing:.1em;text-transform:uppercase;z-index:1;margin-bottom:2rem}
+    .about-stat-row{display:flex;gap:1rem;z-index:1}
+    .stat-box{flex:1;background:var(--paper);border:2px solid var(--border);border-radius:4px;padding:1rem;text-align:center}
+    .stat-n{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--ink);line-height:1}
+    .stat-l{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:.2rem}
+    .about-right p{font-size:.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
 
     /* ── Contact ── */
-    .contact-hero { background: var(--ink); color: var(--paper); border: 2px solid var(--border); border-radius: 4px; padding: 5rem 4rem; text-align: center; }
-    .contact-hero .sec-title { color: var(--paper); margin-bottom: .8rem; }
-    .contact-hero p { color: rgba(245,240,232,.6); margin-bottom: 3rem; font-size: 1rem; }
-    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-    .c-link { display: inline-flex; align-items: center; gap: .5rem; padding: .85rem 1.6rem; border: 2px solid rgba(245,240,232,.2); border-radius: 2px; color: var(--paper); text-decoration: none; font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; transition: all .2s; }
-    .c-link:hover { background: var(--acid); color: var(--ink); border-color: var(--acid); }
+    .contact-hero{background:var(--ink);color:var(--paper);border:2px solid var(--border);border-radius:4px;padding:5rem 4rem;text-align:center;position:relative}
+    .contact-hero .sec-title{color:var(--paper);margin-bottom:.8rem}
+    .contact-hero p{color:rgba(245,240,232,.6);margin-bottom:3rem;font-size:1rem}
+    .contact-links{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+    .c-link{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.6rem;border:2px solid rgba(245,240,232,.2);border-radius:2px;color:var(--paper);text-decoration:none;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;transition:all .2s;position:relative}
+    .c-link:hover{background:var(--acid);color:var(--ink);border-color:var(--acid)}
+    .c-del{display:none;position:absolute;top:-8px;right:-8px;background:var(--coral);border:2px solid var(--border);width:20px;height:20px;border-radius:2px;color:#fff;font-size:.65rem;font-weight:700;align-items:center;justify-content:center;cursor:pointer;z-index:5}
+    body.edit-mode .c-del{display:flex}
 
     /* ── Footer ── */
-    footer { background: var(--white); border-top: 2px solid var(--border); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: .06em; }
-    .footer-copy { font-size: .75rem; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+    footer{background:var(--white);border-top:2px solid var(--border);padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center}
+    .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em}
+    .footer-copy{font-size:.75rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
 
-    /* ── Modal ── */
-    .overlay { position: fixed; inset: 0; background: rgba(10,10,10,.55); backdrop-filter: blur(4px); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1rem; }
-    .overlay.open { display: flex; }
-    .modal { background: var(--paper); border: 2px solid var(--border); border-radius: 4px; padding: 2.5rem; width: 100%; max-width: 520px; box-shadow: 8px 8px 0 var(--border); animation: fadeUp .3s ease both; max-height: 90vh; overflow-y: auto; }
-    .modal h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: .04em; margin-bottom: .4rem; }
-    .modal-sub { font-size: .83rem; color: var(--muted); margin-bottom: 2rem; }
-    .fg { margin-bottom: 1rem; }
-    .fg label { display: block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .4rem; }
-    .fg input, .fg select, .fg textarea { width: 100%; background: var(--white); border: 2px solid var(--border); border-radius: 2px; padding: .65rem .85rem; color: var(--ink); font-family: 'Outfit', sans-serif; font-size: .9rem; font-weight: 500; outline: none; transition: border-color .2s; }
-    .fg textarea { resize: vertical; min-height: 70px; }
-    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--coral); }
-    .fg select option { background: var(--white); }
+    /* ── Modals ── */
+    .overlay{position:fixed;inset:0;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
+    .overlay.open{display:flex}
+    .modal{background:var(--paper);border:2px solid var(--border);border-radius:4px;padding:2.5rem;width:100%;max-width:520px;box-shadow:8px 8px 0 var(--border);animation:fadeUp .3s ease both;max-height:90vh;overflow-y:auto}
+    .modal h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;margin-bottom:.4rem}
+    .modal-sub{font-size:.83rem;color:var(--muted);margin-bottom:1.8rem}
+    .fg{margin-bottom:1rem}
+    .fg label{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.4rem}
+    .fg input,.fg select,.fg textarea{width:100%;background:var(--white);border:2px solid var(--border);border-radius:2px;padding:.65rem .85rem;color:var(--ink);font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:500;outline:none;transition:border-color .2s}
+    .fg textarea{resize:vertical;min-height:70px}
+    .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--coral)}
+    .fg select option{background:var(--white)}
 
-    /* Image upload area */
-    .img-upload-area {
-      border: 2px dashed var(--border); border-radius: 2px; padding: 1.5rem;
-      text-align: center; cursor: pointer; transition: all .2s; background: var(--white);
-      position: relative;
-    }
-    .img-upload-area:hover { background: var(--cream); border-color: var(--coral); }
-    .img-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-    .img-upload-area .upload-icon { font-size: 2rem; margin-bottom: .4rem; }
-    .img-upload-area p { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-    .img-preview { width: 100%; height: 140px; object-fit: cover; border: 2px solid var(--border); border-radius: 2px; display: none; margin-top: .8rem; }
+    /* media upload area */
+    .media-upload-area{border:2px dashed var(--border);border-radius:2px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--white);position:relative}
+    .media-upload-area:hover{background:var(--cream);border-color:var(--coral)}
+    .media-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .media-upload-area .up-icon{font-size:2rem;margin-bottom:.4rem}
+    .media-upload-area p{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+    .media-preview-img{width:100%;height:140px;object-fit:cover;border:2px solid var(--border);border-radius:2px;display:none;margin-top:.8rem}
+    .media-preview-vid{width:100%;max-height:140px;border:2px solid var(--border);border-radius:2px;display:none;margin-top:.8rem}
 
-    .modal-btns { display: flex; gap: .6rem; margin-top: 1.5rem; }
-    .m-add { flex: 1; background: var(--ink); color: var(--paper); border: 2px solid var(--border); border-radius: 2px; padding: .8rem; font-family: 'Outfit', sans-serif; font-size: .88rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; cursor: pointer; transition: background .2s; }
-    .m-add:hover { background: var(--coral); }
-    .m-cancel { background: var(--white); color: var(--muted); border: 2px solid var(--border); border-radius: 2px; padding: .8rem 1.2rem; font-family: 'Outfit', sans-serif; font-size: .88rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
-    .m-cancel:hover { background: var(--cream); }
+    .modal-btns{display:flex;gap:.6rem;margin-top:1.5rem}
+    .m-add{flex:1;background:var(--ink);color:var(--paper);border:2px solid var(--border);border-radius:2px;padding:.8rem;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:background .2s}
+    .m-add:hover{background:var(--coral)}
+    .m-cancel{background:var(--white);color:var(--muted);border:2px solid var(--border);border-radius:2px;padding:.8rem 1.2rem;font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;text-transform:uppercase;cursor:pointer}
+    .m-cancel:hover{background:var(--cream)}
 
-    /* ── Password modal ── */
-    .pw-modal { background: var(--paper); border: 2px solid var(--border); border-radius: 4px; padding: 2.5rem; width: 100%; max-width: 360px; box-shadow: 8px 8px 0 var(--border); animation: fadeUp .3s ease both; text-align: center; }
-    .pw-modal h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: .04em; margin-bottom: .5rem; }
-    .pw-modal p { font-size: .83rem; color: var(--muted); margin-bottom: 1.5rem; }
-    #pw-input { width: 100%; background: var(--white); border: 2px solid var(--border); border-radius: 2px; padding: .7rem 1rem; color: var(--ink); font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; outline: none; text-align: center; letter-spacing: .12em; margin-bottom: 1rem; }
-    #pw-input:focus { border-color: var(--coral); }
-    .pw-err { color: var(--coral); font-size: .8rem; font-weight: 700; margin-bottom: .8rem; display: none; }
-    .pw-err.show { display: block; }
-    #pw-submit { width: 100%; background: var(--ink); color: var(--paper); border: 2px solid var(--border); border-radius: 2px; padding: .8rem; font-family: 'Outfit', sans-serif; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; cursor: pointer; transition: background .2s; }
-    #pw-submit:hover { background: var(--coral); }
+    /* pw modal */
+    .pw-modal{background:var(--paper);border:2px solid var(--border);border-radius:4px;padding:2.5rem;width:100%;max-width:360px;box-shadow:8px 8px 0 var(--border);animation:fadeUp .3s ease both;text-align:center}
+    .pw-modal h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;margin-bottom:.5rem}
+    .pw-modal p{font-size:.83rem;color:var(--muted);margin-bottom:1.5rem}
+    #pw-input{width:100%;background:var(--white);border:2px solid var(--border);border-radius:2px;padding:.7rem 1rem;color:var(--ink);font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;outline:none;text-align:center;letter-spacing:.12em;margin-bottom:1rem}
+    #pw-input:focus{border-color:var(--coral)}
+    .pw-err{color:var(--coral);font-size:.8rem;font-weight:700;margin-bottom:.8rem;display:none}
+    .pw-err.show{display:block}
+    #pw-submit{width:100%;background:var(--ink);color:var(--paper);border:2px solid var(--border);border-radius:2px;padding:.8rem;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;transition:background .2s}
+    #pw-submit:hover{background:var(--coral)}
 
     /* ── Scroll reveal ── */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
 
-    /* ── Animations ── */
-    @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
-    @keyframes fadeUp  { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
-    @keyframes pulse   { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.4); } }
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
 
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .proj-grid { grid-template-columns: repeat(2,1fr); }
-      .platforms { grid-template-columns: repeat(2,1fr); }
-      .about-layout { grid-template-columns: 1fr; }
-      .exp-grid { grid-template-columns: 1fr; }
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .hero-bottom { grid-template-columns: 1fr; gap: 1.5rem; }
-      .hero-cta { align-items: flex-start; }
+    @media(max-width:900px){
+      .proj-grid{grid-template-columns:repeat(2,1fr)}
+      .platforms{grid-template-columns:repeat(2,1fr)}
+      .about-layout{grid-template-columns:1fr}
+      .exp-grid{grid-template-columns:1fr}
+      nav{padding:1rem 1.5rem}
+      .nav-links{display:none}
+      .hero-bottom{grid-template-columns:1fr;gap:1.5rem}
+      .hero-cta{align-items:flex-start}
     }
-    @media (max-width: 600px) {
-      .proj-grid { grid-template-columns: 1fr; }
-      .contact-hero { padding: 3rem 1.5rem; }
+    @media(max-width:600px){
+      .proj-grid{grid-template-columns:1fr}
+      .contact-hero{padding:3rem 1.5rem}
     }
   </style>
 </head>
 <body>
 
-<!-- Edit Mode Banner -->
+<!-- ── Edit Banner ── -->
 <div id="edit-banner">
-  ✏️ Edit Mode Active
-  <button id="export-btn" onclick="exportData()">⬇ Export Projects</button>
-  <label id="import-label">⬆ Import Projects<input type="file" id="import-file" accept=".json" onchange="importData(event)"/></label>
-  <button id="lock-btn" onclick="lockEdit()">🔒 Lock &amp; Exit</button>
+  ✏️ EDIT MODE
+  <button class="eb-btn" onclick="exportData()">⬇ Export Backup</button>
+  <label class="eb-btn" id="import-label">⬆ Import Backup<input type="file" id="import-file" accept="*" onchange="importData(event)"/></label>
+  <button class="eb-btn white" onclick="lockEdit()">🔒 Lock &amp; Exit</button>
 </div>
 
 <nav id="main-nav">
@@ -266,7 +246,7 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ── Hero ── -->
 <div class="hero">
   <div class="hero-meta">
     <div class="hero-tag"><div class="pulse"></div> Available for Opportunities · 2025–26</div>
@@ -301,7 +281,7 @@
   </div>
 </div>
 
-<!-- PROFILES -->
+<!-- ── Profiles ── -->
 <section id="profiles">
   <div class="container">
     <div class="sec-head reveal">
@@ -309,31 +289,15 @@
         <div class="label">Online Presence</div>
         <h2 class="sec-title">Find Me On</h2>
       </div>
+      <button class="edit-add-btn" onclick="openModal('platform')">+ Add Profile</button>
     </div>
-    <div class="platforms reveal">
-      <a href="#" target="_blank" class="platform-card" style="border-top:4px solid var(--ink)">
-        <div class="p-icon" style="background:var(--cream)">🛠</div>
-        <div><div class="p-name">GitHub</div><div class="p-sub">Code Repositories</div></div>
-      </a>
-      <a href="#" target="_blank" class="platform-card" style="border-top:4px solid var(--acid)">
-        <div class="p-icon" style="background:var(--acid)">🎯</div>
-        <div><div class="p-name">LeetCode</div><div class="p-sub">Algorithm Practice</div></div>
-      </a>
-      <a href="#" target="_blank" class="platform-card" style="border-top:4px solid var(--sky)">
-        <div class="p-icon" style="background:var(--sky)">🧠</div>
-        <div><div class="p-name">GeeksForGeeks</div><div class="p-sub">DSA Solutions</div></div>
-      </a>
-      <a href="#" target="_blank" class="platform-card" style="border-top:4px solid var(--coral)">
-        <div class="p-icon" style="background:#ffe0e0">🎬</div>
-        <div><div class="p-name">YouTube</div><div class="p-sub">Video Content</div></div>
-      </a>
-    </div>
+    <div class="platforms reveal" id="platforms-grid"></div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- PROJECTS -->
+<!-- ── Projects ── -->
 <section id="projects">
   <div class="container">
     <div class="sec-head reveal">
@@ -356,7 +320,7 @@
 
 <div class="divider"></div>
 
-<!-- EXPERIENCE -->
+<!-- ── Experience ── -->
 <section id="experience">
   <div class="container">
     <div class="sec-head reveal">
@@ -367,30 +331,18 @@
     </div>
     <div class="exp-grid reveal">
       <div>
-        <div class="exp-col-title">💼 Work Experience</div>
-        <div class="exp-card">
-          <div class="exp-accent" style="background:var(--coral)"></div>
-          <div class="exp-card-title">Startup Validation · RBU TBI Foundation</div>
-          <div class="exp-card-sub">Early-stage product validation, user flow mapping, and structural design frameworks for new ventures.</div>
+        <div class="exp-col-title">
+          💼 Work Experience
+          <button class="edit-add-btn" style="font-size:.65rem;padding:.25rem .6rem" onclick="openModal('work')">+ Add</button>
         </div>
-        <div class="exp-card">
-          <div class="exp-accent" style="background:var(--sky)"></div>
-          <div class="exp-card-title">Design &amp; Assessment · AyLark</div>
-          <div class="exp-card-sub">Wireframing, UX design reviews, and interface assessments for the product pipeline.</div>
-        </div>
+        <div id="work-list"></div>
       </div>
       <div>
-        <div class="exp-col-title">🏆 Hackathons &amp; Certs</div>
-        <div class="exp-card">
-          <div class="exp-accent" style="background:var(--acid)"></div>
-          <div class="exp-card-title">ByteQuest Hackathon</div>
-          <div class="exp-card-sub">Rapid sprint — built system flow architecture and pitched interface logic under time pressure.</div>
+        <div class="exp-col-title">
+          🏆 Hackathons &amp; Certs
+          <button class="edit-add-btn" style="font-size:.65rem;padding:.25rem .6rem" onclick="openModal('hack')">+ Add</button>
         </div>
-        <div class="exp-card">
-          <div class="exp-accent" style="background:var(--ink)"></div>
-          <div class="exp-card-title">Python &amp; DSA Certification · Coursera</div>
-          <div class="exp-card-sub">Certified in Python data structures — arrays, dictionaries, tuples, file handling and processing.</div>
-        </div>
+        <div id="hack-list"></div>
       </div>
     </div>
   </div>
@@ -398,7 +350,7 @@
 
 <div class="divider"></div>
 
-<!-- ABOUT -->
+<!-- ── About ── -->
 <section id="about" style="background:var(--white)">
   <div class="container">
     <div class="about-layout">
@@ -407,18 +359,9 @@
         <div class="about-name">Mansi<br/>Toshniwal</div>
         <div class="about-role">Designer · Developer · Creator</div>
         <div class="about-stat-row">
-          <div class="stat-box">
-            <div class="stat-n" id="proj-count">0</div>
-            <div class="stat-l">Projects</div>
-          </div>
-          <div class="stat-box" style="background:var(--acid)">
-            <div class="stat-n">4+</div>
-            <div class="stat-l">Skills</div>
-          </div>
-          <div class="stat-box" style="background:#ffe0e0">
-            <div class="stat-n">2</div>
-            <div class="stat-l">Internships</div>
-          </div>
+          <div class="stat-box"><div class="stat-n" id="proj-count">0</div><div class="stat-l">Projects</div></div>
+          <div class="stat-box" style="background:var(--acid)"><div class="stat-n" id="work-count">0</div><div class="stat-l">Internships</div></div>
+          <div class="stat-box" style="background:#ffe0e0"><div class="stat-n" id="hack-count">0</div><div class="stat-l">Hackathons</div></div>
         </div>
       </div>
       <div class="about-right reveal">
@@ -433,18 +376,16 @@
 
 <div class="divider"></div>
 
-<!-- CONTACT -->
+<!-- ── Contact ── -->
 <section id="contact">
   <div class="container">
     <div class="contact-hero reveal">
       <div class="label" style="color:rgba(245,240,232,.4);justify-content:center;display:flex">Get In Touch</div>
       <h2 class="sec-title">Let's Make<br/>Something Great.</h2>
       <p>Open to internships, freelance, collaborations, and full-time opportunities.</p>
-      <div class="contact-links">
-        <a href="mailto:your@email.com" class="c-link">✉ Email Me</a>
-        <a href="#" target="_blank" class="c-link">💼 LinkedIn</a>
-        <a href="#" target="_blank" class="c-link">📸 Instagram</a>
-        <a href="#" target="_blank" class="c-link">🎨 Behance</a>
+      <div class="contact-links" id="contact-links"></div>
+      <div style="margin-top:1.5rem;display:none" id="add-contact-wrap">
+        <button class="edit-add-btn" onclick="openModal('contact')" style="background:var(--acid);color:var(--ink)">+ Add Contact Link</button>
       </div>
     </div>
   </div>
@@ -455,286 +396,497 @@
   <div class="footer-copy">© 2025 Mansi Toshniwal · All Rights Reserved</div>
 </footer>
 
-<!-- Password Modal -->
+<!-- ── Password Modal ── -->
 <div class="overlay" id="pw-overlay">
   <div class="pw-modal">
     <h2>🔐 Edit Mode</h2>
-    <p>Enter your secret password to unlock editing</p>
+    <p>Press <strong>Shift + M</strong> anywhere to open this.<br/>Enter your password to unlock editing.</p>
     <div class="pw-err" id="pw-err">Wrong password. Try again.</div>
-    <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') checkPw()"/>
+    <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()"/>
     <button id="pw-submit" onclick="checkPw()">Unlock</button>
   </div>
 </div>
 
-<!-- Add Project Modal -->
+<!-- ── Universal Add Modal ── -->
 <div class="overlay" id="add-overlay">
-  <div class="modal">
-    <h2>Add Project</h2>
-    <p class="modal-sub">Upload an image and fill in the details. The link opens directly when someone clicks the card.</p>
-
-    <div class="fg">
-      <label>Project Image (optional)</label>
-      <div class="img-upload-area" onclick="document.getElementById('img-file').click()">
-        <input type="file" id="img-file" accept="image/*" onchange="previewImg(event)" style="display:none"/>
-        <div class="upload-icon">🖼</div>
-        <p>Click to upload screenshot or image<br/><span style="font-size:.7rem;opacity:.6">PNG, JPG, WebP — any size</span></p>
-        <img id="img-preview" class="img-preview" alt="Preview"/>
-      </div>
-    </div>
-
-    <div class="fg"><label>Project Name *</label><input id="pName" placeholder="e.g. Blinkit UI Redesign"/></div>
-    <div class="fg">
-      <label>Category *</label>
-      <select id="pCat">
-        <option value="figma">Figma / UI</option>
-        <option value="video">Video Edits</option>
-        <option value="posts">Social Posts</option>
-        <option value="dev">Development</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <div class="fg"><label>Link (Figma / YouTube / GitHub / Canva)</label><input id="pLink" type="url" placeholder="https://figma.com/... (leave blank if none)"/></div>
-    <div class="fg"><label>Description</label><textarea id="pDesc" placeholder="What is this project about?"></textarea></div>
-    <div class="fg"><label>Tools Used</label><input id="pTools" placeholder="Figma, Canva, Premiere Pro... (comma separated)"/></div>
-
+  <div class="modal" id="add-modal">
+    <h2 id="modal-title">Add Item</h2>
+    <p class="modal-sub" id="modal-sub">Fill in the details below.</p>
+    <div id="modal-fields"></div>
     <div class="modal-btns">
-      <button class="m-cancel" onclick="closeAdd()">Cancel</button>
-      <button class="m-add" onclick="addProject()">Add to Portfolio →</button>
+      <button class="m-cancel" onclick="closeModal()">Cancel</button>
+      <button class="m-add" onclick="saveItem()">Save →</button>
     </div>
   </div>
 </div>
 
 <script>
-  /* ════════════════════════════════════════════
-     🔑 CHANGE YOUR PASSWORD HERE ↓
-     ════════════════════════════════════════════ */
-  const SECRET_PASSWORD = 'mansi2025';
-  /* ════════════════════════════════════════════ */
+/* ════════════════════════════
+   🔑 CHANGE PASSWORD HERE
+   ════════════════════════════ */
+const SECRET_PASSWORD = 'mansi2025';
 
-  const cats = {
-    figma: { label:'Figma / UI',    color:'#ff4d4d', bg:'#fff0f0', emoji:'📐' },
-    video: { label:'Video Editing', color:'#0a0a0a', bg:'#f5f0e8', emoji:'🎬' },
-    posts: { label:'Social Media',  color:'#2a7a2a', bg:'#f0fff0', emoji:'📱' },
-    dev:   { label:'Development',   color:'#1a4a9a', bg:'#f0f4ff', emoji:'💻' },
-    other: { label:'Other',         color:'#7a4a00', bg:'#fff8f0', emoji:'✦'  },
-  };
+/* ── Data ── */
+let data = {
+  projects:  [],
+  platforms: [],
+  work:      [],
+  hack:      [],
+  contact:   []
+};
 
-  let projects = [];
-  let imgData  = '';   // base64 of uploaded image
-  let filter   = 'all';
-  let editMode = false;
+/* ── Category config ── */
+const cats = {
+  figma: {label:'Figma / UI',    color:'#ff4d4d',bg:'#fff0f0',emoji:'📐'},
+  video: {label:'Video Editing', color:'#0a0a0a',bg:'#f5f0e8',emoji:'🎬'},
+  posts: {label:'Social Media',  color:'#2a7a2a',bg:'#f0fff0',emoji:'📱'},
+  dev:   {label:'Development',   color:'#1a4a9a',bg:'#f0f4ff',emoji:'💻'},
+  other: {label:'Other',         color:'#7a4a00',bg:'#fff8f0',emoji:'✦'},
+};
 
-  /* ── Load from localStorage ── */
+const accentColors = ['var(--coral)','var(--sky)','var(--acid)','var(--ink)','#b084ff','#ffd166'];
+
+let filter   = 'all';
+let editMode = false;
+let modalType = '';
+let mediaData = ''; // base64 for project media
+let mediaIsVideo = false;
+
+/* ── Load ── */
+function load() {
   try {
-    const saved = localStorage.getItem('mansi_portfolio');
-    if (saved) projects = JSON.parse(saved);
-  } catch(e) { projects = []; }
+    const saved = localStorage.getItem('mansi_portfolio_v7');
+    if (saved) data = JSON.parse(saved);
+  } catch(e) {}
 
-  /* ── Save ── */
-  function save() {
-    try { localStorage.setItem('mansi_portfolio', JSON.stringify(projects)); } catch(e) {}
+  // Default data if empty
+  if (!data.platforms.length) data.platforms = [
+    {name:'GitHub',    sub:'Code Repositories',   icon:'🛠', bg:'var(--cream)', link:'#', top:'var(--ink)'},
+    {name:'LeetCode',  sub:'Algorithm Practice',   icon:'🎯', bg:'var(--acid)',  link:'#', top:'var(--acid)'},
+    {name:'GeeksForGeeks',sub:'DSA Solutions',     icon:'🧠', bg:'var(--sky)',   link:'#', top:'var(--sky)'},
+    {name:'YouTube',   sub:'Video Content',        icon:'🎬', bg:'#ffe0e0',     link:'#', top:'var(--coral)'},
+  ];
+  if (!data.work.length) data.work = [
+    {title:'Startup Validation · RBU TBI Foundation', sub:'Early-stage product validation, user flow mapping, and design frameworks.', color:'var(--coral)'},
+    {title:'Design & Assessment · AyLark',            sub:'Wireframing, UX design reviews, and interface assessments.', color:'var(--sky)'},
+  ];
+  if (!data.hack.length) data.hack = [
+    {title:'ByteQuest Hackathon',              sub:'Built system flow architecture and pitched interface logic under time pressure.', color:'var(--acid)'},
+    {title:'Python & DSA Cert · Coursera',     sub:'Certified in Python data structures — arrays, dicts, tuples, file handling.', color:'var(--ink)'},
+  ];
+  if (!data.contact.length) data.contact = [
+    {label:'✉ Email Me',    href:'mailto:your@email.com'},
+    {label:'💼 LinkedIn',   href:'#'},
+    {label:'📸 Instagram',  href:'#'},
+    {label:'🎨 Behance',    href:'#'},
+  ];
+}
+
+function save() {
+  try { localStorage.setItem('mansi_portfolio_v7', JSON.stringify(data)); } catch(e){}
+}
+
+/* ════ RENDER ════ */
+
+function renderAll() {
+  renderProjects();
+  renderPlatforms();
+  renderWork();
+  renderHack();
+  renderContact();
+  updateCounts();
+}
+
+/* Projects */
+function renderProjects() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const list = filter === 'all' ? data.projects : data.projects.filter(p => p.cat === filter);
+
+  if (!list.length && !editMode) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted);font-size:.9rem;font-weight:600;text-transform:uppercase">No projects yet</div>`;
   }
 
-  /* ══════════════════════════════
-     SECRET SHORTCUT: Shift + M
-     (works on desktop & mobile long-press won't apply here)
-     ══════════════════════════════ */
-  document.addEventListener('keydown', e => {
-    if (e.shiftKey && e.key === 'M') {
-      if (!editMode) openPwModal();
-    }
-  });
+  list.forEach((p, i) => {
+    const c  = cats[p.cat] || cats.other;
+    const ri = data.projects.indexOf(p);
+    const tools = p.tools ? p.tools.split(',').map(t=>`<span class="tool">${t.trim()}</span>`).join('') : '';
 
-  /* Password modal */
-  function openPwModal() {
-    document.getElementById('pw-overlay').classList.add('open');
-    document.getElementById('pw-input').value = '';
-    document.getElementById('pw-err').classList.remove('show');
-    setTimeout(() => document.getElementById('pw-input').focus(), 100);
-  }
-
-  function checkPw() {
-    const val = document.getElementById('pw-input').value;
-    if (val === SECRET_PASSWORD) {
-      document.getElementById('pw-overlay').classList.remove('open');
-      enterEditMode();
+    let thumbContent = '';
+    if (p.media) {
+      if (p.mediaType === 'video') {
+        thumbContent = `<video src="${p.media}" muted loop autoplay playsinline></video>`;
+      } else {
+        thumbContent = `<img src="${p.media}" alt="${p.name}"/>`;
+      }
     } else {
-      document.getElementById('pw-err').classList.add('show');
-      document.getElementById('pw-input').value = '';
-      document.getElementById('pw-input').focus();
+      thumbContent = `<span class="emoji">${c.emoji}</span>`;
     }
-  }
 
-  function enterEditMode() {
-    editMode = true;
-    document.body.classList.add('edit-mode');
-    document.getElementById('edit-banner').classList.add('on');
-    document.getElementById('main-nav').classList.add('shifted');
-    render();
-  }
+    const card = document.createElement('div');
+    card.className = 'proj-card';
+    card.style.animationDelay = (i*.07)+'s';
+    card.innerHTML = `
+      <button class="del-btn" onclick="delItem('projects',${ri})">✕</button>
+      <div class="proj-thumb" style="background:${p.media?'#111':c.bg}">
+        ${thumbContent}
+        <div class="proj-thumb-num">0${i+1}</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-cat" style="color:${c.color};border-color:${c.color}">${c.label}</div>
+        <div class="proj-name">${p.name}</div>
+        ${p.desc?`<div class="proj-desc">${p.desc}</div>`:''}
+        ${tools?`<div class="proj-tools">${tools}</div>`:''}
+        <a href="${p.link||'#'}" target="${p.link&&p.link!=='#'?'_blank':'_self'}" rel="noopener" class="proj-link">
+          ${p.link&&p.link!=='#'?'View Project':'Coming Soon'} <span>→</span>
+        </a>
+      </div>`;
+    grid.appendChild(card);
+  });
 
-  function lockEdit() {
-    editMode = false;
-    document.body.classList.remove('edit-mode');
-    document.getElementById('edit-banner').classList.remove('on');
-    document.getElementById('main-nav').classList.remove('shifted');
-    render();
-  }
+  const addCard = document.createElement('div');
+  addCard.className = 'add-card';
+  addCard.onclick = () => openModal('project');
+  addCard.innerHTML = `<div class="plus">+</div><p>Add New Project</p>`;
+  grid.appendChild(addCard);
+}
 
-  /* ── Export / Import ── */
-  function exportData() {
-    const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' });
+/* Platforms */
+function renderPlatforms() {
+  const g = document.getElementById('platforms-grid');
+  g.innerHTML = '';
+  data.platforms.forEach((p, i) => {
+    const div = document.createElement('a');
+    div.className = 'platform-card';
+    div.href = p.link || '#';
+    div.target = '_blank';
+    div.style.borderTop = `4px solid ${p.top||'var(--ink)'}`;
+    div.innerHTML = `
+      <button class="p-del" onclick="event.preventDefault();delItem('platforms',${i})">✕</button>
+      <div class="p-icon" style="background:${p.bg||'var(--cream)'}">${p.icon||'🔗'}</div>
+      <div><div class="p-name">${p.name}</div><div class="p-sub">${p.sub||''}</div></div>`;
+    g.appendChild(div);
+  });
+}
+
+/* Work / Hack shared renderer */
+function renderList(type, containerId) {
+  const c = document.getElementById(containerId);
+  c.innerHTML = '';
+  (data[type]||[]).forEach((item, i) => {
+    const col = item.color || accentColors[i % accentColors.length];
+    const div = document.createElement('div');
+    div.className = 'exp-card';
+    div.innerHTML = `
+      <button class="exp-del" onclick="delItem('${type}',${i})">✕</button>
+      <div class="exp-accent" style="background:${col}"></div>
+      <div class="exp-card-title">${item.title}</div>
+      <div class="exp-card-sub">${item.sub||''}</div>`;
+    c.appendChild(div);
+  });
+}
+function renderWork() { renderList('work','work-list'); }
+function renderHack() { renderList('hack','hack-list'); }
+
+/* Contact */
+function renderContact() {
+  const c = document.getElementById('contact-links');
+  c.innerHTML = '';
+  (data.contact||[]).forEach((item, i) => {
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'mansi-portfolio-projects.json';
-    a.click();
-  }
-
-  function importData(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      try {
-        const data = JSON.parse(ev.target.result);
-        if (Array.isArray(data)) {
-          projects = data;
-          save();
-          render();
-          alert('✅ Projects imported successfully!');
-        } else {
-          alert('Invalid file format.');
-        }
-      } catch { alert('Could not read file.'); }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-  }
-
-  /* ── Image preview ── */
-  function previewImg(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      imgData = ev.target.result;
-      const preview = document.getElementById('img-preview');
-      preview.src = imgData;
-      preview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-  }
-
-  /* ── Add project modal ── */
-  function openAdd() {
-    imgData = '';
-    document.getElementById('img-preview').style.display = 'none';
-    document.getElementById('img-preview').src = '';
-    document.getElementById('img-file').value = '';
-    ['pName','pLink','pDesc','pTools'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('pCat').value = 'figma';
-    document.getElementById('add-overlay').classList.add('open');
-  }
-
-  function closeAdd() {
-    document.getElementById('add-overlay').classList.remove('open');
-  }
-
-  document.getElementById('add-overlay').addEventListener('click', e => {
-    if (e.target === e.currentTarget) closeAdd();
+    a.className = 'c-link';
+    a.href = item.href || '#';
+    if (item.href && !item.href.startsWith('mailto')) a.target = '_blank';
+    a.innerHTML = `
+      <button class="c-del" onclick="event.preventDefault();delItem('contact',${i})">✕</button>
+      ${item.label}`;
+    c.appendChild(a);
   });
-  document.getElementById('pw-overlay').addEventListener('click', e => {
-    if (e.target === e.currentTarget) document.getElementById('pw-overlay').classList.remove('open');
-  });
+  document.getElementById('add-contact-wrap').style.display = editMode ? 'block' : 'none';
+}
 
-  function addProject() {
-    const name = document.getElementById('pName').value.trim();
-    if (!name) { alert('Project name is required!'); return; }
-    projects.push({
-      name,
-      cat:   document.getElementById('pCat').value,
-      img:   imgData,
-      link:  document.getElementById('pLink').value.trim() || '#',
-      desc:  document.getElementById('pDesc').value.trim(),
-      tools: document.getElementById('pTools').value.trim(),
-    });
-    save();
-    closeAdd();
-    render();
+function updateCounts() {
+  document.getElementById('proj-count').textContent = data.projects.length;
+  document.getElementById('work-count').textContent = data.work.length;
+  document.getElementById('hack-count').textContent = data.hack.length;
+}
+
+/* ════ EDIT MODE ════ */
+
+document.addEventListener('keydown', e => {
+  if (e.shiftKey && e.key === 'M' && !editMode) openPwModal();
+});
+
+function openPwModal() {
+  document.getElementById('pw-overlay').classList.add('open');
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-err').classList.remove('show');
+  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+}
+
+function checkPw() {
+  if (document.getElementById('pw-input').value === SECRET_PASSWORD) {
+    document.getElementById('pw-overlay').classList.remove('open');
+    enterEditMode();
+  } else {
+    document.getElementById('pw-err').classList.add('show');
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
   }
+}
 
-  function deleteProject(i) {
-    if (confirm('Remove this project?')) { projects.splice(i, 1); save(); render(); }
-  }
+function enterEditMode() {
+  editMode = true;
+  document.body.classList.add('edit-mode');
+  document.getElementById('edit-banner').classList.add('on');
+  document.getElementById('main-nav').classList.add('shifted');
+  renderAll();
+}
 
-  /* ── Render ── */
-  function render() {
-    const grid = document.getElementById('grid');
-    grid.innerHTML = '';
+function lockEdit() {
+  editMode = false;
+  document.body.classList.remove('edit-mode');
+  document.getElementById('edit-banner').classList.remove('on');
+  document.getElementById('main-nav').classList.remove('shifted');
+  renderAll();
+}
 
-    const list = filter === 'all' ? projects : projects.filter(p => p.cat === filter);
+/* ════ MODAL SYSTEM ════ */
 
-    if (list.length === 0 && !editMode) {
-      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted);font-size:.9rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em">No projects in this category yet</div>`;
-    }
-
-    list.forEach((p, i) => {
-      const c   = cats[p.cat] || cats.other;
-      const ri  = projects.indexOf(p);
-      const tools = p.tools
-        ? p.tools.split(',').map(t => `<span class="tool">${t.trim()}</span>`).join('')
-        : '';
-      const thumb = p.img
-        ? `<img src="${p.img}" alt="${p.name}"/><span class="emoji" style="display:none">${c.emoji}</span>`
-        : `<span class="emoji">${c.emoji}</span>`;
-
-      const card = document.createElement('div');
-      card.className = 'proj-card';
-      card.style.animationDelay = (i * .07) + 's';
-      card.innerHTML = `
-        <button class="del-btn" onclick="deleteProject(${ri})">✕</button>
-        <div class="proj-thumb" style="background:${p.img ? '#000' : c.bg}">
-          ${thumb}
-          <div class="proj-thumb-num">0${i+1}</div>
+const modalConfigs = {
+  project: {
+    title: 'Add Project',
+    sub: 'Upload an image or video. Paste a link to Figma, YouTube, GitHub etc.',
+    fields: `
+      <div class="fg">
+        <label>Image or Video (optional)</label>
+        <div class="media-upload-area" onclick="document.getElementById('media-file').click()">
+          <input type="file" id="media-file" accept="image/*,video/*" style="display:none" onchange="previewMedia(event)"/>
+          <div class="up-icon">🖼</div>
+          <p>Click to upload image or video<br/><span style="font-size:.7rem;opacity:.6">PNG, JPG, MP4, MOV, WebM — any size</span></p>
+          <img id="media-prev-img" class="media-preview-img"/>
+          <video id="media-prev-vid" class="media-preview-vid" muted playsinline controls></video>
         </div>
-        <div class="proj-body">
-          <div class="proj-cat" style="color:${c.color};border-color:${c.color}">${c.label}</div>
-          <div class="proj-name">${p.name}</div>
-          ${p.desc  ? `<div class="proj-desc">${p.desc}</div>` : ''}
-          ${tools   ? `<div class="proj-tools">${tools}</div>` : ''}
-          <a href="${p.link}" target="${p.link === '#' ? '_self' : '_blank'}" rel="noopener" class="proj-link">
-            ${p.link === '#' ? 'Coming Soon' : 'View Project'} <span>→</span>
-          </a>
-        </div>`;
-      grid.appendChild(card);
+      </div>
+      <div class="fg"><label>Project Name *</label><input id="f-name" placeholder="e.g. Blinkit UI Redesign"/></div>
+      <div class="fg"><label>Category *</label>
+        <select id="f-cat">
+          <option value="figma">Figma / UI</option>
+          <option value="video">Video Edits</option>
+          <option value="posts">Social Posts</option>
+          <option value="dev">Development</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Link (Figma / YouTube / GitHub)</label><input id="f-link" type="url" placeholder="https://..."/></div>
+      <div class="fg"><label>Description</label><textarea id="f-desc" placeholder="What is this project?"></textarea></div>
+      <div class="fg"><label>Tools Used</label><input id="f-tools" placeholder="Figma, Canva, Premiere... (comma separated)"/></div>
+    `
+  },
+  platform: {
+    title: 'Add Profile Link',
+    sub: 'Add a link to your online profiles.',
+    fields: `
+      <div class="fg"><label>Platform Name *</label><input id="f-name" placeholder="e.g. Behance"/></div>
+      <div class="fg"><label>Description</label><input id="f-sub" placeholder="e.g. Design Portfolio"/></div>
+      <div class="fg"><label>Emoji Icon</label><input id="f-icon" placeholder="e.g. 🎨" maxlength="4"/></div>
+      <div class="fg"><label>Link *</label><input id="f-link" type="url" placeholder="https://behance.net/yourname"/></div>
+      <div class="fg"><label>Accent Color (top border)</label>
+        <select id="f-color">
+          <option value="var(--ink)">Black</option>
+          <option value="var(--coral)">Coral Red</option>
+          <option value="var(--acid)">Lime Green</option>
+          <option value="var(--sky)">Sky Blue</option>
+          <option value="#b084ff">Purple</option>
+        </select>
+      </div>
+    `
+  },
+  work: {
+    title: 'Add Work Experience',
+    sub: 'Add an internship, job, or role.',
+    fields: `
+      <div class="fg"><label>Title *</label><input id="f-name" placeholder="e.g. UI Design Intern · Company Name"/></div>
+      <div class="fg"><label>Description</label><textarea id="f-sub" placeholder="What did you do there?"></textarea></div>
+      <div class="fg"><label>Accent Color</label>
+        <select id="f-color">
+          <option value="var(--coral)">Coral Red</option>
+          <option value="var(--sky)">Sky Blue</option>
+          <option value="var(--acid)">Lime Green</option>
+          <option value="var(--ink)">Black</option>
+          <option value="#b084ff">Purple</option>
+        </select>
+      </div>
+    `
+  },
+  hack: {
+    title: 'Add Hackathon / Certificate',
+    sub: 'Add a hackathon, award, or certification.',
+    fields: `
+      <div class="fg"><label>Title *</label><input id="f-name" placeholder="e.g. Smart India Hackathon 2024"/></div>
+      <div class="fg"><label>Description</label><textarea id="f-sub" placeholder="What did you do / achieve?"></textarea></div>
+      <div class="fg"><label>Accent Color</label>
+        <select id="f-color">
+          <option value="var(--acid)">Lime Green</option>
+          <option value="var(--ink)">Black</option>
+          <option value="var(--coral)">Coral Red</option>
+          <option value="var(--sky)">Sky Blue</option>
+          <option value="#b084ff">Purple</option>
+        </select>
+      </div>
+    `
+  },
+  contact: {
+    title: 'Add Contact Link',
+    sub: 'Add an email, social profile or any link.',
+    fields: `
+      <div class="fg"><label>Label *</label><input id="f-name" placeholder="e.g. 💼 LinkedIn or ✉ Email Me"/></div>
+      <div class="fg"><label>Link *</label><input id="f-link" placeholder="https://linkedin.com/in/... or mailto:your@email.com"/></div>
+    `
+  }
+};
+
+function openModal(type) {
+  modalType = type;
+  mediaData = '';
+  mediaIsVideo = false;
+  const cfg = modalConfigs[type];
+  document.getElementById('modal-title').textContent = cfg.title;
+  document.getElementById('modal-sub').textContent   = cfg.sub;
+  document.getElementById('modal-fields').innerHTML  = cfg.fields;
+  document.getElementById('add-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('add-overlay').classList.remove('open');
+}
+
+document.getElementById('add-overlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+document.getElementById('pw-overlay').addEventListener('click', e => { if(e.target===e.currentTarget) document.getElementById('pw-overlay').classList.remove('open'); });
+
+function saveItem() {
+  const name = document.getElementById('f-name')?.value.trim();
+  if (!name) { alert('Title / name is required!'); return; }
+
+  if (modalType === 'project') {
+    data.projects.push({
+      name,
+      cat:       document.getElementById('f-cat')?.value || 'other',
+      media:     mediaData,
+      mediaType: mediaIsVideo ? 'video' : 'image',
+      link:      document.getElementById('f-link')?.value.trim() || '',
+      desc:      document.getElementById('f-desc')?.value.trim() || '',
+      tools:     document.getElementById('f-tools')?.value.trim() || '',
     });
-
-    /* Add card — only shows in edit mode (CSS handles this) */
-    const addCard = document.createElement('div');
-    addCard.className = 'add-card';
-    addCard.onclick = openAdd;
-    addCard.innerHTML = `<div class="plus">+</div><p>Add New Project</p>`;
-    grid.appendChild(addCard);
-
-    document.getElementById('proj-count').textContent = projects.length;
+  } else if (modalType === 'platform') {
+    const col = document.getElementById('f-color')?.value || 'var(--ink)';
+    data.platforms.push({
+      name,
+      sub:  document.getElementById('f-sub')?.value.trim() || '',
+      icon: document.getElementById('f-icon')?.value.trim() || '🔗',
+      link: document.getElementById('f-link')?.value.trim() || '#',
+      top:  col,
+      bg:   'var(--cream)',
+    });
+  } else if (modalType === 'work' || modalType === 'hack') {
+    data[modalType].push({
+      title: name,
+      sub:   document.getElementById('f-sub')?.value.trim() || '',
+      color: document.getElementById('f-color')?.value || 'var(--coral)',
+    });
+  } else if (modalType === 'contact') {
+    data.contact.push({
+      label: name,
+      href:  document.getElementById('f-link')?.value.trim() || '#',
+    });
   }
 
-  /* ── Tabs ── */
-  document.getElementById('tabs').addEventListener('click', e => {
-    if (!e.target.classList.contains('tab')) return;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    e.target.classList.add('active');
-    filter = e.target.dataset.cat;
-    render();
-  });
+  save();
+  closeModal();
+  renderAll();
+}
 
-  /* ── Scroll reveal ── */
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+function delItem(type, index) {
+  if (confirm('Remove this item?')) {
+    data[type].splice(index, 1);
+    save();
+    renderAll();
+  }
+}
 
-  render();
+/* ── Media preview ── */
+function previewMedia(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const isVid = file.type.startsWith('video/');
+  mediaIsVideo = isVid;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    mediaData = ev.target.result;
+    const img = document.getElementById('media-prev-img');
+    const vid = document.getElementById('media-prev-vid');
+    if (isVid) {
+      img.style.display = 'none';
+      vid.src = mediaData;
+      vid.style.display = 'block';
+    } else {
+      vid.style.display = 'none';
+      img.src = mediaData;
+      img.style.display = 'block';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── Export / Import ── */
+function exportData() {
+  const content = '###MANSI_PORTFOLIO###\n' + JSON.stringify(data);
+  const blob = new Blob([content], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'mansi-portfolio-backup.txt';
+  a.click();
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      let text = ev.target.result.trim();
+      if (text.startsWith('###MANSI_PORTFOLIO###')) text = text.replace('###MANSI_PORTFOLIO###','').trim();
+      const parsed = JSON.parse(text);
+      if (parsed && typeof parsed === 'object') {
+        data = parsed;
+        save();
+        renderAll();
+        alert('✅ Portfolio imported successfully!');
+      } else { alert('⚠️ Invalid backup file.'); }
+    } catch { alert('⚠️ Could not read file. Use the backup exported from this portfolio.'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+/* ── Tabs ── */
+document.getElementById('tabs').addEventListener('click', e => {
+  if (!e.target.classList.contains('tab')) return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  e.target.classList.add('active');
+  filter = e.target.dataset.cat;
+  renderProjects();
+});
+
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ── Init ── */
+load();
+renderAll();
 </script>
 </body>
 </html>

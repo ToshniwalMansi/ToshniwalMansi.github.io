@@ -1,663 +1,898 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Mansi Toshniwal — Portfolio System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Professional, high-end architectural editorial typography selection -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
-    <style>
-        :root {
-            --bg-bright: #f8f6f0;
-            --bg-serious: #0b0b0c;
-            --text-dark: #0b0b0c;
-            --text-light: #f8f6f0;
-            --accent-red: #e63946;
-            --accent-blue: #1d3557;
-            --accent-green: #2a9d8f;
-            --border-dark: #0b0b0c;
-            --border-light: #f8f6f0;
-            --muted-dark: #6c757d;
-            --muted-light: #adb5bd;
-            --border-width: 2.5px;
-            --radius: 0px; /* Brutalist sharp edge mechanics */
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mansi Toshniwal — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@500;600;700&family=Fredoka:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --paper:#f7f3ea;
+  --ink:#0c0c0d;
+  --void:#0a0a0b;
+  --void2:#141416;
+  --void3:#1c1c1f;
+  --red:#e0432a;
+  --blue:#2c5282;
+  --teal:#1f8a70;
+  --gold:#d9a01c;
+  --muted-dark:#6b6558;
+  --muted-light:#8c8a8e;
+  --bw:2px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;font-size:15px;overflow-x:hidden;background:var(--paper);color:var(--ink);line-height:1.5}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.disp{font-family:'Fraunces',serif}
+.mono{font-family:'Space Grotesk',sans-serif}
 
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ════════ PRELOADER ════════ */
+#preloader{position:fixed;inset:0;background:var(--void);color:var(--paper);z-index:9999;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+.loader-marquee{position:absolute;width:100%;display:flex;overflow:hidden;white-space:nowrap;font-family:'Fraunces',serif;font-size:clamp(3rem,10vw,8rem);font-weight:600;opacity:.07;pointer-events:none;top:50%;transform:translateY(-50%)}
+.lm-inner{display:flex;animation:lmScroll 30s linear infinite}
+@keyframes lmScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-        html {
-            scroll-behavior: smooth;
-        }
+/* Ambient glow pulsing behind the deck */
+.loader-glow{
+  position:absolute;width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(224,67,42,.16) 0%,rgba(224,67,42,.05) 40%,transparent 70%);
+  z-index:5;opacity:0;animation:glowPulse 3.4s ease-in-out infinite .3s;
+}
+@keyframes glowPulse{
+  0%,100%{opacity:.4;transform:scale(.92)}
+  50%{opacity:.85;transform:scale(1.06)}
+}
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 15px;
-            overflow-x: hidden;
-            background-color: var(--bg-bright);
-            color: var(--text-dark);
-            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+.loader-deck{position:relative;width:230px;height:300px;z-index:10}
+.loader-card{
+  position:absolute;width:100%;height:100%;border:var(--bw) solid rgba(247,243,234,.85);
+  background:var(--void2);display:flex;align-items:center;justify-content:center;
+  font-size:2.6rem;box-shadow:0 26px 60px rgba(0,0,0,.7);
+  opacity:0;will-change:transform,opacity,filter;filter:blur(6px);
+  overflow:hidden;
+}
+.loader-card img{width:100%;height:100%;object-fit:cover}
 
-        /* ─── MODIFIED PRELOADER TRACK (Screenshot 2026-06-27 230220.png) ─── */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-serious);
-            color: var(--text-light);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            cursor: pointer;
-        }
+/* Tiny impact shadow flash on landing, separate element per card */
+.loader-card .impact-flash{
+  position:absolute;inset:0;background:rgba(247,243,234,.5);opacity:0;pointer-events:none;
+}
+.loader-card.settle .impact-flash{animation:impactFlash .4s ease forwards}
+@keyframes impactFlash{0%{opacity:.5}100%{opacity:0}}
 
-        .loader-bg-marquee {
-            position: absolute;
-            width: 100%;
-            display: flex;
-            overflow: hidden;
-            white-space: nowrap;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(4rem, 12vw, 10rem);
-            font-weight: 700;
-            text-transform: uppercase;
-            opacity: 0.08;
-            pointer-events: none;
-        }
+.loader-card.landed{
+  opacity:1!important;filter:blur(0)!important;
+  transition:transform .8s cubic-bezier(.16,1,.3,1),opacity .8s ease,filter .8s ease;
+}
+@keyframes settleJiggle{
+  0%{transform:var(--land-transform) rotate(calc(var(--land-rot) + 2deg)) scale(1.04)}
+  50%{transform:var(--land-transform) rotate(calc(var(--land-rot) - 1deg)) scale(.99)}
+  100%{transform:var(--land-transform) rotate(var(--land-rot)) scale(1)}
+}
+.loader-card.settle{animation:settleJiggle .5s ease forwards}
+.loader-card.fanout{
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1)!important;
+}
 
-        .marquee-inner {
-            display: flex;
-            animation: infiniteScroll 25s linear infinite;
-        }
+.loader-bio{position:absolute;bottom:8.5rem;left:0;right:0;text-align:center;z-index:11;padding:0 2rem}
+.loader-bio span{font-family:'Space Grotesk',sans-serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,243,234,.55)}
+.loader-hint{position:absolute;bottom:3rem;left:0;right:0;text-align:center;font-family:'Space Grotesk',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.18em;font-size:.68rem;color:rgba(247,243,234,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+#preloader.out{animation:fadeOutLdr .6s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes fadeOutLdr{
+  0%{opacity:1;filter:blur(0)}
+  100%{opacity:0;visibility:hidden;filter:blur(8px)}
+}
 
-        @keyframes infiniteScroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
+/* ════════ NAV ════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2rem;background:rgba(247,243,234,.85);backdrop-filter:blur(10px);border-bottom:1.5px solid rgba(12,12,13,.1);transition:top .35s ease,background .3s,border-color .3s}
+nav.dark{background:rgba(10,10,11,.85);border-bottom-color:rgba(247,243,234,.08)}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.02em}
+nav.dark .nav-logo{color:var(--paper)}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-dark)}
+nav.dark .nav-links a{color:var(--muted-light)}
 
-        .loader-deck {
-            position: relative;
-            width: 320px;
-            height: 420px;
-            z-index: 10;
-        }
+/* ════════ HERO ════════ */
+.hero{min-height:100vh;padding:8rem 2rem 3rem;max-width:1400px;margin:0 auto;display:flex;flex-direction:column;justify-content:center;position:relative}
+.hero-eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:2rem;display:flex;align-items:center;gap:.6rem}
+.hero-eyebrow::before{content:'';width:22px;height:1.5px;background:var(--red)}
 
-        .loader-deck-card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: var(--border-width) solid var(--border-light);
-            background: #16161a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
-        }
+.name-wrap{display:flex;flex-direction:column;line-height:.78;user-select:none}
+.name-row{display:flex;flex-wrap:wrap}
 
-        .loader-hint {
-            position: absolute;
-            bottom: 3rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            font-size: 0.8rem;
-            animation: pulse 1.5s infinite;
-        }
+.letter{
+  font-family:'Fredoka',sans-serif;font-weight:700;
+  font-size:clamp(3.8rem,11vw,10.5rem);
+  letter-spacing:.01em;cursor:pointer;position:relative;
+  display:inline-block;transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+  color:#ff5d8f;
+  -webkit-text-stroke:3px #7a1f3d;
+  text-stroke:3px #7a1f3d;
+  text-shadow:
+    0 1px 0 #ff8fb3,
+    0 3px 0 #f7448e,
+    0 6px 0 #d62e74,
+    0 9px 0 #b8205f,
+    0 13px 10px rgba(0,0,0,.28);
+  transform-origin:bottom center;
+}
+/* Rotate the balloon color per letter for variety — cycling palette */
+.name-row:nth-of-type(1) .letter:nth-child(5n+1){color:#ff5d8f;-webkit-text-stroke-color:#7a1f3d;text-shadow:0 1px 0 #ff8fb3,0 3px 0 #f7448e,0 6px 0 #d62e74,0 9px 0 #b8205f,0 13px 10px rgba(0,0,0,.28)}
+.letter:nth-child(5n+2){color:#5ec8ff;-webkit-text-stroke-color:#0e4f73;text-shadow:0 1px 0 #9adfff,0 3px 0 #2fb2f5,0 6px 0 #1c8fcc,0 9px 0 #1473a8,0 13px 10px rgba(0,0,0,.28)}
+.letter:nth-child(5n+3){color:#ffd23f;-webkit-text-stroke-color:#8a5a00;text-shadow:0 1px 0 #ffe480,0 3px 0 #f5b800,0 6px 0 #d69900,0 9px 0 #b37e00,0 13px 10px rgba(0,0,0,.28)}
+.letter:nth-child(5n+4){color:#7ee08a;-webkit-text-stroke-color:#1f5c2a;text-shadow:0 1px 0 #b1efb8,0 3px 0 #4cc95c,0 6px 0 #34a843,0 9px 0 #258a33,0 13px 10px rgba(0,0,0,.28)}
+.letter:nth-child(5n+5){color:#c98bff;-webkit-text-stroke-color:#522b7a;text-shadow:0 1px 0 #e2bdff,0 3px 0 #a855f0,0 6px 0 #8c3bd6,0 9px 0 #7228b3,0 13px 10px rgba(0,0,0,.28)}
 
-        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+/* Glossy shine highlight floating on the upper-left of each letter */
+.letter::before{
+  content:'';position:absolute;top:8%;left:18%;width:34%;height:22%;
+  background:rgba(255,255,255,.65);border-radius:50%;
+  filter:blur(3px);transform:rotate(-18deg);pointer-events:none;z-index:2;
+}
 
-        /* ─── INTERACTIVE BRAND TYPOGRAPHY (Screenshot 2026-06-27 230205.png) ─── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 2rem 4rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+.letter:hover,.letter.active{
+  transform:translateY(-10px) rotate(-4deg) scale(1.08);
+}
 
-        .interactive-name-wrap {
-            display: flex;
-            flex-direction: column;
-            line-height: 0.85;
-            user-select: none;
-        }
+.letter-pop{
+  position:absolute;width:150px;height:110px;top:-128px;left:50%;
+  transform:translateX(-50%) scale(0) rotate(0deg);transform-origin:bottom center;
+  z-index:50;pointer-events:none;transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  border:var(--bw) solid var(--ink);background:var(--paper);
+  box-shadow:6px 6px 0 var(--ink);
+}
+.letter-pop img{width:100%;height:100%;object-fit:cover}
+.letter-pop .pop-fallback{font-size:2.6rem}
+.letter-pop .pop-label{position:absolute;bottom:0;left:0;right:0;background:var(--ink);color:var(--paper);font-family:'Space Grotesk',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .4rem;text-align:center}
+.letter:hover .letter-pop,.letter.active .letter-pop{transform:translateX(-50%) scale(1) rotate(-3deg)}
+.letter:nth-child(2n):hover .letter-pop,.letter:nth-child(2n).active .letter-pop{transform:translateX(-50%) scale(1) rotate(3deg)}
 
-        .name-row {
-            display: flex;
-            flex-wrap: wrap;
-        }
+.hero-bottom{margin-top:3rem;display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;border-top:1.5px solid rgba(12,12,13,.12);padding-top:1.5rem}
+.hero-tagline{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;font-style:italic;max-width:380px;color:var(--ink);line-height:1.45}
+.hero-roles{display:flex;gap:1.5rem;flex-wrap:wrap}
+.hero-role{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-dark);display:flex;align-items:center;gap:.4rem}
+.hero-role::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--red)}
 
-        .interactive-letter {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: clamp(4rem, 11vw, 11rem);
-            text-transform: uppercase;
-            letter-spacing: -0.03em;
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+/* ════════ CAPABILITIES ════════ */
+.capabilities{max-width:1400px;margin:0 auto;padding:6rem 2rem;border-top:var(--bw) solid var(--ink)}
+.sec-header-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;gap:2rem;flex-wrap:wrap}
+.sec-title{font-family:'Fraunces',serif;font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:600;letter-spacing:-.02em;line-height:1}
+.sec-note{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-dark);max-width:240px;text-align:right;line-height:1.6}
 
-        .interactive-letter:hover {
-            transform: scale(1.1) translateY(-5px);
-            color: var(--accent-red);
-        }
+.cap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:0;border:var(--bw) solid var(--ink)}
+.cap-node{border-right:var(--bw) solid var(--ink);border-bottom:var(--bw) solid var(--ink);padding:2.2rem 1.8rem;display:flex;flex-direction:column;gap:1.2rem;background:var(--paper);transition:background .2s}
+.cap-node:hover{background:#efe9da}
+.cap-node:nth-last-child(-n+4){border-bottom:none}
+.cap-idx{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--red);font-size:.85rem}
+.cap-title{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.cap-desc{color:var(--muted-dark);font-size:.85rem;line-height:1.6}
 
-        /* Dynamic Popup Asset Slots */
-        .letter-popup-asset {
-            position: absolute;
-            width: 180px;
-            height: 130px;
-            background: var(--bg-bright);
-            border: var(--border-width) solid var(--border-dark);
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            transform-origin: bottom center;
-            z-index: 50;
-            box-shadow: 8px 8px 0 var(--border-dark);
-            pointer-events: none;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 1rem;
-            text-align: center;
-        }
+.add-cap-hint{margin-top:1.5rem;padding:1rem 1.3rem;border:1.5px dashed var(--muted-dark);font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--muted-dark);line-height:1.7}
+.add-cap-hint b{color:var(--ink)}
 
-        .interactive-letter.active .letter-popup-asset {
-            transform: translateX(-50%) scale(1);
-        }
+/* ════════ WORK SECTION (dark) ════════ */
+.work-section{background:var(--void);color:var(--paper);padding:6rem 0 5rem}
+.work-inner{max-width:1400px;margin:0 auto;padding:0 2rem}
+.work-head{margin-bottom:4rem}
+.work-head .sec-title{color:var(--paper)}
+.work-head-sub{font-family:'Space Grotesk',sans-serif;font-size:.7rem;color:var(--muted-light);letter-spacing:.05em;margin-top:.8rem;max-width:480px;line-height:1.7}
 
-        /* ─── EXPANDABLE FUNCTIONAL CAPABILITIES (Screenshot 2026-06-27 230135.png) ─── */
-        .capabilities-section {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-            border-top: var(--border-width) solid var(--border-dark);
-        }
+.category-block{margin-bottom:5.5rem}
+.category-head{display:flex;align-items:baseline;gap:1rem;border-bottom:var(--bw) solid var(--void3);padding-bottom:1.1rem;margin-bottom:2.2rem}
+.category-title{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:600;letter-spacing:-.01em}
+.category-count{font-family:'Space Grotesk',sans-serif;font-size:.65rem;color:var(--muted-light);letter-spacing:.1em;text-transform:uppercase}
 
-        body.dark-mode .capabilities-section { border-color: var(--border-light); }
+/* Vertical stack — each project full width, stacked */
+.vstack{display:flex;flex-direction:column;gap:2.5rem}
+.vbox{
+  width:100%;min-height:420px;border:var(--bw) solid var(--void3);
+  background:var(--void2);display:grid;grid-template-columns:1fr 380px;
+  cursor:pointer;position:relative;transition:border-color .3s,transform .3s;
+  overflow:hidden;
+}
+.vbox:hover{border-color:rgba(247,243,234,.3);transform:translateY(-3px)}
+.vbox-media{width:100%;height:100%;background:var(--void3);border-right:var(--bw) solid var(--void3);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:420px}
+.vbox-media img,.vbox-media video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .5s ease}
+.vbox:hover .vbox-media img,.vbox:hover .vbox-media video{transform:scale(1.03)}
+.vbox-media-placeholder{font-size:2.6rem;opacity:.15;position:relative;z-index:1}
+.vbox-media-num{position:absolute;bottom:1rem;right:1.2rem;font-family:'Fraunces',serif;font-size:4rem;font-weight:600;color:rgba(247,243,234,.06);z-index:0}
+.vbox-sidebar{padding:2.4rem 2rem;display:flex;flex-direction:column;justify-content:space-between}
+.vbox-tag{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.8rem}
+.vbox-title{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:600;letter-spacing:-.01em;line-height:1.15;margin-bottom:.8rem}
+.vbox-desc{font-size:.78rem;color:var(--muted-light);line-height:1.7;margin-bottom:1.2rem}
+.vbox-tools{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem}
+.vbox-tool{font-family:'Space Grotesk',sans-serif;font-size:.6rem;padding:.25rem .6rem;border:1.5px solid var(--void3);color:var(--muted-light);letter-spacing:.04em}
+.vbox-foot{display:flex;align-items:center;justify-content:space-between;font-family:'Space Grotesk',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);gap:.6rem}
+.vbox-arrow{width:34px;height:34px;border:1.5px solid rgba(247,243,234,.25);display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;flex-shrink:0}
+.vbox:hover .vbox-arrow{background:var(--red);border-color:var(--red)}
+.vbox-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.vbox-action{
+  display:inline-flex;align-items:center;gap:.4rem;padding:.5rem .85rem;
+  border:1.5px solid rgba(247,243,234,.25);font-family:'Space Grotesk',sans-serif;
+  font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--paper);background:transparent;cursor:pointer;transition:background .2s,border-color .2s,color .2s;
+  position:relative;z-index:2;
+}
+.vbox-action:hover{background:var(--red);border-color:var(--red);color:#fff}
+.vbox-action.is-link{border-style:dashed}
+.vbox-action.empty{opacity:.3;cursor:default;pointer-events:none}
 
-        .section-header-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 4rem;
-        }
+/* Add project hint inline (visual only, for your reference) */
+.add-proj-hint{border:1.5px dashed var(--void3);padding:1.2rem 1.5rem;font-family:'Space Grotesk',sans-serif;font-size:.65rem;color:var(--muted-light);line-height:1.8;margin-top:1rem}
+.add-proj-hint b{color:var(--paper)}
 
-        .capabilities-matrix {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-        }
+/* ════════ TIMELINES (bright, full width, stacked) ════════ */
+.timelines{max-width:1400px;margin:0 auto;padding:6rem 2rem}
+.timeline-block{margin-bottom:6rem}
+.timeline-block:last-child{margin-bottom:0}
+.timeline-head{display:flex;align-items:baseline;gap:1.2rem;margin-bottom:3rem}
+.timeline-emoji{font-size:1.8rem}
+.timeline-title{font-family:'Fraunces',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:600;letter-spacing:-.01em}
 
-        .capability-node {
-            border: var(--border-width) solid var(--border-dark);
-            padding: 2.5rem 2rem;
-            background: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
+.tl-track{position:relative;padding-left:3rem}
+.tl-track::before{content:'';position:absolute;left:0;top:.4rem;bottom:.4rem;width:var(--bw);background:var(--ink)}
+.tl-item{position:relative;padding-bottom:3.5rem}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:'';position:absolute;left:calc(-3rem - 6.5px);top:.3rem;width:13px;height:13px;border-radius:50%;background:var(--red);border:3px solid var(--paper);box-shadow:0 0 0 1.5px var(--ink)}
+.tl-eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:.5rem}
+.tl-name{font-family:'Fraunces',serif;font-size:1.55rem;font-weight:600;letter-spacing:-.01em;margin-bottom:.6rem}
+.tl-desc{font-size:.88rem;color:var(--muted-dark);line-height:1.7;max-width:580px}
+.tl-cert{display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;padding:.6rem 1.1rem;border:1.5px solid var(--ink);font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
+.tl-cert:hover{background:var(--ink);color:var(--paper)}
 
-        body.dark-mode .capability-node {
-            border-color: var(--border-light);
-            background: #141417;
-        }
+/* ════════ FLOWER FOOTER ════════ */
+.flower-footer{background:#fff8ea;border-top:var(--bw) solid var(--ink);padding:7rem 2rem;position:relative;overflow:hidden}
+.flower-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(85px,1fr));gap:1.8rem;max-width:1400px;margin:0 auto}
+.flower-grid svg{width:60px;height:60px;display:block;margin:0 auto;transition:transform .6s cubic-bezier(.34,1.56,.64,1);cursor:pointer}
+.quote-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:2rem}
+.quote-box{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:600;
+  font-size:clamp(1.3rem,3.2vw,2.4rem);color:var(--ink);
+  background:#fff;padding:1.8rem 3rem;border:var(--bw) solid var(--ink);
+  box-shadow:10px 10px 0 var(--ink);pointer-events:auto;max-width:720px;text-align:center;line-height:1.3;
+}
 
-        .node-index {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            color: var(--accent-red);
-        }
+/* ════════ FOOTER STRIP ════════ */
+.foot-strip{background:var(--ink);color:var(--paper);padding:1.3rem 2rem;display:flex;justify-content:space-between;align-items:center;font-family:'Space Grotesk',sans-serif}
+.foot-strip-l{font-size:.7rem;font-weight:600;letter-spacing:.05em}
+.foot-strip-r{font-size:.6rem;color:rgba(247,243,234,.4);letter-spacing:.08em;text-transform:uppercase}
 
-        /* ─── FULL-WIDTH SEQUENTIAL VERTICAL SYSTEM (Screenshot 2026-06-27 230205.png) ─── */
-        .work-matrix-section {
-            background: var(--bg-serious);
-            color: var(--text-light);
-            padding: 6rem 2rem;
-        }
+/* ════════ LIGHTBOX ════════ */
+#lightbox{position:fixed;inset:0;background:rgba(10,10,11,.97);z-index:10000;display:none;align-items:center;justify-content:center;padding:2rem}
+#lightbox.on{display:flex}
+#lb-box{max-width:90vw;max-height:85vh;border:var(--bw) solid var(--paper)}
+#lb-box img,#lb-box video{width:100%;height:100%;object-fit:contain;display:block}
+#lb-close{position:fixed;top:1.3rem;right:1.3rem;background:var(--paper);color:var(--ink);border:none;width:38px;height:38px;font-family:'Space Grotesk',sans-serif;font-weight:700;cursor:pointer;transition:background .2s}
+#lb-close:hover{background:var(--red);color:#fff}
 
-        .matrix-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+/* ════════ REVEAL ════════ */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:translateY(0)}
 
-        .category-stream-block {
-            margin-bottom: 6rem;
-        }
-
-        .category-stream-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            text-transform: uppercase;
-            border-bottom: var(--border-width) solid #2c2c35;
-            padding-bottom: 1rem;
-            margin-bottom: 3rem;
-            letter-spacing: 0.05em;
-        }
-
-        .vertical-asset-stream {
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
-        }
-
-        .vertical-long-box {
-            width: 100%;
-            min-height: 550px;
-            border: var(--border-width) solid #2c2c35;
-            background: #121214;
-            display: grid;
-            grid-template-columns: 1fr 450px;
-            cursor: pointer;
-            position: relative;
-            transition: border-color 0.3s;
-        }
-
-        .vertical-long-box:hover {
-            border-color: var(--border-light);
-        }
-
-        .box-media-canvas {
-            width: 100%;
-            height: 100%;
-            background: #1a1a1e;
-            border-right: var(--border-width) solid #2c2c35;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .box-media-canvas img, .box-media-canvas video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .box-description-sidebar {
-            padding: 3rem 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        /* ─── LIGHTBOX AGENT METRIC ─── */
-        #lightbox-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(11, 11, 12, 0.98);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        #lightbox-container {
-            max-width: 90%;
-            max-height: 85vh;
-            border: var(--border-width) solid var(--border-light);
-        }
-
-        #lightbox-container img, #lightbox-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* ─── CRITICALLY REFOCUSED CHRONOLOGICAL SECTIONS ─── */
-        .chronology-section {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-        }
-
-        .timeline-linear-track {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            margin-bottom: 5rem;
-            border-left: var(--border-width) solid var(--border-dark);
-            padding-left: 2.5rem;
-        }
-
-        body.dark-mode .timeline-linear-track { border-color: var(--border-light); }
-
-        .timeline-node {
-            position: relative;
-        }
-
-        .timeline-node::before {
-            content: '';
-            position: absolute;
-            left: calc(-2.5rem - 7px);
-            top: 6px;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-red);
-        }
-
-        /* ─── CENTRALIZED QUOTE MATRIX SYSTEM (Screenshot 2026-06-27 230220.png) ─── */
-        .flower-canvas-footer {
-            background: #fff;
-            border-top: var(--border-width) solid var(--border-dark);
-            padding: 6rem 2rem;
-            position: relative;
-        }
-
-        .flower-grid-matrix {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 2.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            opacity: 0.35;
-        }
-
-        .centralized-quote-wrapper {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .centralized-quote-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            font-weight: 700;
-            color: var(--text-dark);
-            background: #fff;
-            padding: 1.5rem 3rem;
-            border: var(--border-width) solid var(--border-dark);
-            box-shadow: 12px 12px 0 var(--border-dark);
-            pointer-events: auto;
-            max-width: 850px;
-            text-transform: uppercase;
-        }
-    </style>
+/* ════════ RESPONSIVE ════════ */
+@media(max-width:900px){
+  .vbox{grid-template-columns:1fr}
+  .vbox-media{min-height:260px}
+  nav{padding:.9rem 1.3rem}
+  .nav-links{display:none}
+  .sec-header-row{flex-direction:column;align-items:flex-start}
+  .sec-note{text-align:left}
+}
+@media(max-width:600px){
+  .letter-pop{width:110px;height:85px;top:-100px}
+  .hero-bottom{flex-direction:column;align-items:flex-start}
+}
+</style>
 </head>
 <body>
 
-    <!-- LIGHTBOX INTERFACE WINDOW -->
-    <div id="lightbox-overlay" onclick="closeFullscreen()">
-        <div id="lightbox-container" onclick="event.stopPropagation()"></div>
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLB()">
+  <button id="lb-close" onclick="closeLB()">✕</button>
+  <div id="lb-box" onclick="event.stopPropagation()"></div>
+</div>
+
+<!-- PRELOADER -->
+<div id="preloader" onclick="dismissLoader()">
+  <div class="loader-marquee">
+    <div class="lm-inner">
+      <span>MANSI TOSHNIWAL &nbsp;·&nbsp; MANSI TOSHNIWAL &nbsp;·&nbsp; MANSI TOSHNIWAL &nbsp;·&nbsp; MANSI TOSHNIWAL &nbsp;·&nbsp; MANSI TOSHNIWAL &nbsp;·&nbsp; MANSI TOSHNIWAL &nbsp;·&nbsp; </span>
+    </div>
+  </div>
+  <div class="loader-glow"></div>
+  <div class="loader-deck" id="loaderDeck">
+    <!-- Cards are generated by JS from the LOADER_IMAGES list below -->
+  </div>
+  <div class="loader-bio"><span>CSE Undergrad · Designer · Developer · Creator — based in Pune</span></div>
+  <div class="loader-hint">Click anywhere to enter</div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">M. TOSHNIWAL</div>
+  <ul class="nav-links">
+    <li><a href="#capabilities">Capabilities</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#timelines">Journey</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="hero-eyebrow">Portfolio · 2025</div>
+  <div class="name-wrap">
+    <!-- 
+      ════════════════════════════════════════════════════
+      HOW TO ADD A REAL IMAGE TO A LETTER:
+      Find the matching data-letter below, and inside its
+      .letter-pop div, replace the placeholder span with:
+        <img src="images/your-image.jpg" alt=""/>
+      Keep the .pop-label text as the caption.
+      ════════════════════════════════════════════════════
+    -->
+    <div class="name-row">
+      <span class="letter" data-letter="M">M
+        <div class="letter-pop"><span class="pop-fallback">📐</span><div class="pop-label">Figma Systems</div></div>
+      </span>
+      <span class="letter" data-letter="A1">A
+        <div class="letter-pop"><span class="pop-fallback">☕</span><div class="pop-label">Coffee &amp; Code</div></div>
+      </span>
+      <span class="letter" data-letter="N">N
+        <div class="letter-pop"><span class="pop-fallback">{ }</span><div class="pop-label">Clean Logic</div></div>
+      </span>
+      <span class="letter" data-letter="S1">S
+        <div class="letter-pop"><span class="pop-fallback">🎬</span><div class="pop-label">Reel Edits</div></div>
+      </span>
+      <span class="letter" data-letter="I">I
+        <div class="letter-pop"><span class="pop-fallback">✦</span><div class="pop-label">Detail-Obsessed</div></div>
+      </span>
+    </div>
+    <div class="name-row">
+      <span class="letter" data-letter="T">T
+        <div class="letter-pop"><span class="pop-fallback">🌙</span><div class="pop-label">Midnight Mansi</div></div>
+      </span>
+      <span class="letter" data-letter="O">O
+        <div class="letter-pop"><span class="pop-fallback">🎨</span><div class="pop-label">Canva Creative</div></div>
+      </span>
+      <span class="letter" data-letter="S2">S
+        <div class="letter-pop"><span class="pop-fallback">🧩</span><div class="pop-label">DSA Solved</div></div>
+      </span>
+      <span class="letter" data-letter="H">H
+        <div class="letter-pop"><span class="pop-fallback">📱</span><div class="pop-label">App Concepts</div></div>
+      </span>
+      <span class="letter" data-letter="N2">N
+        <div class="letter-pop"><span class="pop-fallback">🏆</span><div class="pop-label">Hackathon Wins</div></div>
+      </span>
+      <span class="letter" data-letter="I2">I
+        <div class="letter-pop"><span class="pop-fallback">📷</span><div class="pop-label">Behind the Scenes</div></div>
+      </span>
+      <span class="letter" data-letter="W">W
+        <div class="letter-pop"><span class="pop-fallback">✏️</span><div class="pop-label">Sketch First</div></div>
+      </span>
+      <span class="letter" data-letter="A2">A
+        <div class="letter-pop"><span class="pop-fallback">🎮</span><div class="pop-label">Pac-Man in Java</div></div>
+      </span>
+      <span class="letter" data-letter="L">L
+        <div class="letter-pop"><span class="pop-fallback">🚀</span><div class="pop-label">Always Shipping</div></div>
+      </span>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <p class="hero-tagline">"Specialize in crafting unique, people-focused visual strategies that bring ideas to life."</p>
+    <div class="hero-roles">
+      <span class="hero-role">UI/UX Design</span>
+      <span class="hero-role">Java · Python · C</span>
+      <span class="hero-role">Video Editing</span>
+      <span class="hero-role">Content Strategy</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CAPABILITIES ══════════════ -->
+<section class="capabilities" id="capabilities">
+  <div class="sec-header-row rv">
+    <h2 class="sec-title">Functional<br/>Capabilities</h2>
+    <p class="sec-note">What I bring to a project, end to end — design through delivery.</p>
+  </div>
+
+  <div class="cap-grid rv">
+    <!-- 
+      ════════════════════════════════════════════════════
+      HOW TO ADD MORE CAPABILITIES:
+      Copy one .cap-node block below and paste it before
+      the closing </div> of .cap-grid. Update the number,
+      title and description. The grid auto-wraps, so any
+      number of cards works — 4, 5, 8, however many you want.
+      ════════════════════════════════════════════════════
+    -->
+    <div class="cap-node">
+      <div class="cap-idx">01</div>
+      <div class="cap-title">Figma Interface Design</div>
+      <div class="cap-desc">Wireframes, high-fidelity UI, prototyping and component systems built for real products.</div>
+    </div>
+    <div class="cap-node">
+      <div class="cap-idx">02</div>
+      <div class="cap-title">Software Development</div>
+      <div class="cap-desc">Java, Python and C — object-oriented logic, data structures, and clean algorithm design.</div>
+    </div>
+    <div class="cap-node">
+      <div class="cap-idx">03</div>
+      <div class="cap-title">Video &amp; Content Editing</div>
+      <div class="cap-desc">Short-form edits built for retention — pacing, captions, sound design for social platforms.</div>
+    </div>
+    <div class="cap-node">
+      <div class="cap-idx">04</div>
+      <div class="cap-title">Brand &amp; Social Design</div>
+      <div class="cap-desc">Canva-built campaigns, post systems and visual identity work for real client briefs.</div>
+    </div>
+  </div>
+
+  <div class="add-cap-hint rv">
+    <b>Want to add another capability?</b> Find the comment block above titled "HOW TO ADD MORE CAPABILITIES" — copy one <code>.cap-node</code>, change the text, done.
+  </div>
+</section>
+
+<!-- ══════════════ WORK (dark, category columns, vertical stack) ══════════════ -->
+<section class="work-section" id="work">
+  <div class="work-inner">
+    <div class="work-head rv">
+      <h2 class="sec-title">Selected Work</h2>
+      <p class="work-head-sub">Organized by medium. Each piece can have a media preview, an external link, or both.</p>
     </div>
 
-    <!-- REFACTOR: SHUFFLE CONTAINER WITH SCROLLING TEXT BACKGROUND -->
-    <div id="preloader" onclick="dismissLoader()">
-        <div class="loader-bg-marquee">
-            <div class="marquee-inner">
-                <span>MANSI TOSHNIWAL — CODE MATRIX CREATIVE SYSTEM · STANDALONE FIGMA INTERFACES · CORE JAVA PIPELINES · </span>
-                <span>MANSI TOSHNIWAL — CODE MATRIX CREATIVE SYSTEM · STANDALONE FIGMA INTERFACES · CORE JAVA PIPELINES · </span>
-            </div>
-        </div>
-        <div class="loader-deck">
-            <div class="loader-deck-card" style="z-index: 3; transform: rotate(-5deg);">📐</div>
-            <div class="loader-deck-card" style="z-index: 2; transform: rotate(3deg);">🎬</div>
-            <div class="loader-deck-card" style="z-index: 1; transform: rotate(-1deg);">💻</div>
-        </div>
-        <div class="loader-hint">Click Interface To Enter Matrix</div>
-    </div>
+    <!-- 
+      ════════════════════════════════════════════════════════════
+      HOW TO ADD A NEW CATEGORY (e.g. a new medium):
+      1. Copy a whole .category-block (from <div class="category-block">
+         to its closing </div>)
+      2. Change .category-title to the new medium name
+      3. Inside .vstack, add/remove .vbox items — each is one project
 
-    <main>
-        <!-- PROFILE HERO CONTAINER -->
-        <section class="hero">
-            <div class="interactive-name-wrap">
-                <!-- Row 1: MANSI -->
-                <div class="name-row" style="margin-bottom: 1.5rem;">
-                    <div class="interactive-letter" data-asset="Figma UI Architecture Pipeline">M<div class="letter-popup-asset">Figma UI Architecture Pipeline</div></div>
-                    <div class="interactive-letter" data-asset="Core System Architecture Developer">A<div class="letter-popup-asset">Core System Architecture Developer</div></div>
-                    <div class="interactive-letter" data-asset="Advanced Dynamic Content Engineering">N<div class="letter-popup-asset">Advanced Dynamic Content Engineering</div></div>
-                    <div class="interactive-letter" data-asset="Scalable Software Interface Systems">S<div class="letter-popup-asset">Scalable Software Interface Systems</div></div>
-                    <div class="interactive-letter" data-asset="Integrated Media Production Modules">I<div class="letter-popup-asset">Integrated Media Production Modules</div></div>
-                </div>
-                <!-- Row 2: TOSHNIWAL -->
-                <div class="name-row">
-                    <div class="interactive-letter" data-asset="Technical Execution Substrate">T<div class="letter-popup-asset">Technical Execution Substrate</div></div>
-                    <div class="interactive-letter" data-asset="Optimized Performance Core Frameworks">O<div class="letter-popup-asset">Optimized Performance Core Frameworks</div></div>
-                    <div class="interactive-letter" data-asset="System Design Primitive Logic">S<div class="letter-popup-asset">System Design Primitive Logic</div></div>
-                    <div class="interactive-letter" data-asset="Hardware Accelerated Fluid Rendering">H<div class="letter-popup-asset">Hardware Accelerated Fluid Rendering</div></div>
-                    <div class="interactive-letter" data-asset="Dynamic Component State Controls">N<div class="letter-popup-asset">Dynamic Component State Controls</div></div>
-                    <div class="interactive-letter" data-asset="Unified Interface Validation Models">I<div class="letter-popup-asset">Unified Interface Validation Models</div></div>
-                    <div class="interactive-letter" data-asset="Structural DOM Pattern Management">W<div class="letter-popup-asset">Structural DOM Pattern Management</div></div>
-                    <div class="interactive-letter" data-asset="Creative Runtime Vector Matrix">A<div class="letter-popup-asset">Creative Runtime Vector Matrix</div></div>
-                    <div class="interactive-letter" data-asset="End-To-End Compilation Deployment">L<div class="letter-popup-asset">End-To-End Compilation Deployment</div></div>
-                </div>
-            </div>
-        </section>
+      HOW TO ADD A PROJECT INSIDE A CATEGORY:
+      1. Copy one .vbox block
+      2. MEDIA (optional) — inside .vbox-media, replace the placeholder
+         emoji span with:
+           <img src="images/yourfile.jpg" alt=""/>
+         or for video:
+           <video src="images/yourfile.mp4" muted loop autoplay playsinline></video>
+         Then update its onclick="openLB('images/yourfile.jpg','image')"
+         (or 'video') to match — this controls what opens fullscreen.
+         If you have no media yet, just leave the placeholder as is.
 
-        <!-- FUNCTIONAL CAPABILITIES REGISTRY MODULE -->
-        <section class="capabilities-section">
-            <h2 class="section-header-title">Functional Capabilities</h2>
-            <div class="capabilities-matrix" id="capabilities-target-node">
-                <!-- Explicit Node Expansion Engine Point -->
-            </div>
-        </section>
+      3. LINK (optional) — find the button with class "vbox-action is-link"
+         and set its real URL:
+           onclick="openExternal('https://figma.com/...', event)"
+         If you don't have a link yet, leave it as '#' — clicking does
+         nothing until you add a real URL.
 
-        <!-- CRITICAL REFOUSED LONG-BOX CONTENT ARCHITECTURE -->
-        <section class="work-matrix-section">
-            <div class="matrix-container" id="stream-injection-point">
-                <!-- Sequential Category Streams Inject Inline Here -->
-            </div>
-        </section>
+      4. You can have media only, link only, or both — just keep or
+         delete the matching button inside .vbox-actions.
 
-        <!-- VERTICALLY SEQUENCED CHRONOLOGY TIMELINES -->
-        <section class="chronology-section">
-            <div style="margin-bottom: 6rem;">
-                <h2 class="section-header-title">💼 Professional Internships</h2>
-                <div class="timeline-linear-track">
-                    <div class="timeline-node">
-                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">Product Validation Frameworks</h3>
-                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">RBU Technology Business Incubator Foundation</p>
-                    </div>
-                    <div class="timeline-node">
-                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">Interface Assessment Engineering</h3>
-                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">AyLark Operations Matrix</p>
-                    </div>
-                </div>
-            </div>
+      5. Update vbox-tag, vbox-title, vbox-desc, vbox-tool text.
+      ════════════════════════════════════════════════════════════
+    -->
 
+    <!-- CATEGORY: FIGMA -->
+    <div class="category-block rv">
+      <div class="category-head">
+        <span class="category-title">Figma / UI Systems</span>
+        <span class="category-count">02 pieces</span>
+      </div>
+      <div class="vstack">
+        <!-- 
+          ════════════════════════════════════════════════════
+          EACH PROJECT BOX SUPPORTS BOTH:
+          • Media preview (image/video) → click thumbnail to view fullscreen
+          • External link (Figma/GitHub/YouTube/Canva...) → separate button, opens new tab
+
+          To set the thumbnail: edit .vbox-media's onclick AND the
+          <img>/<video> tag inside it — keep both in sync.
+
+          To set the link: edit the .vbox-action.is-link button's
+          onclick — pass your URL into openExternal('YOUR_URL', event)
+          If you don't have a link yet, leave it as '#' and it will
+          show as disabled (greyed out, unclickable).
+          ════════════════════════════════════════════════════
+        -->
+        <div class="vbox">
+          <div class="vbox-media" onclick="openLB('','image')">
+            <span class="vbox-media-placeholder">📐</span>
+            <span class="vbox-media-num">01</span>
+          </div>
+          <div class="vbox-sidebar">
             <div>
-                <h2 class="section-header-title">🏆 Systems Hackathons</h2>
-                <div class="timeline-linear-track">
-                    <div class="timeline-node">
-                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">ByteQuest Architectural Hackathon</h3>
-                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">Pitched architectural structural validation logic and optimization constraints.</p>
-                    </div>
-                    <div class="timeline-node">
-                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">Python & Systems Data Structures</h3>
-                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">Coursera Certified Verification Credentials</p>
-                    </div>
-                </div>
+              <div class="vbox-tag">Figma / UI</div>
+              <div class="vbox-title">Blinkit UI Redesign</div>
+              <div class="vbox-desc">Pixel-perfect recreation of Blinkit's interface, rebuilt from scratch with an improved navigation system and component architecture.</div>
+              <div class="vbox-tools"><span class="vbox-tool">Figma</span><span class="vbox-tool">Auto Layout</span><span class="vbox-tool">Prototyping</span></div>
             </div>
-        </section>
-
-        <!-- COLORFUL CANVAS WITH CENTERED QUOTE WRAPPER -->
-        <section class="flower-canvas-footer">
-            <div class="flower-grid-matrix" id="matrix-flower-substrate"></div>
-            <div class="centralized-quote-wrapper">
-                <div class="centralized-quote-text">
-                    "Great design is always hidden in the plain sight."
-                </div>
+            <div class="vbox-foot">
+              <div class="vbox-actions">
+                <button class="vbox-action" onclick="openLB('','image');event.stopPropagation()">🖼 View Image</button>
+                <button class="vbox-action is-link" onclick="openExternal('#', event)">↗ Open in Figma</button>
+              </div>
             </div>
-        </section>
-    </main>
+          </div>
+        </div>
+        <div class="vbox">
+          <div class="vbox-media" onclick="openLB('','image')">
+            <span class="vbox-media-placeholder">📱</span>
+            <span class="vbox-media-num">02</span>
+          </div>
+          <div class="vbox-sidebar">
+            <div>
+              <div class="vbox-tag">App Design</div>
+              <div class="vbox-title">Rain — Campus Social App</div>
+              <div class="vbox-desc">Concept app for a campus-exclusive social platform — full UX flow, onboarding, and visual identity built from zero.</div>
+              <div class="vbox-tools"><span class="vbox-tool">Figma</span><span class="vbox-tool">UX Research</span></div>
+            </div>
+            <div class="vbox-foot">
+              <div class="vbox-actions">
+                <button class="vbox-action" onclick="openLB('','image');event.stopPropagation()">🖼 View Image</button>
+                <button class="vbox-action is-link" onclick="openExternal('#', event)">↗ Open in Figma</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="add-proj-hint"><b>Adding more Figma work?</b> Copy a <code>.vbox</code> block above and drop it inside this <code>.vstack</code> — it stacks below the existing ones automatically. Set the image, the link, or both — whatever you have.</div>
+    </div>
 
-    <script>
-        // ─── INITIALIZING STORAGE MATRICES FOR PRODUCTION OVERWRITES ───
-        const capabilitiesRegistry = [
-            { id: "01", title: "Standalone Figma Frameworks", metrics: "Wireframe layout planning and user interaction mapping." },
-            { id: "02", title: "Core System Dev / Java", metrics: "Object-oriented software development and algorithm design patterns." },
-            { id: "03", title: "Media Asset Pipelines", metrics: "High-bitrate video architecture and content strategy layout planning." },
-            { id: "04", title: "Frontend Implementation", metrics: "Semantic source markup generation with raw structural layout models." }
-        ];
+    <!-- CATEGORY: CANVA -->
+    <div class="category-block rv">
+      <div class="category-head">
+        <span class="category-title">Canva / Brand Design</span>
+        <span class="category-count">01 piece</span>
+      </div>
+      <div class="vstack">
+        <div class="vbox">
+          <div class="vbox-media" onclick="openLB('','image')">
+            <span class="vbox-media-placeholder">🎨</span>
+            <span class="vbox-media-num">01</span>
+          </div>
+          <div class="vbox-sidebar">
+            <div>
+              <div class="vbox-tag">Brand Design</div>
+              <div class="vbox-title">AyLark Campaign Posts</div>
+              <div class="vbox-desc">Social media post system designed for AyLark's salon management software — built for short-form reels and feed posts.</div>
+              <div class="vbox-tools"><span class="vbox-tool">Canva</span><span class="vbox-tool">Branding</span></div>
+            </div>
+            <div class="vbox-foot">
+              <div class="vbox-actions">
+                <button class="vbox-action" onclick="openLB('','image');event.stopPropagation()">🖼 View Image</button>
+                <button class="vbox-action is-link" onclick="openExternal('#', event)">↗ Open in Canva</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        // HOW TO EXPAND PROJECTS: Simply append structural items inside this collection array
-        const projectVault = [
-            {
-                category: "Figma UI Architecture",
-                items: [
-                    { title: "Blinkit UI System Refactor", tech: "Figma Standalone Framework", src: "" },
-                    { title: "Rain Campus Discovery Prototype", tech: "Interaction Logic Design", src: "" }
-                ]
-            },
-            {
-                category: "Canva Creative Assets",
-                items: [
-                    { title: "Corporate Brand Communication Set", tech: "Vector Pro Production Layouts", src: "" }
-                ]
-            },
-            {
-                category: "Video Engineering Production",
-                items: [
-                    { title: "Cinematic Product Timeline Motion", tech: "High-Bitrate Timeline Master Cuts", src: "" }
-                ]
-            }
-        ];
+    <!-- CATEGORY: VIDEO EDITING -->
+    <div class="category-block rv">
+      <div class="category-head">
+        <span class="category-title">Video Editing</span>
+        <span class="category-count">01 piece</span>
+      </div>
+      <div class="vstack">
+        <div class="vbox">
+          <div class="vbox-media" onclick="openLB('','video')">
+            <span class="vbox-media-placeholder">🎬</span>
+            <span class="vbox-media-num">01</span>
+          </div>
+          <div class="vbox-sidebar">
+            <div>
+              <div class="vbox-tag">Video Edit</div>
+              <div class="vbox-title">Instagram Reel — Pac-Man in Java</div>
+              <div class="vbox-desc">High-retention episode covering my Pac-Man build, edited for Midnight Mansi's Reels-first content strategy.</div>
+              <div class="vbox-tools"><span class="vbox-tool">VN App</span><span class="vbox-tool">Pacing</span></div>
+            </div>
+            <div class="vbox-foot">
+              <div class="vbox-actions">
+                <button class="vbox-action" onclick="openLB('','video');event.stopPropagation()">▶ Play Video</button>
+                <button class="vbox-action is-link" onclick="openExternal('#', event)">↗ Watch on Instagram</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        const vibrantHexColors = ["#e63946", "#f4a261", "#2a9d8f", "#e9c46a", "#457b9d", "#a8dadc", "#1d3557", "#ffb703"];
+    <!-- CATEGORY: DEVELOPMENT -->
+    <div class="category-block rv">
+      <div class="category-head">
+        <span class="category-title">Development</span>
+        <span class="category-count">01 piece</span>
+      </div>
+      <div class="vstack">
+        <div class="vbox">
+          <div class="vbox-media" style="cursor:default" onclick="event.stopPropagation()">
+            <span class="vbox-media-placeholder">{ }</span>
+            <span class="vbox-media-num">01</span>
+          </div>
+          <div class="vbox-sidebar">
+            <div>
+              <div class="vbox-tag">Development</div>
+              <div class="vbox-title">DSA Solutions Repository</div>
+              <div class="vbox-desc">LeetCode and HackerRank solutions, organized by language then topic — minimal, no extra documentation scaffolding.</div>
+              <div class="vbox-tools"><span class="vbox-tool">Java</span><span class="vbox-tool">Python</span><span class="vbox-tool">C</span></div>
+            </div>
+            <div class="vbox-foot">
+              <div class="vbox-actions">
+                <button class="vbox-action is-link" onclick="openExternal('https://github.com/ToshniwalMansi', event)">↗ Open Repository</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        document.addEventListener("DOMContentLoaded", () => {
-            // Populate Capabilities Matrix
-            const nodeTarget = document.getElementById("capabilities-target-node");
-            if (nodeTarget) {
-                nodeTarget.innerHTML = capabilitiesRegistry.map(node => `
-                    <div class="capability-node">
-                        <div class="node-index">${node.id}</div>
-                        <h3 style="font-family:'Space Grotesk'; font-size:1.4rem; text-transform:uppercase;">${node.title}</h3>
-                        <p style="color:var(--muted-dark); font-size:0.95rem; line-height:1.6;">${node.metrics}</p>
-                    </div>
-                `).join('');
-            }
+  </div>
+</section>
 
-            // Populate Full-Width Vertical Content Stream Blocks
-            const streamTarget = document.getElementById("stream-injection-point");
-            if (streamTarget) {
-                streamTarget.innerHTML = projectVault.map(stream => `
-                    <div class="category-stream-block">
-                        <h3 class="category-stream-title">${stream.category}</h3>
-                        <div class="vertical-asset-stream">
-                            ${stream.items.map(item => `
-                                <div class="vertical-long-box" onclick="launchFullscreen('${item.src}', 'image')">
-                                    <div class="box-media-canvas">
-                                        <!-- Source media tag layers embed directly here inside execution runtimes -->
-                                    </div>
-                                    <div class="box-description-sidebar">
-                                        <h4 style="font-family:'Space Grotesk'; font-size:1.75rem; text-transform:uppercase; line-height:1.1;">${item.title}</h4>
-                                        <div style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted-light);">Engine: ${item.tech}</div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `).join('');
-            }
+<!-- ══════════════ TIMELINES (bright, full-width, stacked) ══════════════ -->
+<section class="timelines" id="timelines">
 
-            // Interactive character state loops
-            const letters = document.querySelectorAll(".interactive-letter");
-            letters.forEach(letter => {
-                letter.addEventListener("click", () => {
-                    letter.classList.toggle("active");
-                    setTimeout(() => letter.classList.remove("active"), 2200);
-                });
-            });
+  <!-- INTERNSHIPS -->
+  <div class="timeline-block rv">
+    <div class="timeline-head">
+      <span class="timeline-emoji">💼</span>
+      <h2 class="timeline-title">Internships</h2>
+    </div>
+    <div class="tl-track">
+      <!-- 
+        ════════════════════════════════════════
+        HOW TO ADD AN INTERNSHIP:
+        Copy one .tl-item block and place it 
+        before the closing </div> of .tl-track
+        ════════════════════════════════════════
+      -->
+      <div class="tl-item">
+        <div class="tl-eyebrow">Startup Validation</div>
+        <div class="tl-name">RBU TBI Foundation</div>
+        <div class="tl-desc">Early-stage product validation, user flow mapping, and structural design frameworks for incubated startup ventures.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-eyebrow">Design &amp; Assessment</div>
+        <div class="tl-name">AyLark</div>
+        <div class="tl-desc">Wireframing, UX design reviews, and interface architecture assessments for a salon management software product.</div>
+      </div>
+    </div>
+  </div>
 
-            // Dynamic background switching triggers
-            const matrixContainerSection = document.querySelector(".work-matrix-section");
-            const body = document.body;
-            
-            const substrateObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        body.classList.add("dark-mode");
-                        body.style.backgroundColor = "var(--bg-serious)";
-                        body.style.color = "var(--text-light)";
-                    } else {
-                        if (entry.boundingClientRect.top > 0) {
-                            body.classList.remove("dark-mode");
-                            body.style.backgroundColor = "var(--bg-bright)";
-                            body.style.color = "var(--text-dark)";
-                        }
-                    }
-                });
-            }, { threshold: 0.1 });
+  <!-- HACKATHONS -->
+  <div class="timeline-block rv">
+    <div class="timeline-head">
+      <span class="timeline-emoji">🏆</span>
+      <h2 class="timeline-title">Hackathons &amp; Certificates</h2>
+    </div>
+    <div class="tl-track">
+      <!-- 
+        ════════════════════════════════════════
+        HOW TO ADD A HACKATHON / CERTIFICATE:
+        Copy one .tl-item block. The .tl-cert 
+        button is optional — link it to a 
+        certificate image with onclick="openLB(...)"
+        ════════════════════════════════════════
+      -->
+      <div class="tl-item">
+        <div class="tl-eyebrow">Hackathon</div>
+        <div class="tl-name">ByteQuest Hackathon</div>
+        <div class="tl-desc">Built system flow architecture and pitched interface logic under time pressure in a rapid sprint format.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-eyebrow">Certification</div>
+        <div class="tl-name">Python &amp; DSA — Coursera</div>
+        <div class="tl-desc">Certified in Python data structures — arrays, dictionaries, tuples, and file processing systems.</div>
+        <div class="tl-cert" onclick="openLB('','image')">📜 View Certificate</div>
+      </div>
+    </div>
+  </div>
 
-            if (matrixContainerSection) substrateObserver.observe(matrixContainerSection);
+</section>
 
-            // Populate Colorful Matrix Footer Layer
-            const flowerMatrixGrid = document.getElementById("matrix-flower-substrate");
-            if (flowerMatrixGrid) {
-                let flowerHTML = "";
-                for (let i = 0; i < 54; i++) {
-                    const pickingColor = vibrantHexColors[i % vibrantHexColors.length];
-                    const trackingCenterColor = vibrantHexColors[(i + 3) % vibrantHexColors.length];
-                    flowerHTML += `
-                        <div style="display:flex; align-items:center; justify-content:center; aspect-ratio:1;">
-                            <svg class="vector-flower" style="width:65px; height:65px; transition:transform 0.7s ease;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="50" cy="22" r="18" fill="${pickingColor}"/>
-                                <circle cx="50" cy="78" r="18" fill="${pickingColor}"/>
-                                <circle cx="22" cy="50" r="18" fill="${pickingColor}"/>
-                                <circle cx="78" cy="50" r="18" fill="${pickingColor}"/>
-                                <circle cx="50" cy="50" r="14" fill="${trackingCenterColor}"/>
-                            </svg>
-                        </div>
-                    `;
-                }
-                flowerMatrixGrid.innerHTML = flowerHTML;
+<!-- ══════════════ FLOWER FOOTER ══════════════ -->
+<section class="flower-footer">
+  <div class="flower-grid" id="flowerGrid"></div>
+  <div class="quote-wrap">
+    <div class="quote-box">"Great design is always hidden in plain sight."</div>
+  </div>
+</section>
 
-                const vectorFlowers = document.querySelectorAll(".vector-flower");
-                vectorFlowers.forEach(flower => {
-                    let rotState = 0;
-                    flower.addEventListener("mouseenter", () => {
-                        rotState += 180;
-                        flower.style.transform = `rotate(${rotState}deg)`;
-                    });
-                });
-            }
-        });
+<div class="foot-strip">
+  <div class="foot-strip-l">Mansi Toshniwal</div>
+  <div class="foot-strip-r">Designed &amp; Built From Scratch · 2025</div>
+</div>
 
-        function dismissLoader() {
-            const preloader = document.getElementById("preloader");
-            preloader.style.transition = "opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)";
-            preloader.style.opacity = "0";
-            setTimeout(() => preloader.style.display = "none", 500);
-        }
+<script>
+/* ════════════════════════════════════════════════════════════
+   LOADER DECK — add your own images here
+   
+   Add as many entries as you like (10-11 works great). Each
+   entry needs either an "img" path OR an "emoji" fallback.
+   
+   To use a real image:
+     { img: "images/loader-1.jpg" }
+   
+   To use an emoji placeholder (until you have a real image):
+     { emoji: "📐" }
+   ════════════════════════════════════════════════════════════ */
+const LOADER_IMAGES = [
+  { emoji: "📐" },
+  { emoji: "🎬" },
+  { emoji: "🎨" },
+  { emoji: "✦"  },
+  { emoji: "💻" },
+  { emoji: "📱" },
+  { emoji: "🖌️" },
+  { emoji: "🎮" },
+  { emoji: "📸" },
+  { emoji: "✏️" },
+  { emoji: "🌙" },
+];
 
-        function launchFullscreen(source, formatType) {
-            if(!source) return;
-            const overlay = document.getElementById("lightbox-overlay");
-            const container = document.getElementById("lightbox-container");
-            overlay.style.display = "flex";
-            container.innerHTML = formatType === 'video' 
-                ? `<video src="${source}" controls autoplay style="width:100%; height:100%;"></video>`
-                : `<img src="${source}" alt="Target Display Asset"/>`;
-        }
+const deck = document.getElementById('loaderDeck');
+const cardEls = [];
 
-        function closeFullscreen() {
-            document.getElementById("lightbox-overlay").style.display = "none";
-        }
-    </script>
+LOADER_IMAGES.forEach((item, i)=>{
+  const card = document.createElement('div');
+  card.className = 'loader-card';
+  card.id = 'lc' + i;
+  card.style.zIndex = LOADER_IMAGES.length - i;
+  card.innerHTML = item.img
+    ? `<img src="${item.img}" alt=""/><div class="impact-flash"></div>`
+    : `${item.emoji || '✦'}<div class="impact-flash"></div>`;
+  deck.appendChild(card);
+  cardEls.push(card);
+});
+
+/* ── Build a randomized fly-in start position + final landed rotation for each card ── */
+function randomFlyStart(){
+  const dirs = [
+    {x:-260,y:-180}, {x:260,y:-190}, {x:-240,y:210}, {x:250,y:200},
+    {x:0,y:280}, {x:0,y:-260}, {x:-300,y:0}, {x:300,y:0},
+  ];
+  const d = dirs[Math.floor(Math.random()*dirs.length)];
+  const rot = (Math.random()*70-35).toFixed(1);
+  return {x:d.x, y:d.y, rot};
+}
+
+const landData = cardEls.map(()=>{
+  const start = randomFlyStart();
+  const landRot = (Math.random()*10-5).toFixed(1);       // small final tilt, like a real stacked deck
+  const landX = (Math.random()*16-8).toFixed(1);
+  const landY = (Math.random()*10-5).toFixed(1);
+  return {...start, landRot, landX, landY};
+});
+
+/* Set initial scattered position before animating in */
+cardEls.forEach((card,i)=>{
+  const d = landData[i];
+  card.style.transform = `translate(${d.x}px,${d.y}px) rotate(${d.rot}deg) scale(.6)`;
+});
+
+/* ── Fly cards in one at a time ── */
+const FLY_DURATION = 750;
+const FLY_GAP = 230;
+
+cardEls.forEach((card,i)=>{
+  setTimeout(()=>{
+    const d = landData[i];
+    card.style.setProperty('--land-transform', `translate(${d.landX}px,${d.landY}px)`);
+    card.style.setProperty('--land-rot', d.landRot+'deg');
+    card.classList.add('landed');
+    card.style.transform = `translate(${d.landX}px,${d.landY}px) rotate(${d.landRot}deg) scale(1)`;
+    setTimeout(()=>{ card.classList.add('settle'); }, FLY_DURATION + 30);
+  }, 150 + i * FLY_GAP);
+});
+
+const TOTAL_LAND_TIME = 150 + (cardEls.length-1)*FLY_GAP + FLY_DURATION + 250;
+
+/* Fan-out flourish — cards spread slightly apart right before the loader exits */
+function fanOutCards(){
+  cardEls.forEach((card,i)=>{
+    const angle = (i / cardEls.length) * Math.PI * 2;
+    const fx = Math.cos(angle) * 30;
+    const fy = Math.sin(angle) * 22 - 6;
+    const frot = (Math.random()*24-12).toFixed(1);
+    card.classList.add('fanout');
+    card.style.transform = `translate(${fx}px,${fy}px) rotate(${frot}deg) scale(1.02)`;
+  });
+}
+
+/* ── Preloader dismiss ── */
+function dismissLoader(){
+  const p=document.getElementById('preloader');
+  if(p.classList.contains('out')) return;
+  fanOutCards();
+  setTimeout(()=>{
+    p.classList.add('out');
+    setTimeout(()=>{p.style.display='none';},620);
+  }, 420);
+}
+/* Auto-dismiss once the deck has fully formed and the fan plays */
+setTimeout(()=>{ dismissLoader(); }, Math.max(TOTAL_LAND_TIME, 2600));
+
+/* ── Letter click toggles active (mobile-friendly, hover handles desktop) ── */
+document.querySelectorAll('.letter').forEach(letter=>{
+  letter.addEventListener('click', e=>{
+    document.querySelectorAll('.letter.active').forEach(l=>{ if(l!==letter) l.classList.remove('active'); });
+    letter.classList.toggle('active');
+    setTimeout(()=>letter.classList.remove('active'), 2400);
+  });
+});
+
+/* ── Nav background swap on scroll into dark work section ── */
+const nav = document.getElementById('mainNav');
+const workSection = document.getElementById('work');
+const navObs = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting) nav.classList.add('dark');
+    else nav.classList.remove('dark');
+  });
+},{threshold:0,rootMargin:'-80px 0px -90% 0px'});
+navObs.observe(workSection);
+
+/* ── Scroll reveal ── */
+const rvObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rvObs.unobserve(e.target); } });
+},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+
+/* ── Lightbox (for images/videos) ── */
+function openLB(src, type){
+  const box=document.getElementById('lb-box');
+  if(!src){
+    box.innerHTML = '<div style="width:500px;height:350px;display:flex;align-items:center;justify-content:center;background:#1c1c1f;color:rgba(247,243,234,.3);font-family:Space Grotesk,sans-serif;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase">No media added yet</div>';
+  } else if(type==='video'){
+    box.innerHTML = `<video src="${src}" controls autoplay></video>`;
+  } else {
+    box.innerHTML = `<img src="${src}" alt=""/>`;
+  }
+  document.getElementById('lightbox').classList.add('on');
+}
+function closeLB(){
+  document.getElementById('lightbox').classList.remove('on');
+  const v=document.querySelector('#lb-box video'); if(v) v.pause();
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLB(); });
+
+/* ── Open external link (Figma / GitHub / YouTube etc.) in new tab ── */
+function openExternal(url, evt){
+  if(evt) evt.stopPropagation();
+  if(!url || url === '#') return;
+  window.open(url, '_blank', 'noopener');
+}
+
+/* ── Flower grid (colorful, rotates on hover) ── */
+const FLOWER_COLORS = ['#e0432a','#f4a35c','#1f8a70','#e9c25a','#2c5282','#a7d6dc','#1d3557','#ffb84d'];
+const flowerGrid = document.getElementById('flowerGrid');
+let flowerHTML='';
+for(let i=0;i<48;i++){
+  const petal = FLOWER_COLORS[i % FLOWER_COLORS.length];
+  const center = FLOWER_COLORS[(i+3) % FLOWER_COLORS.length];
+  flowerHTML += `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="24" r="17" fill="${petal}"/>
+      <circle cx="50" cy="76" r="17" fill="${petal}"/>
+      <circle cx="24" cy="50" r="17" fill="${petal}"/>
+      <circle cx="76" cy="50" r="17" fill="${petal}"/>
+      <circle cx="50" cy="50" r="13" fill="${center}"/>
+    </svg>`;
+}
+flowerGrid.innerHTML = flowerHTML;
+let rot=0;
+flowerGrid.querySelectorAll('svg').forEach(svg=>{
+  svg.addEventListener('mouseenter', ()=>{ rot+=180; svg.style.transform=`rotate(${rot}deg) scale(1.15)`; });
+  svg.addEventListener('mouseleave', ()=>{ svg.style.transform=`rotate(${rot}deg) scale(1)`; });
+});
+</script>
 </body>
 </html>

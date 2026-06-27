@@ -1,1258 +1,735 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mansi Toshniwal — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
-<style>
-/* ─── TOKENS ─────────────────────────────── */
-:root{
-  --paper:#f0e9da;
-  --paper2:#e8deca;
-  --paper3:#ddd2ba;
-  --ink:#0e0d08;
-  --muted:#8a7e6a;
-  --white:#faf6ee;
-  --red:#c8341a;
-  --olive:#4e5e32;
-  --gold:#b8900a;
-  --border:#0e0d08;
-  --r:3px;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;min-height:100vh;font-size:13px}
-img,video{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
- 
-/* ─── GRAIN ──────────────────────────────── */
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='.05'/%3E%3C/svg%3E");
-  opacity:.55}
- 
-/* ─── SCROLL PROGRESS ────────────────────── */
-#sp{position:fixed;top:0;left:0;height:2px;background:var(--red);z-index:9999;width:0;pointer-events:none}
- 
-/* ─── LOADER ─────────────────────────────── */
-#ldr{position:fixed;inset:0;background:var(--ink);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.2rem}
-.ldr-word{display:flex;gap:.02em;overflow:hidden}
-.ldr-ch{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,9vw,5.5rem);font-weight:800;color:var(--paper);letter-spacing:-.03em;display:inline-block;transform:translateY(110%);animation:chUp .5s cubic-bezier(.16,1,.3,1) forwards}
-.ldr-bar{width:160px;height:1.5px;background:rgba(240,233,218,.12);overflow:hidden}
-.ldr-fill{height:100%;background:var(--red);width:0;animation:barFill 1s ease forwards .2s}
-#ldr.out{animation:ldrOut .45s ease forwards}
-@keyframes chUp{to{transform:translateY(0)}}
-@keyframes barFill{to{width:100%}}
-@keyframes ldrOut{to{opacity:0;visibility:hidden}}
- 
-/* ─── EDIT BANNER ────────────────────────── */
-#eb{display:none;position:fixed;top:0;left:0;right:0;z-index:8888;background:var(--red);color:#fff;padding:.38rem .8rem;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid var(--border)}
-#eb.on{display:flex}
-.ebbtn{background:var(--ink);color:#fff;border:1px solid rgba(255,255,255,.25);padding:.15rem .6rem;border-radius:2px;font-size:.58rem;font-weight:700;cursor:pointer;text-transform:uppercase;font-family:'Syne',sans-serif}
-.ebbtn.w{background:#fff;color:var(--red)}
-#ilab{display:inline-block;cursor:pointer}
-#ilab input{display:none}
- 
-/* ─── NAV ────────────────────────────────── */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2rem;background:rgba(240,233,218,.9);backdrop-filter:blur(14px) saturate(1.5);border-bottom:1px solid rgba(14,13,8,.1);transition:top .35s ease,transform .4s ease}
-nav.sh{top:30px}
-.nav-logo{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:-.02em}
-.nav-logo em{color:var(--red);font-style:normal}
-.nav-c{display:flex;align-items:center;gap:1.8rem}
-.nav-links{display:flex;gap:1.4rem;list-style:none}
-.nav-links a{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);position:relative;padding-bottom:2px}
-.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--red);transition:width .25s ease}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a:hover::after{width:100%}
-.nav-hire{background:var(--ink);color:var(--paper);padding:.38rem .9rem;border-radius:2px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--border);transition:background .2s,transform .18s}
-.nav-hire:hover{background:var(--red);transform:translateY(-1px)}
- 
-/* ─── EDITABLE ───────────────────────────── */
-[contenteditable]{outline:none;border-radius:2px;transition:background .12s,box-shadow .12s}
-body.em [contenteditable]:hover{background:rgba(200,52,26,.06);box-shadow:0 0 0 1.5px rgba(200,52,26,.3)}
-body.em [contenteditable]:focus{background:rgba(200,52,26,.09);box-shadow:0 0 0 2px var(--red)}
-[contenteditable][placeholder]:empty::before{content:attr(placeholder);color:var(--muted);opacity:.4;pointer-events:none}
-.eo{display:none!important}
-body.em .eo{display:flex!important}
-.eob{display:none!important}
-body.em .eob{display:block!important}
- 
-/* ─── BACK TOP ───────────────────────────── */
-#bt{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;background:var(--ink);color:var(--paper);border:1px solid var(--border);width:36px;height:36px;border-radius:2px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s,background .18s;box-shadow:2px 2px 0 var(--border)}
-#bt.show{opacity:1;transform:translateY(0)}
-#bt:hover{background:var(--red)}
- 
-/* ─── HERO ─── CREATIVE ASYMMETRIC LAYOUT ── */
-.hero-wrap{min-height:100vh;display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden;padding-top:4.5rem}
-#hero-canvas{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.25}
- 
-/* Side label rotated */
-.hero-side-label{position:absolute;left:0;top:50%;transform:translateY(-50%) rotate(-90deg) translateX(-50%);transform-origin:left center;font-size:.52rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);z-index:2;white-space:nowrap}
- 
-.hero-inner{max-width:1280px;margin:0 auto;padding:2rem 2rem 1.5rem 3.5rem;position:relative;z-index:1;display:grid;grid-template-columns:1fr 280px;grid-template-rows:auto 1fr auto;gap:0;min-height:calc(100vh - 4.5rem)}
- 
-/* Giant name — bleeds left, overlaps photo */
-.hero-name-block{grid-column:1/3;grid-row:1/2;padding-bottom:.5rem;position:relative}
-.hero-name{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(4rem,10vw,9.5rem);line-height:.82;letter-spacing:-.05em;color:var(--ink);position:relative;z-index:2}
-.hero-name .hn-outline{-webkit-text-stroke:1.5px var(--ink);color:transparent}
-.hero-name .hn-red{color:var(--red)}
-/* Decorative big year watermark */
-.hero-watermark{position:absolute;right:-1rem;top:-.5rem;font-family:'Syne',sans-serif;font-size:clamp(5rem,14vw,13rem);font-weight:800;color:rgba(14,13,8,.04);letter-spacing:-.06em;line-height:1;z-index:0;user-select:none;pointer-events:none}
- 
-.hero-badges{position:absolute;right:0;top:0;display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;z-index:3}
-.hero-year-badge{font-family:'Syne',sans-serif;font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);border:1px solid var(--border);padding:.25rem .6rem;background:var(--white)}
-.avail-dot{display:inline-flex;align-items:center;gap:.38rem;font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--olive);background:rgba(78,94,50,.1);border:1px solid var(--olive);padding:.25rem .6rem}
-.avail-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--olive);animation:blink 1.6s ease infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
- 
-/* Middle — bio + tags */
-.hero-mid{grid-column:1/2;grid-row:2/3;display:flex;flex-direction:column;justify-content:flex-end;gap:.9rem;padding-bottom:1rem;padding-right:2rem}
-.hero-bio{font-size:.8rem;line-height:1.85;color:var(--muted);max-width:400px}
-.hero-tags{display:flex;flex-wrap:wrap;gap:.3rem}
-.htag{padding:.22rem .65rem;border:1px solid var(--border);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;background:var(--white);cursor:default;transition:all .2s;position:relative;overflow:hidden}
-.htag::before{content:'';position:absolute;inset:0;background:var(--red);transform:scaleY(0);transform-origin:bottom;transition:transform .2s ease;z-index:0}
-.htag span{position:relative;z-index:1;transition:color .2s}
-.htag:hover::before{transform:scaleY(1)}
-.htag:hover span{color:#fff}
-.hero-btns{display:flex;gap:.5rem;flex-wrap:wrap}
-.cta-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border:1px solid var(--border);font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;transition:all .2s;cursor:pointer;background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
-.cta-btn::after{content:'';position:absolute;inset:0;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .28s ease;z-index:0}
-.cta-btn span{position:relative;z-index:1}
-.cta-btn:hover::after{transform:scaleX(1)}
-.cta-btn.outline{background:transparent;color:var(--ink)}
-.cta-btn.outline::after{background:var(--paper2)}
-.cta-btn.outline span{color:var(--ink)}
- 
-/* Photo — right column, spans rows 2–3, overlaps */
-.hero-photo-col{grid-column:2/3;grid-row:1/4;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;padding-bottom:1rem;gap:.8rem;position:relative}
-.hero-photo{width:100%;height:340px;border:1.5px solid var(--border);overflow:hidden;background:var(--paper2);position:relative;cursor:pointer}
-.hero-photo img,.hero-photo video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .5s ease}
-.hero-photo:hover img,.hero-photo:hover video{transform:scale(1.04)}
-.hero-photo-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--muted);font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
-.hero-photo-ph .icon{font-size:2rem}
-.hero-photo .vo{position:absolute;inset:0;background:rgba(14,13,8,.42);display:none;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.1em;z-index:2}
-.hero-photo:hover .vo{display:flex}
-/* Rotated caption beside photo */
-.hero-photo-caption{font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg)}
- 
-/* Bottom stat strip */
-.hero-stats-strip{grid-column:1/3;border-top:1px solid rgba(14,13,8,.12);display:grid;grid-template-columns:repeat(4,1fr);gap:0}
-.hstat{padding:.8rem 1rem;border-right:1px solid rgba(14,13,8,.1);display:flex;flex-direction:column;gap:.1rem}
-.hstat:last-child{border-right:none}
-.hstat .n{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--ink);line-height:1}
-.hstat .l{font-size:.52rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
- 
-/* ─── MARQUEE ────────────────────────────── */
-.mq-strip{overflow:hidden;background:var(--ink);padding:.6rem 0;white-space:nowrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.mq-inner{display:inline-block;animation:mq 20s linear infinite}
-.mq-strip:hover .mq-inner{animation-play-state:paused}
-.mq-inner span{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;color:var(--paper);margin:0 1.2rem;text-transform:uppercase}
-.mq-inner b{color:var(--red)}
-@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
- 
-/* ─── SECTIONS ───────────────────────────── */
-.sec{padding:4rem 2rem;position:relative}
-.sec.alt{background:var(--white)}
-.sec.dark{background:var(--ink)}
-.con{max-width:1240px;margin:0 auto}
- 
-/* Editorial sec header — large number + title stacked */
-.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;padding-bottom:.8rem;border-bottom:1px solid rgba(14,13,8,.1)}
-.sec.dark .sec-head{border-bottom-color:rgba(240,233,218,.1)}
-.sec-label{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem}
-.sec-label::before{content:'';width:14px;height:1px;background:var(--red);display:inline-block}
-.sec.dark .sec-label{color:rgba(240,233,218,.35)}
-.sec-h{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:.95;color:var(--ink)}
-.sec.dark .sec-h{color:var(--paper)}
-/* Section index number */
-.sec-num{font-family:'Syne',sans-serif;font-size:4.5rem;font-weight:800;color:rgba(14,13,8,.06);line-height:1;letter-spacing:-.04em;user-select:none}
-.sec.dark .sec-num{color:rgba(240,233,218,.05)}
-.divider{height:1px;background:rgba(14,13,8,.08)}
- 
-.sdel{position:absolute;top:.8rem;right:.8rem;background:var(--red);border:1px solid var(--border);color:#fff;width:22px;height:22px;font-size:.6rem;font-weight:700;cursor:pointer;display:none!important;align-items:center;justify-content:center;z-index:5}
-body.em .sdel{display:flex!important}
- 
-.aibtn{background:transparent;border:1px dashed var(--muted);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;cursor:pointer;color:var(--muted);font-family:'Syne',sans-serif;transition:all .18s;display:inline-flex;align-items:center;gap:.3rem;padding:.38rem .8rem}
-.aibtn:hover{border-color:var(--red);color:var(--red)}
- 
-/* ─── PROFILES ─── HORIZONTAL TAPE STRIP ─── */
-.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
-.pc{background:var(--white);border:1px solid var(--border);padding:1.2rem;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:.7rem;transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s;position:relative;overflow:hidden}
-.pc::after{content:'↗';position:absolute;bottom:.8rem;right:.8rem;font-size:.8rem;opacity:.25;transition:opacity .18s,transform .18s}
-.pc:hover{transform:translateY(-4px);box-shadow:4px 6px 0 var(--border)}
-.pc:hover::after{opacity:1;transform:translate(2px,-2px)}
-.pi{font-size:1.5rem;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
-.pn{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:-.01em}
-.ps{font-size:.6rem;color:var(--muted);font-weight:500}
-.pdel,.pedit{position:absolute;display:none!important;z-index:10;width:20px;height:20px;font-size:.58rem;font-weight:700;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--border)}
-.pdel{top:.35rem;right:.35rem;background:var(--red);color:#fff}
-.pedit{top:.35rem;right:1.6rem;background:var(--ink);color:#fff}
-body.em .pdel,body.em .pedit{display:flex!important}
- 
-/* ─── PROJECTS ─── MASONRY-FEEL GRID ────── */
-.tabs{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1.8rem}
-.tab{padding:.32rem .8rem;background:var(--white);border:1px solid var(--border);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;cursor:pointer;transition:all .15s;font-family:'Syne',sans-serif}
-.tab:hover{background:var(--paper2)}
-.tab.act{background:var(--ink);color:var(--paper)}
- 
-/* Alternating large/small grid */
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;grid-auto-rows:1fr}
-.pcard{background:var(--white);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s}
-/* First card larger */
-.pcard:first-child{grid-column:span 2}
-.pcard:hover{transform:translateY(-6px);box-shadow:6px 8px 0 var(--border)}
-.pthumb{height:180px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:var(--paper2);display:flex;align-items:center;justify-content:center;cursor:pointer}
-.pcard:first-child .pthumb{height:240px}
-.pthumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .42s ease}
-.pthumb video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.pcard:hover .pthumb img{transform:scale(1.06)}
-.pthumb .emo{font-size:2.4rem;position:relative;z-index:1}
-.pthumb .tvo{position:absolute;inset:0;background:rgba(14,13,8,.48);display:none;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.1em;z-index:2}
-.pthumb:hover .tvo{display:flex}
-.pnum{position:absolute;bottom:.4rem;right:.6rem;font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:rgba(14,13,8,.06);line-height:1;z-index:0}
-.pbody{padding:1rem;flex:1;display:flex;flex-direction:column}
-.pcat{font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4rem;padding:.15rem .42rem;border:1px solid;display:inline-block}
-.pname{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.35rem;line-height:1.1;color:var(--ink)}
-.pdesc{font-size:.7rem;color:var(--muted);line-height:1.65;margin-bottom:.65rem;flex:1}
-.ptools{display:flex;flex-wrap:wrap;gap:.2rem;margin-bottom:.65rem}
-.ptool{font-size:.55rem;font-weight:600;padding:.12rem .35rem;background:var(--paper2);border:1px solid rgba(14,13,8,.12)}
-.pfoot{display:flex;gap:.35rem;align-items:center}
-.plink{flex:1;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--ink);font-family:'Syne',sans-serif;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.42rem .75rem;border:1px solid var(--border);background:var(--paper);transition:all .2s;position:relative;overflow:hidden}
-.plink::before{content:'';position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .22s ease;z-index:0}
-.plink span{position:relative;z-index:1;transition:color .22s}
-.plink:hover::before{transform:scaleX(1)}
-.plink:hover span{color:var(--paper)}
-.pedBtn{background:var(--ink);border:1px solid var(--border);color:#fff;width:27px;height:27px;font-size:.62rem;cursor:pointer;display:none!important;align-items:center;justify-content:center;flex-shrink:0;transition:background .18s}
-.pedBtn:hover{background:var(--red)}
-body.em .pedBtn{display:flex!important}
-.delb{position:absolute;top:.4rem;right:.4rem;background:var(--red);border:1px solid var(--border);color:#fff;width:22px;height:22px;font-size:.62rem;font-weight:700;display:none!important;align-items:center;justify-content:center;cursor:pointer;z-index:5}
-body.em .delb{display:flex!important}
-.addcard{background:var(--paper2);border:1px dashed var(--muted);display:none!important;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;min-height:220px;cursor:pointer;transition:all .22s;color:var(--muted)}
-.addcard:hover{border-color:var(--red);color:var(--red)}
-.addcard .acp{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;line-height:1}
-.addcard p{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
-body.em .addcard{display:flex!important}
- 
-/* ─── EXPERIENCE ─── TIMELINE FEEL ──────── */
-.expg{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
-.expcol-h{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.9rem;display:flex;align-items:center;justify-content:space-between;text-transform:uppercase}
-.ecard{background:var(--white);border:1px solid var(--border);padding:1rem 1rem 1rem 1.4rem;margin-bottom:.6rem;position:relative;transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s}
-.ecard:hover{transform:translateX(4px);box-shadow:-4px 3px 0 var(--border)}
-.eacc{width:2.5px;position:absolute;left:.6rem;top:.85rem;bottom:.85rem}
-.etitle{font-weight:700;font-size:.78rem;margin-bottom:.22rem;font-family:'Syne',sans-serif;letter-spacing:-.01em}
-.esub{font-size:.66rem;color:var(--muted);line-height:1.55}
-.ecert{width:100%;max-height:95px;object-fit:cover;border:1px solid var(--border);margin-top:.5rem;cursor:pointer;transition:transform .18s;display:block}
-.ecert:hover{transform:scale(1.01)}
-.edel,.eedit{position:absolute;display:none!important;z-index:5;width:18px;height:18px;font-size:.56rem;font-weight:700;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--border)}
-.edel{top:.35rem;right:.35rem;background:var(--red);color:#fff}
-.eedit{top:.35rem;right:1.5rem;background:var(--ink);color:#fff}
-body.em .edel,body.em .eedit{display:flex!important}
- 
-/* ─── ABOUT ─── EDITORIAL MAGAZINE ──────── */
-.abg{display:grid;grid-template-columns:300px 1fr;gap:3.5rem;align-items:start}
-.abphoto{width:100%;aspect-ratio:.75;border:1.5px solid var(--border);overflow:hidden;background:var(--paper2);cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s}
-.abphoto:hover{transform:rotate(-1deg) scale(1.012);box-shadow:7px 9px 0 var(--border)}
-.abphoto img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.abphoto .vo{position:absolute;inset:0;background:rgba(14,13,8,.38);display:none;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.1em}
-.abphoto:hover .vo{display:flex}
-.abphoto-ph{font-size:3rem;color:var(--muted)}
-.ab-name{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:.2rem}
-.ab-role{font-size:.6rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.12em;margin-bottom:1.2rem}
-.abtxt p{font-size:.78rem;color:var(--muted);line-height:1.85;margin-bottom:.8rem}
-.abstats{display:flex;gap:.6rem;margin-top:1.4rem}
-.abstat{flex:1;background:var(--paper);border:1px solid var(--border);padding:.75rem;text-align:center}
-.abstat .n{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--ink);line-height:1}
-.abstat .l{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:.12rem}
- 
-/* ─── CONTACT ─── FULL DARK IMMERSIVE ────── */
-.ctblock{background:var(--ink);padding:4rem 2.5rem;text-align:center;position:relative;overflow:hidden}
-/* Grid lines decoration */
-.ctblock::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(240,233,218,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(240,233,218,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
-.ct-orb1{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(200,52,26,.14),transparent 70%);top:-180px;right:-80px;pointer-events:none;animation:orb 5s ease-in-out infinite}
-.ct-orb2{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(78,94,50,.1),transparent 70%);bottom:-120px;left:-60px;pointer-events:none;animation:orb 6.5s ease-in-out infinite .7s}
-@keyframes orb{0%,100%{transform:scale(1)}50%{transform:scale(1.1) translate(8px,-8px)}}
-.ct-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,5.5vw,4.5rem);font-weight:800;letter-spacing:-.05em;color:var(--paper);line-height:.9;margin-bottom:.8rem;position:relative;z-index:1}
-.ct-title em{font-style:normal;-webkit-text-stroke:1px var(--paper);color:transparent}
-.ct-sub{font-size:.72rem;color:rgba(240,233,218,.38);margin-bottom:2rem;position:relative;z-index:1}
-.ctlinks{display:flex;flex-wrap:wrap;gap:.65rem;justify-content:center;position:relative;z-index:1}
-.clink{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border:1px solid rgba(240,233,218,.15);color:var(--paper);font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;transition:all .2s;position:relative;overflow:hidden}
-.clink::before{content:'';position:absolute;inset:0;background:var(--red);transform:scaleY(0);transform-origin:bottom;transition:transform .2s ease;z-index:0}
-.clink span{position:relative;z-index:1;transition:color .2s}
-.clink:hover::before{transform:scaleY(1)}
-.cdel{position:absolute;top:-6px;right:-6px;background:var(--red);border:1px solid #fff;width:16px;height:16px;border-radius:50%;color:#fff;font-size:.52rem;font-weight:700;display:none!important;align-items:center;justify-content:center;cursor:pointer;z-index:5}
-body.em .cdel{display:flex!important}
- 
-/* ─── FOOTER ─────────────────────────────── */
-footer{background:var(--ink);border-top:1px solid rgba(240,233,218,.06);padding:1.1rem 2rem;display:flex;justify-content:space-between;align-items:center}
-.flogo{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--paper);letter-spacing:-.02em}
-.flogo em{color:var(--red);font-style:normal}
-.fcopy{font-size:.54rem;font-weight:600;color:rgba(240,233,218,.3);text-transform:uppercase;letter-spacing:.09em}
- 
-/* ─── LIGHTBOX ───────────────────────────── */
-#lb{position:fixed;inset:0;background:rgba(14,13,8,.96);z-index:9997;display:none;align-items:center;justify-content:center;padding:1rem}
-#lb.on{display:flex;animation:fadeIn .22s ease}
-#lbi{max-width:92vw;max-height:88vh;border:1.5px solid rgba(240,233,218,.12);display:block;object-fit:contain}
-#lbv{max-width:92vw;max-height:88vh;border:1.5px solid rgba(240,233,218,.12);display:none;outline:none}
-#lbx{position:fixed;top:1rem;right:1rem;background:var(--paper);border:none;width:34px;height:34px;font-size:.9rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .18s}
-#lbx:hover{background:var(--red);color:#fff}
- 
-/* ─── MODAL ──────────────────────────────── */
-.ov{position:fixed;inset:0;background:rgba(14,13,8,.52);backdrop-filter:blur(5px);z-index:5000;display:none;align-items:center;justify-content:center;padding:1rem}
-.ov.on{display:flex}
-.modal{background:var(--white);border:1px solid var(--border);padding:1.8rem;width:100%;max-width:460px;box-shadow:5px 5px 0 var(--border);animation:fadeUp .22s ease both;max-height:92vh;overflow-y:auto}
-.modal h2{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.2rem}
-.msub{font-size:.66rem;color:var(--muted);margin-bottom:1.3rem}
-.fg{margin-bottom:.75rem}
-.fg label{display:block;font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.28rem}
-.fg input,.fg select,.fg textarea{width:100%;background:var(--paper);border:1px solid var(--border);padding:.52rem .72rem;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;outline:none;transition:border-color .18s}
-.fg textarea{resize:vertical;min-height:58px}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--red)}
-.fg select option{background:var(--white)}
-.mup{border:1px dashed var(--border);padding:1rem;text-align:center;cursor:pointer;background:var(--paper2);position:relative;transition:all .18s}
-.mup:hover{border-color:var(--red)}
-.mup input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.mup .mui{font-size:1.5rem;margin-bottom:.2rem}
-.mup p{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.mpri{width:100%;height:100px;object-fit:cover;border:1px solid var(--border);display:none;margin-top:.45rem}
-.mprv{width:100%;max-height:100px;border:1px solid var(--border);display:none;margin-top:.45rem}
-.mbtns{display:flex;gap:.4rem;margin-top:1rem}
-.msave{flex:1;background:var(--ink);color:#fff;border:1px solid var(--border);padding:.58rem;font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;cursor:pointer;transition:background .18s}
-.msave:hover{background:var(--red)}
-.mcanc{background:var(--paper2);color:var(--muted);border:1px solid var(--border);padding:.58rem .9rem;font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;cursor:pointer}
- 
-/* ─── PW BOX ─────────────────────────────── */
-.pwbox{background:var(--white);border:1px solid var(--border);padding:2rem;width:100%;max-width:300px;box-shadow:5px 5px 0 var(--border);text-align:center;animation:fadeUp .22s ease both}
-.pwbox h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
-.pwbox p{font-size:.66rem;color:var(--muted);margin-bottom:1rem}
-.pwerr{color:var(--red);font-size:.64rem;font-weight:700;margin-bottom:.4rem;display:none}
-.pwerr.on{display:block}
-#pwin{width:100%;background:var(--paper);border:1px solid var(--border);padding:.55rem .9rem;text-align:center;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.12em;outline:none;margin-bottom:.65rem}
-#pwin:focus{border-color:var(--red)}
-#pwgo{width:100%;background:var(--ink);color:#fff;border:1px solid var(--border);padding:.62rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;cursor:pointer;transition:background .18s}
-#pwgo:hover{background:var(--red)}
- 
-/* ─── REVEAL ─────────────────────────────── */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
-.rv.in{opacity:1;transform:translateY(0)}
- 
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
- 
-/* ─── RESPONSIVE ─────────────────────────── */
-@media(max-width:1024px){
-  .hero-inner{grid-template-columns:1fr;padding-left:2rem}
-  .hero-photo-col{grid-column:1/2;grid-row:auto;flex-direction:row;align-items:flex-start;justify-content:flex-start}
-  .hero-photo{width:220px;height:270px}
-  .hero-stats-strip{grid-template-columns:repeat(4,1fr)}
-  .abg{grid-template-columns:1fr}
-  .expg{grid-template-columns:1fr}
-  .pg{grid-template-columns:repeat(2,1fr)}
-  .pgrid{grid-template-columns:repeat(2,1fr)}
-  .pcard:first-child{grid-column:span 1}
-  nav{padding:.8rem 1.2rem}
-  .nav-links{display:none}
-}
-@media(max-width:640px){
-  .pgrid{grid-template-columns:1fr}
-  .ctblock{padding:3rem 1.2rem}
-  .hero-stats-strip{grid-template-columns:repeat(2,1fr)}
-  .abstats{flex-wrap:wrap}
-  .hero-name{font-size:clamp(3.5rem,14vw,6rem)}
-}
-</style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mansi Toshniwal — Portfolio & Repositories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg-bright: #faf7f0;
+            --bg-serious: #0e0e10;
+            --text-dark: #0e0e10;
+            --text-light: #faf7f0;
+            --accent-red: #d93a1e;
+            --accent-green: #38b000;
+            --accent-yellow: #ffcc00;
+            --border-dark: #0e0e10;
+            --border-light: #faf7f0;
+            --muted-dark: #706756;
+            --muted-light: #8e8e93;
+            --border-width: 2px;
+            --radius: 4px;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            overflow-x: hidden;
+            background-color: var(--bg-bright);
+            color: var(--text-dark);
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* ─── PRELOADER SYSTEM (Screenshot 2026-06-27 230220.png) ─── */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-serious);
+            color: var(--text-light);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+        }
+
+        .loader-marquee {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 800;
+            white-space: nowrap;
+            opacity: 0.05;
+            user-select: none;
+        }
+
+        .loader-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 380px;
+        }
+
+        .loader-stack-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #222;
+            border: var(--border-width) solid var(--border-light);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .loader-counter {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        /* ─── HEADER ARCHITECTURE ─── */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: var(--border-width) solid var(--border-dark);
+            background: rgba(254, 247, 240, 0.8);
+            backdrop-filter: blur(12px);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        body.dark-mode header {
+            background: rgba(14, 14, 16, 0.8);
+            border-color: var(--border-light);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .logo span { color: var(--accent-red); }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ─── VIBRANT HERO SECTION (Screenshot 2026-06-27 230135.png) ─── */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            align-content: center;
+            padding: 8rem 2rem 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1fr minmax(300px, 450px);
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 7.5vw, 7rem);
+            line-height: 0.85;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
+
+        .hero-title span {
+            display: block;
+            position: relative;
+        }
+
+        .hero-title .outline-text {
+            -webkit-text-stroke: var(--border-width) var(--border-dark);
+            color: transparent;
+        }
+
+        body.dark-mode .hero-title .outline-text {
+            -webkit-text-stroke: var(--border-width) var(--border-light);
+        }
+
+        /* Interactive Sticker Elements */
+        .sticker-container {
+            position: relative;
+            background: var(--bg-bright);
+            border: var(--border-width) solid var(--border-dark);
+            height: 450px;
+            border-radius: var(--radius);
+            background-image: radial-gradient(var(--border-dark) 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+        }
+
+        .sticker {
+            position: absolute;
+            padding: 0.75rem 1.2rem;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: var(--border-width) solid var(--border-dark);
+            border-radius: 100px;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 4px 4px 0 var(--border-dark);
+            transition: transform 0.1s ease;
+        }
+
+        .sticker:active { cursor: grabbing; }
+
+        /* ─── BIO WITH CUSTOM INLINE HIGHLIGHTING (image_98f4c9.png) ─── */
+        .bio-section {
+            background: var(--bg-serious);
+            color: var(--text-light);
+            padding: 6rem 2rem;
+        }
+
+        .bio-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .bio-text {
+            font-size: clamp(1.5rem, 3.5vw, 3rem);
+            line-height: 1.4;
+            color: #444448;
+            font-weight: 500;
+        }
+
+        /* High-contrast precision style extraction */
+        .bio-text strong {
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        /* ─── SERVICES MODULE (Screenshot 2026-06-27 230135.png) ─── */
+        .services-wrap {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .services-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 4rem;
+            letter-spacing: -0.02em;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: var(--border-width) solid var(--border-dark);
+        }
+
+        .service-column {
+            padding: 2.5rem 1.5rem;
+            border-right: var(--border-width) solid var(--border-dark);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .service-column:last-child { border-right: none; }
+
+        .service-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--muted-dark);
+        }
+
+        .service-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* ─── SERIOUS WORK GRID WITH EXPANDED VERTICAL SLOTS (Screenshot 2026-06-27 230205.png) ─── */
+        .work-section {
+            background: var(--bg-serious);
+            color: var(--text-light);
+            padding: 6rem 2rem;
+        }
+
+        .work-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .vertical-work-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .vertical-card {
+            background: #141417;
+            border: var(--border-width) solid #2c2c35;
+            border-radius: var(--radius);
+            padding: 2rem;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .vertical-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-5px);
+        }
+
+        .card-media-slot {
+            width: 100%;
+            height: 240px;
+            background: #222;
+            border: var(--border-width) solid #2c2c35;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        /* ─── DUAL TIMELINE INFRASTRUCTURE ─── */
+        .timeline-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 5rem;
+        }
+
+        .timeline-block {
+            border-left: var(--border-width) solid #2c2c35;
+            padding-left: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .timeline-item { position: relative; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-2rem - 6px);
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-red);
+            border-radius: 50%;
+        }
+
+        /* ─── ACCORDIAN FAQ MATRIX ─── */
+        .faq-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .faq-item {
+            border-bottom: var(--border-width) solid var(--border-dark);
+        }
+
+        body.dark-mode .faq-item { border-color: var(--border-light); }
+
+        .faq-trigger {
+            width: 100%;
+            padding: 2rem 0;
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: inherit;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            color: var(--muted-dark);
+        }
+
+        body.dark-mode .faq-content { color: var(--muted-light); }
+
+        .faq-content p { padding-bottom: 2rem; line-height: 1.7; }
+
+        /* ─── ROTATING REPEATING FLOWER CANVAS (Screenshot 2026-06-27 230220.png) ─── */
+        .flower-canvas-footer {
+            background: #fff;
+            border-top: var(--border-width) solid var(--border-dark);
+            padding: 4rem 2rem;
+            overflow: hidden;
+        }
+
+        .flower-grid-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .flower-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+        }
+
+        .vector-flower {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ─── DYNAMIC RESPONSIVE BREAKPOINTS ─── */
+        @media (max-width: 1024px) {
+            .hero-layout, .timeline-container { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .vertical-work-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .nav-menu { display: none; }
+        }
+    </style>
 </head>
 <body>
- 
-<div id="sp"></div>
- 
-<!-- LOADER -->
-<div id="ldr">
-  <div class="ldr-word">
-    <span class="ldr-ch" style="animation-delay:.02s">M</span><span class="ldr-ch" style="animation-delay:.08s">A</span><span class="ldr-ch" style="animation-delay:.14s">N</span><span class="ldr-ch" style="animation-delay:.20s">S</span><span class="ldr-ch" style="animation-delay:.26s">I</span>
-  </div>
-  <div class="ldr-bar"><div class="ldr-fill"></div></div>
-</div>
- 
-<button id="bt" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
- 
-<!-- EDIT BANNER -->
-<div id="eb">
-  ✏️ EDIT MODE — click any text to edit
-  <button class="ebbtn" onclick="exportD()">⬇ Export</button>
-  <label class="ebbtn" id="ilab">⬆ Import<input type="file" id="ifile" accept="*" onchange="importD(event)"/></label>
-  <button class="ebbtn w" onclick="lockEdit()">🔒 Lock</button>
-</div>
- 
-<!-- NAV -->
-<nav id="mn">
-  <div class="nav-logo">Mansi<em>.</em></div>
-  <div class="nav-c">
-    <ul class="nav-links">
-      <li><a href="#sec-profiles">Profiles</a></li>
-      <li><a href="#sec-projects">Work</a></li>
-      <li><a href="#sec-exp">Experience</a></li>
-      <li><a href="#sec-about">About</a></li>
-    </ul>
-    <a href="#sec-contact" class="nav-hire">Hire Me</a>
-  </div>
-</nav>
- 
-<!-- HERO -->
-<div class="hero-wrap">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-side-label">Mansi Toshniwal — Creative Portfolio 2025</div>
-  <div class="hero-inner">
- 
-    <!-- Giant name spans full width -->
-    <div class="hero-name-block">
-      <div class="hero-watermark" id="hwm">2025</div>
-      <div class="hero-badges">
-        <span class="hero-year-badge" id="hyear" contenteditable="false">Portfolio '25</span>
-        <span class="avail-dot" id="havail" contenteditable="false">Open to Work</span>
-      </div>
-      <div class="hero-name">
-        <div id="hn1" contenteditable="false" placeholder="MANSI">MANSI</div>
-        <div id="hn2" class="hn-outline" contenteditable="false" placeholder="TOSHNI">TOSHNI</div>
-        <div id="hn3" class="hn-red" contenteditable="false" placeholder="WAL">WAL</div>
-      </div>
-    </div>
- 
-    <!-- Middle: bio + tags -->
-    <div class="hero-mid">
-      <p class="hero-bio" id="hbio" contenteditable="false" placeholder="Your bio...">CS Engineering student at RBU who designs, codes, edits, and creates — all from scratch. Figma to code, concepts to content.</p>
-      <div class="hero-tags" id="htags"></div>
-      <div class="hero-btns">
-        <a href="#sec-projects" class="cta-btn"><span>View My Work ↓</span></a>
-        <a href="#sec-contact" class="cta-btn outline"><span>Get in Touch</span></a>
-      </div>
-    </div>
- 
-    <!-- Right: photo + caption -->
-    <div class="hero-photo-col">
-      <span class="hero-photo-caption" id="hcap" contenteditable="false">Designer · Developer · Creator</span>
-      <div class="hero-photo" id="hpwrap" onclick="hPhotoClick(event)">
-        <div class="hero-photo-ph" id="hph"><div class="icon">🖼</div><span>Upload photo</span></div>
-        <div class="vo">View</div>
-      </div>
-    </div>
- 
-    <!-- Bottom stat strip -->
-    <div class="hero-stats-strip">
-      <div class="hstat"><div class="n" id="stat-projects">0</div><div class="l">Projects</div></div>
-      <div class="hstat"><div class="n">2</div><div class="l">Internships</div></div>
-      <div class="hstat"><div class="n">6+</div><div class="l">Skills</div></div>
-      <div class="hstat"><div class="n">∞</div><div class="l">Creativity</div></div>
-    </div>
- 
-  </div>
-</div>
- 
-<div class="mq-strip"><div class="mq-inner" id="mqi"></div></div>
-<div class="divider"></div>
- 
-<!-- PROFILES -->
-<div class="sec rv" id="sec-profiles">
-  <button class="sdel" onclick="hideSec('sec-profiles')">✕</button>
-  <div class="con">
-    <div class="sec-head">
-      <div>
-        <div class="sec-label" contenteditable="false" id="pl-ey">Online Presence</div>
-        <h2 class="sec-h" contenteditable="false" id="pl-ti">Find Me On</h2>
-      </div>
-      <button class="aibtn eo" onclick="openM('platform')">+ Add Profile</button>
-    </div>
-    <div class="pg" id="pgrid"></div>
-  </div>
-</div>
-<div class="divider"></div>
- 
-<!-- PROJECTS -->
-<div class="sec alt rv" id="sec-projects">
-  <button class="sdel" onclick="hideSec('sec-projects')">✕</button>
-  <div class="con">
-    <div class="sec-head">
-      <div>
-        <div class="sec-label" contenteditable="false" id="pj-ey">Portfolio</div>
-        <h2 class="sec-h" contenteditable="false" id="pj-ti">Selected Work</h2>
-      </div>
-    </div>
-    <div class="tabs" id="tabs">
-      <button class="tab act" data-c="all">All</button>
-      <button class="tab" data-c="figma">Figma / UI</button>
-      <button class="tab" data-c="video">Video</button>
-      <button class="tab" data-c="posts">Social</button>
-      <button class="tab" data-c="dev">Dev</button>
-      <button class="tab" data-c="other">Other</button>
-    </div>
-    <div class="pgrid" id="pjgrid"></div>
-  </div>
-</div>
-<div class="divider"></div>
- 
-<!-- EXPERIENCE -->
-<div class="sec rv" id="sec-exp">
-  <button class="sdel" onclick="hideSec('sec-exp')">✕</button>
-  <div class="con">
-    <div class="sec-head">
-      <div>
-        <div class="sec-label" contenteditable="false" id="ex-ey">Background</div>
-        <h2 class="sec-h" contenteditable="false" id="ex-ti">Experience &amp; Achievements</h2>
-      </div>
-    </div>
-    <div class="expg">
-      <div>
-        <div class="expcol-h"><span contenteditable="false" id="wk-ti">💼 Work</span><button class="aibtn eo" style="margin:0;font-size:.6rem;padding:.22rem .55rem" onclick="openM('work')">+ Add</button></div>
-        <div id="wklist"></div>
-      </div>
-      <div>
-        <div class="expcol-h"><span contenteditable="false" id="hk-ti">🏆 Hackathons &amp; Certs</span><button class="aibtn eo" style="margin:0;font-size:.6rem;padding:.22rem .55rem" onclick="openM('hack')">+ Add</button></div>
-        <div id="hklist"></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="divider"></div>
- 
-<!-- ABOUT -->
-<div class="sec alt rv" id="sec-about">
-  <button class="sdel" onclick="hideSec('sec-about')">✕</button>
-  <div class="con">
-    <div class="abg">
-      <div>
-        <div class="abphoto" id="abpwrap" onclick="abPhotoClick(event)">
-          <div class="abphoto-ph" id="abph">🖼</div>
-          <div class="vo">View Full</div>
+
+    <!-- LOADING SHUFFLE SYSTEM -->
+    <div id="preloader">
+        <div class="loader-marquee">MANSI TOSHNIWAL — CODE MATRIX CREATIVE SYSTEM</div>
+        <div class="loader-center">
+            <div class="loader-stack-card" style="z-index: 3; transform: rotate(-6deg);">📐</div>
+            <div class="loader-stack-card" style="z-index: 2; transform: rotate(4deg);">🎬</div>
+            <div class="loader-stack-card" style="z-index: 1; transform: rotate(-2deg);">💻</div>
         </div>
-        <div class="eob" style="margin-top:.6rem">
-          <button class="aibtn" style="width:100%;justify-content:center" onclick="document.getElementById('abfile').click()">📷 Change Photo</button>
-          <input type="file" id="abfile" accept="image/*" style="display:none" onchange="upAbPhoto(event)"/>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="max-width: 300px; font-family: 'Syne'; font-weight: 700; text-transform: uppercase;">Initializing Repository Layer...</div>
+            <div class="loader-counter" id="load-value">0%</div>
         </div>
-      </div>
-      <div class="abtxt">
-        <div class="sec-label" contenteditable="false" id="ab-ey">About Me</div>
-        <div class="ab-name" contenteditable="false" id="ab-name">Mansi Toshniwal</div>
-        <div class="ab-role" contenteditable="false" id="ab-role">Designer · Developer · Creator</div>
-        <p contenteditable="false" id="ab-p1" placeholder="Write about yourself...">I'm a CSE student at RBU who genuinely does it all — Figma, Java, Python, video editing, and social media strategy. Not side hobbies — serious crafts.</p>
-        <p contenteditable="false" id="ab-p2" placeholder="More about you...">I care about making things that look good AND work well. Same attention to detail whether it's a pixel-perfect UI or an efficient algorithm.</p>
-        <div class="abstats">
-          <div class="abstat"><div class="n" id="abs-p">0</div><div class="l">Projects</div></div>
-          <div class="abstat" style="background:var(--paper2)"><div class="n" id="abs-w">0</div><div class="l">Internships</div></div>
-          <div class="abstat" style="background:#f5e8e8"><div class="n" id="abs-c">0</div><div class="l">Certs</div></div>
-        </div>
-      </div>
     </div>
-  </div>
-</div>
-<div class="divider"></div>
- 
-<!-- CONTACT -->
-<div class="sec dark rv" id="sec-contact">
-  <button class="sdel" onclick="hideSec('sec-contact')">✕</button>
-  <div class="con">
-    <div class="ctblock">
-      <div class="sec-label" style="justify-content:center;margin-bottom:.5rem" contenteditable="false" id="ct-ey">Get In Touch</div>
-      <div class="ct-title" contenteditable="false" id="ct-ti">Let's Make Something Great.</div>
-      <p class="ct-sub" contenteditable="false" id="ct-sub">Open to internships, freelance, collabs, and full-time roles.</p>
-      <div class="ctlinks" id="ctlinks"></div>
-      <div class="eob" style="margin-top:1rem"><button class="aibtn" style="border-color:rgba(242,236,224,.2);color:rgba(242,236,224,.5)" onclick="openM('contact')">+ Add Contact Link</button></div>
-    </div>
-  </div>
-</div>
- 
-<!-- Extra sections injected here -->
-<div id="extra-secs"></div>
- 
-<!-- Add section button (edit mode only) -->
-<div class="eob" style="padding:2rem;text-align:center;background:var(--paper)">
-  <button class="aibtn" style="padding:.7rem 1.8rem;font-size:.72rem" onclick="openM('addsec')">+ Add New Section</button>
-</div>
- 
-<footer>
-  <div class="flogo">Mansi<em>.</em></div>
-  <div class="fcopy" contenteditable="false" id="fcopy">© 2025 Mansi Toshniwal</div>
-</footer>
- 
-<!-- LIGHTBOX -->
-<div id="lb" onclick="closeLB()">
-  <button id="lbx" onclick="closeLB()">✕</button>
-  <img id="lbi" src="" alt="" onclick="event.stopPropagation()"/>
-  <video id="lbv" controls onclick="event.stopPropagation()"></video>
-</div>
- 
-<!-- PW OVERLAY -->
-<div class="ov" id="pwov">
-  <div class="pwbox">
-    <h2>🔐 Edit Mode</h2>
-    <p><strong>Shift + M</strong> to open anytime.<br/>Enter password to edit everything.</p>
-    <div class="pwerr" id="pwerr">Wrong password. Try again.</div>
-    <input type="password" id="pwin" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()"/>
-    <button id="pwgo" onclick="checkPw()">Unlock</button>
-  </div>
-</div>
- 
-<!-- UNIVERSAL MODAL -->
-<div class="ov" id="uov">
-  <div class="modal">
-    <h2 id="mti">Add</h2>
-    <p class="msub" id="msub"></p>
-    <div id="mfields"></div>
-    <div class="mbtns">
-      <button class="mcanc" onclick="closeM()">Cancel</button>
-      <button class="msave" onclick="saveM()">Save →</button>
-    </div>
-  </div>
-</div>
- 
-<script>
-/* ═══ PASSWORD ═══════════════════════ */
-const PW = 'mansi2025';
- 
-/* ═══ DATA ═══════════════════════════ */
-let D = {
-  heroPhoto:'', heroPhotoType:'',
-  heroTags:['UI/UX Design','Figma','Java · Python · C','Video Editing','Social Media','App Design','Canva'],
-  marquee:['Figma','UI/UX','Java','Python','Video Editing','Canva','Social Media','App Design','DSA','Branding'],
-  projects:[], platforms:[], work:[], hack:[], contact:[],
-  aboutPhoto:'', extraSecs:[]
-};
- 
-const CATS = {
-  figma:{label:'Figma / UI', color:'#c0321a',bg:'#fceeed',emoji:'📐'},
-  video:{label:'Video',       color:'#3a2a00',bg:'#f5f0e0',emoji:'🎬'},
-  posts:{label:'Social',      color:'#1a4a1a',bg:'#edf5ed',emoji:'📱'},
-  dev:  {label:'Dev',         color:'#0d2a5a',bg:'#edf0f8',emoji:'💻'},
-  other:{label:'Other',       color:'#4a3000',bg:'#f8f2e0',emoji:'✦'},
-};
-const ACC = ['#d93a1e','#5a6b3a','#111008','#c49a2a','#4a2a6a','#1a3a6a'];
- 
-let filter='all', editMode=false, mType='', editIdx=-1, mMedia='', mMediaVid=false, mCert='';
- 
-/* ═══ LOAD/SAVE ════════════════════════ */
-function load(){
-  try{ const s=localStorage.getItem('mansi_v9'); if(s) D={...D,...JSON.parse(s)}; }catch(e){}
-  if(!D.platforms.length) D.platforms=[
-    {name:'GitHub',sub:'Code Repos',icon:'🛠',top:'#111008',link:'#'},
-    {name:'LeetCode',sub:'Algorithm Practice',icon:'🎯',top:'#c49a2a',link:'#'},
-    {name:'GeeksForGeeks',sub:'DSA Solutions',icon:'🧠',top:'#5a6b3a',link:'#'},
-    {name:'YouTube',sub:'Video Content',icon:'🎬',top:'#d93a1e',link:'#'},
-  ];
-  if(!D.work.length) D.work=[
-    {title:'Startup Validation · RBU TBI',sub:'Product validation, user flow mapping and design frameworks.',color:'#d93a1e',cert:''},
-    {title:'Design & Assessment · AyLark',sub:'Wireframing, UX reviews and interface assessments.',color:'#5a6b3a',cert:''},
-  ];
-  if(!D.hack.length) D.hack=[
-    {title:'ByteQuest Hackathon',sub:'Built system architecture and pitched interface logic under time pressure.',color:'#c49a2a',cert:''},
-    {title:'Python & DSA Cert · Coursera',sub:'Certified in Python data structures and file handling.',color:'#111008',cert:''},
-  ];
-  if(!D.contact.length) D.contact=[
-    {label:'✉ Email Me',href:'mailto:your@email.com'},
-    {label:'💼 LinkedIn',href:'#'},
-    {label:'📸 Instagram',href:'#'},
-    {label:'🎨 Behance',href:'#'},
-  ];
-}
-function save(){ try{localStorage.setItem('mansi_v9',JSON.stringify(D));}catch(e){} }
- 
-/* ═══ RENDER ALL ══════════════════════ */
-function renderAll(){
-  renderHeroPhoto(); renderHTags(); renderMQ();
-  renderPlatforms(); renderProjects(); renderWork(); renderHack();
-  renderContact(); renderAbPhoto(); renderExtraSecs(); updateStats();
-  setupCE();
-}
- 
-/* Hero photo */
-function renderHeroPhoto(){
-  const wrap=document.getElementById('hpwrap'), ph=document.getElementById('hph');
-  document.getElementById('hpel')?.remove();
-  if(D.heroPhoto){
-    const el=D.heroPhotoType==='video'
-      ? Object.assign(document.createElement('video'),{id:'hpel',autoplay:true,muted:true,loop:true,playsInline:true})
-      : Object.assign(document.createElement('img'),{id:'hpel',alt:'Mansi'});
-    el.src=D.heroPhoto;
-    Object.assign(el.style,{width:'100%',height:'100%',objectFit:'cover',position:'absolute',inset:'0'});
-    wrap.insertBefore(el,wrap.firstChild);
-    ph.style.display='none';
-  } else { ph.style.display=''; }
-}
-function hPhotoClick(e){
-  if(editMode){ document.getElementById('hpinp').click(); }
-  else if(D.heroPhoto){ openLB(D.heroPhoto,D.heroPhotoType==='video'); }
-}
- 
-/* Hero tags */
-function renderHTags(){
-  const c=document.getElementById('htags'); c.innerHTML='';
-  D.heroTags.forEach((t,i)=>{
-    const s=document.createElement('span'); s.className='htag';
-    s.innerHTML=`<span>${t}</span>`;
-    if(editMode){
-      s.querySelector('span').contentEditable='true';
-      s.querySelector('span').oninput=ev=>{D.heroTags[i]=ev.target.textContent;save();};
-      const dx=document.createElement('button');
-      Object.assign(dx.style,{position:'absolute',top:'-6px',right:'-6px',background:'var(--red)',border:'1.5px solid var(--border)',width:'16px',height:'16px',borderRadius:'50%',color:'#fff',fontSize:'.55rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',zIndex:'5'});
-      dx.textContent='✕'; dx.onclick=ev=>{ev.stopPropagation();D.heroTags.splice(i,1);save();renderHTags();};
-      s.style.position='relative'; s.appendChild(dx);
-    }
-    c.appendChild(s);
-  });
-  if(editMode){
-    const btn=document.createElement('button');
-    btn.className='aibtn eo'; btn.style.cssText='margin:0;padding:.28rem .6rem;font-size:.62rem';
-    btn.textContent='+ Tag'; btn.onclick=()=>{D.heroTags.push('New Tag');save();renderHTags();};
-    c.appendChild(btn);
-  }
-}
- 
-/* Marquee */
-function renderMQ(){
-  const mqi=document.getElementById('mqi');
-  const items=[...D.marquee,...D.marquee];
-  mqi.innerHTML=items.map((t,i)=>i%2===0?`<span>${t}</span>`:`<b>✦</b><span>${t}</span>`).join('');
-}
- 
-/* Platforms */
-function renderPlatforms(){
-  const g=document.getElementById('pgrid'); g.innerHTML='';
-  D.platforms.forEach((p,i)=>{
-    const a=document.createElement('a');
-    a.className='pc'; a.href=editMode?'javascript:void(0)':(p.link||'#');
-    if(!editMode&&p.link&&p.link!=='#') a.target='_blank';
-    a.style.borderTop=`3px solid ${p.top||'#111'}`;
-    a.innerHTML=`
-      <button class="pdel" onclick="event.preventDefault();delI('platforms',${i})">✕</button>
-      <button class="pedit" onclick="event.preventDefault();openE('platform',${i})">✎</button>
-      <div class="pi" style="background:${p.bg||'var(--paper2)'}">${p.icon||'🔗'}</div>
-      <div><div class="pn">${p.name}</div><div class="ps">${p.sub||''}</div></div>
-      <span class="parr">↗</span>`;
-    g.appendChild(a);
-  });
-}
- 
-/* Projects */
-function renderProjects(){
-  const grid=document.getElementById('pjgrid'); grid.innerHTML='';
-  const list=filter==='all'?D.projects:D.projects.filter(p=>p.cat===filter);
-  if(!list.length&&!editMode){
-    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted);font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em">No projects yet — unlock edit mode to add!</div>`;
-  }
-  list.forEach((p,i)=>{
-    const c=CATS[p.cat]||CATS.other, ri=D.projects.indexOf(p);
-    const tools=p.tools?p.tools.split(',').map(t=>`<span class="ptool">${t.trim()}</span>`).join(''):'';
-    let thumb='';
-    if(p.media){ thumb=p.mediaType==='video'?`<video src="${p.media}" muted loop autoplay playsinline></video>`:`<img src="${p.media}" alt="${p.name}"/>`; }
-    else { thumb=`<span class="emo">${c.emoji}</span>`; }
-    const card=document.createElement('div');
-    card.className='pcard';
-    card.innerHTML=`
-      <button class="delb" onclick="delI('projects',${ri})">✕</button>
-      <div class="pthumb" style="background:${p.media?'#111':c.bg}" onclick="thumbClick(${ri})">
-        ${thumb}
-        <div class="tvo">👁 View Full</div>
-        <div class="pnum">0${i+1}</div>
-      </div>
-      <div class="pbody">
-        <span class="pcat" style="color:${c.color};border-color:${c.color}">${c.label}</span>
-        <div class="pname">${p.name}</div>
-        ${p.desc?`<div class="pdesc">${p.desc}</div>`:''}
-        ${tools?`<div class="ptools">${tools}</div>`:''}
-        <div class="pfoot">
-          ${p.link&&p.link!=='#'?`<a href="${p.link}" target="_blank" rel="noopener" class="plink"><span>Open Project →</span></a>`:''}
-          <button class="pedBtn" onclick="openE('project',${ri})">✎</button>
-        </div>
-      </div>`;
-    grid.appendChild(card);
-  });
-  const add=document.createElement('div');
-  add.className='addcard'; add.onclick=()=>openM('project');
-  add.innerHTML=`<div class="acp">+</div><p>Add Project</p>`;
-  grid.appendChild(add);
-}
-function thumbClick(ri){
-  const p=D.projects[ri]; if(!p||!p.media) return;
-  openLB(p.media,p.mediaType==='video');
-}
- 
-/* Exp lists */
-function renderList(type,cid){
-  const c=document.getElementById(cid); c.innerHTML='';
-  (D[type]||[]).forEach((item,i)=>{
-    const col=item.color||ACC[i%ACC.length];
-    const div=document.createElement('div'); div.className='ecard';
-    div.innerHTML=`
-      <button class="edel" onclick="delI('${type}',${i})">✕</button>
-      <button class="eedit" onclick="openE('${type}',${i})">✎</button>
-      <div class="eacc" style="background:${col}"></div>
-      <div class="etitle">${item.title}</div>
-      ${item.sub?`<div class="esub">${item.sub}</div>`:''}
-      ${item.cert?`<img class="ecert" src="${item.cert}" alt="cert" onclick="openLB('${item.cert}',false)"/>`:''}`;
-    c.appendChild(div);
-  });
-}
-function renderWork(){ renderList('work','wklist'); }
-function renderHack(){ renderList('hack','hklist'); }
- 
-/* Contact */
-function renderContact(){
-  const c=document.getElementById('ctlinks'); c.innerHTML='';
-  D.contact.forEach((item,i)=>{
-    const a=document.createElement('a'); a.className='clink';
-    a.href=editMode?'javascript:void(0)':(item.href||'#');
-    if(!editMode&&item.href&&!item.href.startsWith('mailto')) a.target='_blank';
-    a.innerHTML=`<button class="cdel" onclick="event.preventDefault();delI('contact',${i})">✕</button><span>${item.label}</span>`;
-    c.appendChild(a);
-  });
-}
- 
-/* About photo */
-function renderAbPhoto(){
-  const wrap=document.getElementById('abpwrap'), ph=document.getElementById('abph');
-  document.getElementById('abpel')?.remove();
-  if(D.aboutPhoto){
-    const img=document.createElement('img'); img.id='abpel'; img.alt='About';
-    img.src=D.aboutPhoto;
-    Object.assign(img.style,{width:'100%',height:'100%',objectFit:'cover',position:'absolute',inset:'0'});
-    wrap.insertBefore(img,wrap.firstChild);
-    ph.style.display='none';
-  } else { ph.style.display=''; }
-}
-function abPhotoClick(e){
-  if(editMode) return;
-  if(D.aboutPhoto) openLB(D.aboutPhoto,false);
-}
-function upAbPhoto(e){
-  const file=e.target.files[0]; if(!file) return;
-  const r=new FileReader();
-  r.onload=ev=>{D.aboutPhoto=ev.target.result;save();renderAbPhoto();};
-  r.readAsDataURL(file);
-}
- 
-/* Extra sections */
-function renderExtraSecs(){
-  const c=document.getElementById('extra-secs'); c.innerHTML='';
-  (D.extraSecs||[]).forEach((sec,i)=>{
-    const div=document.createElement('div');
-    div.className='sec rv'; div.style.background=sec.bg||'var(--paper)';
-    div.innerHTML=`
-      <button class="sdel" onclick="delExtra(${i})">✕</button>
-      <div class="con">
-        <div class="sec-head">
-          <div>
-            <div class="sec-label" contenteditable="${editMode?'true':'false'}" onblur="D.extraSecs[${i}].eyebrow=this.textContent;save()">${sec.eyebrow||'Section'}</div>
-            <h2 class="sec-h" contenteditable="${editMode?'true':'false'}" onblur="D.extraSecs[${i}].title=this.textContent;save()">${sec.title||'New Section'}</h2>
-          </div>
-        </div>
-        <div style="font-size:.9rem;color:var(--muted);line-height:1.85;max-width:680px" contenteditable="${editMode?'true':'false'}" onblur="D.extraSecs[${i}].body=this.innerHTML;save()">${sec.body||'Click to edit this section...'}</div>
-      </div>`;
-    c.appendChild(div);
-    rvObs.observe(div);
-  });
-}
-function delExtra(i){ if(confirm('Remove?')){D.extraSecs.splice(i,1);save();renderExtraSecs();} }
- 
-/* Stats */
-function updateStats(){
-  const p=D.projects.length,w=D.work.length,h=D.hack.length;
-  ['stat-projects','abs-p'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=p; });
-  document.getElementById('abs-w').textContent=w;
-  document.getElementById('abs-c').textContent=h;
-}
- 
-/* Contenteditable toggle */
-function setupCE(){
-  document.querySelectorAll('[contenteditable]').forEach(el=>{
-    el.contentEditable=editMode?'true':'false';
-  });
-}
- 
-/* ═══ EDIT MODE ═══════════════════════ */
-document.addEventListener('keydown',e=>{
-  if(e.shiftKey&&e.key==='M'&&!editMode){
-    document.getElementById('pwov').classList.add('on');
-    setTimeout(()=>document.getElementById('pwin').focus(),100);
-  }
-  if(e.key==='Escape'){ closeLB(); closeM(); document.getElementById('pwov').classList.remove('on'); }
-});
- 
-function checkPw(){
-  if(document.getElementById('pwin').value===PW){
-    document.getElementById('pwov').classList.remove('on');
-    editMode=true; document.body.classList.add('em');
-    document.getElementById('eb').classList.add('on');
-    document.getElementById('mn').classList.add('sh');
-    renderAll();
-  } else {
-    document.getElementById('pwerr').classList.add('on');
-    document.getElementById('pwin').value='';
-  }
-}
- 
-function lockEdit(){
-  saveCEText(); editMode=false; document.body.classList.remove('em');
-  document.getElementById('eb').classList.remove('on');
-  document.getElementById('mn').classList.remove('sh');
-  renderAll();
-}
- 
-function saveCEText(){
-  D.heroTags=Array.from(document.querySelectorAll('.htag span')).map(e=>e.textContent.trim()).filter(Boolean);
-  save();
-}
- 
-function hideSec(id){ if(confirm('Hide this section?')){ document.getElementById(id).style.display='none'; } }
-function delI(type,i){ if(confirm('Remove?')){D[type].splice(i,1);save();renderAll();} }
- 
-/* ═══ MODAL SYSTEM ════════════════════ */
-const MCFG = {
-  project:{
-    title:'Add Project', sub:'Upload image or video. Paste any link.',
-    fields:()=>`
-      <div class="fg"><label>Image or Video</label>
-        <div class="mup" onclick="document.getElementById('mmfile').click()">
-          <input type="file" id="mmfile" accept="image/*,video/*" style="display:none" onchange="prevMedia(event)"/>
-          <div class="mui">🖼</div><p>Click to upload — PNG JPG MP4 MOV</p>
-          <img id="mpri" class="mpri"/><video id="mprv" class="mprv" controls muted></video>
-        </div>
-      </div>
-      <div class="fg"><label>Project Name *</label><input id="fn" placeholder="e.g. Blinkit UI Redesign"/></div>
-      <div class="fg"><label>Category</label>
-        <select id="fc"><option value="figma">Figma / UI</option><option value="video">Video</option><option value="posts">Social</option><option value="dev">Dev</option><option value="other">Other</option></select>
-      </div>
-      <div class="fg"><label>Link (Figma / GitHub / YouTube)</label><input id="fl" type="url" placeholder="https://..."/></div>
-      <div class="fg"><label>Description</label><textarea id="fd" placeholder="What is this project?"></textarea></div>
-      <div class="fg"><label>Tools (comma separated)</label><input id="ft" placeholder="Figma, Canva, Premiere..."/></div>`
-  },
-  platform:{
-    title:'Add Profile', sub:'Link to any platform.',
-    fields:()=>`
-      <div class="fg"><label>Name *</label><input id="fn" placeholder="e.g. Behance"/></div>
-      <div class="fg"><label>Description</label><input id="fsub" placeholder="e.g. Design Portfolio"/></div>
-      <div class="fg"><label>Emoji Icon</label><input id="fico" placeholder="🎨" maxlength="4"/></div>
-      <div class="fg"><label>Link</label><input id="fl" type="url" placeholder="https://behance.net/..."/></div>
-      <div class="fg"><label>Accent Color</label>
-        <select id="fcol"><option value="#111008">Black</option><option value="#d93a1e">Red</option><option value="#c49a2a">Gold</option><option value="#5a6b3a">Olive</option><option value="#1a3a6a">Blue</option><option value="#4a2a6a">Purple</option></select>
-      </div>`
-  },
-  work:{
-    title:'Add Work Experience', sub:'Internship, job or any role.',
-    fields:()=>`
-      <div class="fg"><label>Title *</label><input id="fn" placeholder="e.g. UI Design Intern · Company"/></div>
-      <div class="fg"><label>Description</label><textarea id="fd" placeholder="What did you do?"></textarea></div>
-      <div class="fg"><label>Certificate Image (optional)</label>
-        <div class="mup" onclick="document.getElementById('mcfile').click()">
-          <input type="file" id="mcfile" accept="image/*" style="display:none" onchange="prevCert(event)"/>
-          <div class="mui">📜</div><p>Upload offer letter / certificate</p>
-          <img id="mcpri" class="mpri"/>
-        </div>
-      </div>
-      <div class="fg"><label>Accent Color</label>
-        <select id="fcol"><option value="#d93a1e">Red</option><option value="#5a6b3a">Olive</option><option value="#111008">Black</option><option value="#c49a2a">Gold</option><option value="#4a2a6a">Purple</option></select>
-      </div>`
-  },
-  hack:{
-    title:'Add Hackathon / Certificate', sub:'Award, hackathon or cert.',
-    fields:()=>`
-      <div class="fg"><label>Title *</label><input id="fn" placeholder="e.g. Smart India Hackathon 2024"/></div>
-      <div class="fg"><label>Description</label><textarea id="fd" placeholder="What did you achieve?"></textarea></div>
-      <div class="fg"><label>Certificate Image (optional)</label>
-        <div class="mup" onclick="document.getElementById('mcfile').click()">
-          <input type="file" id="mcfile" accept="image/*" style="display:none" onchange="prevCert(event)"/>
-          <div class="mui">🏆</div><p>Upload certificate image</p>
-          <img id="mcpri" class="mpri"/>
-        </div>
-      </div>
-      <div class="fg"><label>Accent Color</label>
-        <select id="fcol"><option value="#c49a2a">Gold</option><option value="#111008">Black</option><option value="#d93a1e">Red</option><option value="#5a6b3a">Olive</option><option value="#4a2a6a">Purple</option></select>
-      </div>`
-  },
-  contact:{
-    title:'Add Contact Link', sub:'Email, social or any link.',
-    fields:()=>`
-      <div class="fg"><label>Label *</label><input id="fn" placeholder="💼 LinkedIn or ✉ Email Me"/></div>
-      <div class="fg"><label>Link *</label><input id="fl" placeholder="https://... or mailto:you@email.com"/></div>`
-  },
-  addsec:{
-    title:'Add New Section', sub:'Custom freeform section.',
-    fields:()=>`
-      <div class="fg"><label>Eyebrow</label><input id="fey" placeholder="e.g. Skills"/></div>
-      <div class="fg"><label>Title *</label><input id="fn" placeholder="e.g. What I Know"/></div>
-      <div class="fg"><label>Content</label><textarea id="fd" placeholder="Add your content..." style="min-height:90px"></textarea></div>
-      <div class="fg"><label>Background</label>
-        <select id="fbg"><option value="var(--paper)">Beige</option><option value="var(--white)">White</option><option value="var(--paper2)">Darker Beige</option><option value="#111008">Dark</option></select>
-      </div>`
-  }
-};
- 
-function openM(type){
-  mType=type; editIdx=-1; mMedia=''; mMediaVid=false; mCert='';
-  const cfg=MCFG[type];
-  document.getElementById('mti').textContent=cfg.title;
-  document.getElementById('msub').textContent=cfg.sub;
-  document.getElementById('mfields').innerHTML=cfg.fields();
-  document.getElementById('uov').classList.add('on');
-}
- 
-function openE(type,i){
-  mType=type; editIdx=i; mMedia=''; mMediaVid=false; mCert='';
-  const cfg=MCFG[type];
-  document.getElementById('mti').textContent='Edit '+cfg.title.replace('Add ','');
-  document.getElementById('msub').textContent='Update the details.';
-  document.getElementById('mfields').innerHTML=cfg.fields();
-  const arr = type==='project'?D.projects : D[type];
-  const item=arr?.[i]; if(!item) return;
-  const g=id=>document.getElementById(id);
-  if(g('fn')) g('fn').value=item.name||item.title||'';
-  if(g('fsub')) g('fsub').value=item.sub||'';
-  if(g('fd')) g('fd').value=item.desc||item.sub||'';
-  if(g('fl')) g('fl').value=item.link||item.href||'';
-  if(g('fc')) g('fc').value=item.cat||'figma';
-  if(g('ft')) g('ft').value=item.tools||'';
-  if(g('fico')) g('fico').value=item.icon||'';
-  if(g('fcol')) g('fcol').value=item.color||item.top||'#111008';
-  if(item.cert&&g('mcpri')){ mCert=item.cert; g('mcpri').src=item.cert; g('mcpri').style.display='block'; }
-  if(item.media&&g('mpri')){ mMedia=item.media; mMediaVid=item.mediaType==='video';
-    if(mMediaVid){const v=g('mprv');if(v){v.src=item.media;v.style.display='block';}}
-    else{const im=g('mpri');if(im){im.src=item.media;im.style.display='block';}}
-  }
-  document.getElementById('uov').classList.add('on');
-}
- 
-function closeM(){ document.getElementById('uov').classList.remove('on'); }
-document.getElementById('uov').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeM(); });
-document.getElementById('pwov').addEventListener('click',e=>{ if(e.target===e.currentTarget) document.getElementById('pwov').classList.remove('on'); });
- 
-function saveM(){
-  const g=id=>{ const el=document.getElementById(id); return el?el.value.trim():''; };
-  const name=g('fn'); if(!name){alert('Title required!');return;}
-  if(mType==='project'){
-    const obj={name,cat:g('fc')||'other',media:mMedia,mediaType:mMediaVid?'video':'image',link:g('fl'),desc:g('fd'),tools:g('ft')};
-    editIdx>=0?D.projects[editIdx]={...D.projects[editIdx],...obj}:D.projects.push(obj);
-  } else if(mType==='platform'){
-    const obj={name,sub:g('fsub'),icon:g('fico')||'🔗',link:g('fl'),top:g('fcol')||'#111008',bg:'var(--paper2)'};
-    editIdx>=0?D.platforms[editIdx]={...D.platforms[editIdx],...obj}:D.platforms.push(obj);
-  } else if(mType==='work'||mType==='hack'){
-    const obj={title:name,sub:g('fd'),color:g('fcol')||'#d93a1e',cert:mCert||''};
-    editIdx>=0?D[mType][editIdx]={...D[mType][editIdx],...obj}:D[mType].push(obj);
-  } else if(mType==='contact'){
-    const obj={label:name,href:g('fl')};
-    editIdx>=0?D.contact[editIdx]={...D.contact[editIdx],...obj}:D.contact.push(obj);
-  } else if(mType==='addsec'){
-    D.extraSecs=D.extraSecs||[];
-    D.extraSecs.push({eyebrow:g('fey'),title:name,body:g('fd'),bg:g('fbg')||'var(--paper)'});
-  }
-  save(); closeM(); renderAll();
-}
- 
-function prevMedia(e){
-  const file=e.target.files[0]; if(!file) return;
-  mMediaVid=file.type.startsWith('video/');
-  const r=new FileReader();
-  r.onload=ev=>{
-    mMedia=ev.target.result;
-    const img=document.getElementById('mpri'),vid=document.getElementById('mprv');
-    if(mMediaVid){if(vid){vid.src=mMedia;vid.style.display='block';}if(img)img.style.display='none';}
-    else{if(img){img.src=mMedia;img.style.display='block';}if(vid)vid.style.display='none';}
-  };
-  r.readAsDataURL(file);
-}
-function prevCert(e){
-  const file=e.target.files[0]; if(!file) return;
-  const r=new FileReader();
-  r.onload=ev=>{ mCert=ev.target.result; const p=document.getElementById('mcpri'); if(p){p.src=mCert;p.style.display='block';} };
-  r.readAsDataURL(file);
-}
- 
-/* Hero photo input */
-const hpinp=document.createElement('input');
-hpinp.type='file'; hpinp.id='hpinp'; hpinp.accept='image/*,video/*'; hpinp.style.display='none';
-hpinp.onchange=e=>{
-  const file=e.target.files[0]; if(!file) return;
-  const isVid=file.type.startsWith('video/');
-  const r=new FileReader();
-  r.onload=ev=>{D.heroPhoto=ev.target.result;D.heroPhotoType=isVid?'video':'image';save();document.getElementById('hpel')?.remove();renderHeroPhoto();};
-  r.readAsDataURL(file);
-};
-document.body.appendChild(hpinp);
- 
-/* Lightbox */
-function openLB(src,isVid){
-  const i=document.getElementById('lbi'),v=document.getElementById('lbv');
-  if(isVid){i.style.display='none';v.src=src;v.style.display='block';}
-  else{v.style.display='none';v.src='';i.src=src;i.style.display='block';}
-  document.getElementById('lb').classList.add('on');
-}
-function closeLB(){
-  document.getElementById('lb').classList.remove('on');
-  document.getElementById('lbv').pause();
-}
- 
-/* Export / Import */
-function exportD(){
-  saveCEText();
-  const blob=new Blob(['###MANSI_PORTFOLIO###\n'+JSON.stringify(D)],{type:'text/plain'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='mansi-portfolio-backup.txt'; a.click();
-}
-function importD(e){
-  const file=e.target.files[0]; if(!file) return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    try{
-      let t=ev.target.result.trim();
-      if(t.startsWith('###MANSI_PORTFOLIO###')) t=t.replace('###MANSI_PORTFOLIO###','').trim();
-      const p=JSON.parse(t);
-      if(p&&typeof p==='object'){D={...D,...p};save();renderAll();alert('✅ Imported!');}
-      else alert('⚠️ Invalid file.');
-    }catch{alert('⚠️ Could not read file.');}
-  };
-  r.readAsText(file); e.target.value='';
-}
- 
-/* Tabs */
-document.getElementById('tabs').addEventListener('click',e=>{
-  if(!e.target.classList.contains('tab')) return;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));
-  e.target.classList.add('act');
-  filter=e.target.dataset.c;
-  renderProjects();
-});
- 
-/* Scroll reveal */
-const rvObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('in');});
-},{threshold:.07});
-document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
- 
-/* Init */
-load(); renderAll();
- 
-/* ══════════════════════════════════════
-   ANIMATIONS
-══════════════════════════════════════ */
- 
-/* Loader */
-window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    const ldr=document.getElementById('ldr');
-    ldr.classList.add('out');
-    setTimeout(()=>{ ldr.style.display='none'; animHero(); },550);
-  },1450);
-});
- 
-/* Hero text reveal */
-function animHero(){
-  ['hn1','hn2','hn3'].forEach((id,li)=>{
-    const el=document.getElementById(id); if(!el) return;
-    const orig=el.textContent;
-    el.innerHTML=orig.split('').map(ch=>`<span style="display:inline-block;transform:translateY(110%);opacity:0;transition:transform .65s cubic-bezier(.16,1,.3,1),opacity .4s ease">${ch==' '?'&nbsp;':ch}</span>`).join('');
-    el.querySelectorAll('span').forEach((s,i)=>{
-      setTimeout(()=>{ s.style.transform='translateY(0)'; s.style.opacity='1'; }, li*100+i*40);
-    });
-  });
-  [['hpwrap',600],['hbio',700],['htags',850],['hyear',400],['havail',500]].forEach(([id,d])=>{
-    const el=document.getElementById(id); if(!el) return;
-    el.style.opacity='0'; el.style.transform='translateY(18px)';
-    setTimeout(()=>{ el.style.transition='opacity .7s ease,transform .7s ease'; el.style.opacity='1'; el.style.transform='translateY(0)'; },d);
-  });
-}
- 
-/* Canvas particles */
-(()=>{
-  const cv=document.getElementById('hero-canvas'); if(!cv) return;
-  const ctx=cv.getContext('2d'); let W,H,pts=[];
-  function resize(){ W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight; }
-  class P{
-    constructor(){ this.reset(); }
-    reset(){ this.x=Math.random()*W; this.y=Math.random()*H; this.r=Math.random()*2.5+.8; this.vx=(Math.random()-.5)*.35; this.vy=(Math.random()-.5)*.35; this.a=Math.random()*.35+.08; this.col=Math.random()>.65?'#d93a1e':'#111008'; }
-    tick(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset(); }
-    draw(){ ctx.save(); ctx.globalAlpha=this.a; ctx.fillStyle=this.col; ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
-  }
-  function init(){ resize(); pts=Array.from({length:45},()=>new P()); }
-  function loop(){
-    ctx.clearRect(0,0,W,H);
-    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
-      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<110){ ctx.save(); ctx.globalAlpha=(1-d/110)*.1; ctx.strokeStyle='#111008'; ctx.lineWidth=.8; ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); ctx.restore(); }
-    }
-    pts.forEach(p=>{ p.tick(); p.draw(); });
-    requestAnimationFrame(loop);
-  }
-  window.addEventListener('resize',resize);
-  init(); loop();
-})();
- 
-/* Scroll progress + back-to-top */
-let lastSY=0;
-window.addEventListener('scroll',()=>{
-  const sy=window.scrollY, max=document.body.scrollHeight-innerHeight;
-  document.getElementById('sp').style.width=(sy/max*100)+'%';
-  document.getElementById('bt').classList.toggle('show',sy>400);
-  const nav=document.getElementById('mn');
-  if(sy>lastSY&&sy>150&&!editMode) nav.style.transform='translateY(-100%)';
-  else nav.style.transform='';
-  nav.style.transition='transform .4s ease,top .3s ease';
-  lastSY=sy;
-},{passive:true});
- 
-/* Staggered card entry on scroll */
-const cardObs=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.querySelectorAll('.pcard,.pc,.ecard').forEach((c,i)=>{
-        c.style.opacity='0'; c.style.transform='translateY(28px)';
-        setTimeout(()=>{ c.style.transition='opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)'; c.style.opacity='1'; c.style.transform=''; },i*75);
-      });
-      cardObs.unobserve(entry.target);
-    }
-  });
-},{threshold:.08});
-setTimeout(()=>{
-  document.querySelectorAll('.pgrid,.pjgrid,.expg').forEach(g=>cardObs.observe(g));
-},1600);
- 
-/* Count-up */
-function countUp(el,target){
-  if(!el||isNaN(target)||target===0) return;
-  let start=0;
-  const step=ts=>{ if(!start) start=ts; const p=Math.min((ts-start)/1100,1),e=1-Math.pow(1-p,3); el.textContent=Math.round(e*target); if(p<1) requestAnimationFrame(step); else el.textContent=target; };
-  requestAnimationFrame(step);
-}
-const statObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.querySelectorAll('.n,.abstat .n').forEach(el=>{ const v=parseInt(el.textContent); if(!isNaN(v)&&v>0) countUp(el,v); }); statObs.unobserve(e.target); } });
-},{threshold:.5});
-setTimeout(()=>{ document.querySelectorAll('.abstats').forEach(el=>statObs.observe(el)); },1700);
- 
-/* 3D tilt on project cards */
-document.addEventListener('mousemove',e=>{
-  document.querySelectorAll('.pcard').forEach(card=>{
-    const r=card.getBoundingClientRect();
-    if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom){ card.style.transform=''; return; }
-    const cx=r.left+r.width/2,cy=r.top+r.height/2;
-    const rx=(e.clientY-cy)/r.height*7,ry=(e.clientX-cx)/r.width*-7;
-    card.style.transform=`perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-7px) scale(1.01)`;
-    card.style.boxShadow=`${-ry}px ${rx+8}px 0 var(--border)`;
-  });
-});
- 
-/* Cursor glow */
-const glow=document.createElement('div');
-Object.assign(glow.style,{position:'fixed',pointerEvents:'none',zIndex:'9989',width:'280px',height:'280px',borderRadius:'50%',background:'radial-gradient(circle,rgba(217,58,30,.06) 0%,transparent 70%)',transform:'translate(-50%,-50%)',transition:'left .1s ease,top .1s ease',mixBlendMode:'multiply'});
-document.body.appendChild(glow);
-document.addEventListener('mousemove',e=>{ glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; });
- 
-/* Magnetic effect on platform cards + stat pills */
-function addMag(sel,str=.18){
-  document.querySelectorAll(sel).forEach(card=>{
-    card.addEventListener('mousemove',e=>{
-      const r=card.getBoundingClientRect();
-      card.style.transform=`translate(${(e.clientX-(r.left+r.width/2))*str}px,${(e.clientY-(r.top+r.height/2))*str}px) translateY(-5px)`;
-    });
-    card.addEventListener('mouseleave',()=>card.style.transform='');
-  });
-}
-setTimeout(()=>addMag('.pc,.abstat',0.15),1700);
-</script>
+
+    <header>
+        <nav class="nav-container">
+            <div class="logo">Mansi<span>.</span></div>
+            <ul class="nav-menu">
+                <li><a href="#work" class="nav-link">Work Matrices</a></li>
+                <li><a href="#timeline" class="nav-link">Chronology</a></li>
+                <li><a href="#faq" class="nav-link">Inquiries</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- BRIGHT HERO ENTRY VIEW -->
+        <section class="hero" id="hero-view">
+            <div class="hero-layout">
+                <h1 class="hero-title">
+                    Mansi <br><span class="outline-text">Toshniwal</span> <span>Portfolio ©26</span>
+                </h1>
+                <div class="sticker-container">
+                    <div class="sticker" style="top: 40px; left: 30px; background: var(--accent-yellow);" data-speed="0.05">UI/UX · Figma</div>
+                    <div class="sticker" style="top: 160px; left: 140px; background: var(--accent-green); color: white;" data-speed="0.03">Java · Core Dev</div>
+                    <div class="sticker" style="top: 280px; left: 50px; background: var(--accent-red); color: white;" data-speed="0.07">Video Director</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUBSTRATE EXTRACTED BIO PANEL -->
+        <section class="bio-section">
+            <div class="bio-container">
+                <p class="bio-text">
+                    I am a Computer Science Engineering student who executes production pipelines from structural logic to visual asset implementation. I <strong>Specialize</strong> in crafting functional, interactive interface matrices and deploying optimized execution systems that bring unified digital assets to life.
+                </p>
+            </div>
+        </section>
+
+        <!-- MULTI-COLUMN INTERACTION CAPABILITIES -->
+        <section class="services-wrap">
+            <h2 class="services-title">Functional Capabilities</h2>
+            <div class="services-grid">
+                <div class="service-column">
+                    <div class="service-num">01</div>
+                    <div class="service-name">Figma / Systems</div>
+                </div>
+                <div class="service-column">
+                    <div class="service-num">02</div>
+                    <div class="service-name">Core Dev / Java</div>
+                </div>
+                <div class="service-column">
+                    <div class="service-num">03</div>
+                    <div class="service-name">Video Architecture</div>
+                </div>
+                <div class="service-column">
+                    <div class="service-num">04</div>
+                    <div class="service-name">Social Assets</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERIOUS HIGH-CONTRAST DEEP CARD GRID -->
+        <section class="work-section" id="work">
+            <div class="work-container">
+                <h2 class="services-title" style="color: var(--text-light)">Selected Repositories</h2>
+                <div class="vertical-work-grid" id="repository-injection-grid">
+                    <!-- Target element for database generation loops -->
+                </div>
+
+                <!-- CHRONOLOGICAL HISTORY SCALING MATRIX -->
+                <div class="timeline-container" id="timeline">
+                    <div>
+                        <h3 style="font-family:'Syne'; font-size: 1.75rem; margin-bottom: 2.5rem; text-transform: uppercase;">💼 Industry Validation</h3>
+                        <div class="timeline-block">
+                            <div class="timeline-item">
+                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">Startup Architecture Validation</h4>
+                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">RBU Technology Business Incubator Foundation</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">Interface Assessment & Strategy</h4>
+                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">AyLark Technical Operations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="font-family:'Syne'; font-size: 1.75rem; margin-bottom: 2.5rem; text-transform: uppercase;">🏆 Hackathons & Credentials</h3>
+                        <div class="timeline-block">
+                            <div class="timeline-item">
+                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">ByteQuest Systems Hackathon</h4>
+                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">System pipeline optimization and presentation under tight parameters.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">Data Structures & Python Systems</h4>
+                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">Coursera Architecture Credentials</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPACT ACCORDIAN FAQ SYSTEM -->
+        <section class="faq-section" id="faq">
+            <h2 class="services-title">Inquiries</h2>
+            <div class="faq-item">
+                <button class="faq-trigger">What engineering stack drives these operations? <span>+</span></button>
+                <div class="faq-content">
+                    <p>Core system processing is constructed via native Java and Python engineering models. UI implementation passes from pixel-perfect standalone Figma assets directly to hardware-accelerated semantic frontend source architecture.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-trigger">How are media assets handled? <span>+</span></button>
+                <div class="faq-content">
+                    <p>Canva edited posts and edited video operations are structured using high-bitrate media protocols, responsive sizing algorithms, and precise content layout pipelines to preserve design continuity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HIGH-INTERACTION MATRIX FOOTER LAYER -->
+        <section class="flower-canvas-footer">
+            <div class="flower-grid-matrix" id="flower-target-matrix">
+                <!-- Programmatic population loops run here -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // ─── RUNNING PRELOADER COUNTER CYCLE ───
+            let currentPct = 0;
+            const counterElement = document.getElementById("load-value");
+            const preloader = document.getElementById("preloader");
+            const cards = document.querySelectorAll(".loader-stack-card");
+
+            const cycleInterval = setInterval(() => {
+                currentPct += Math.floor(Math.random() * 12) + 2;
+                if (currentPct >= 100) {
+                    currentPct = 100;
+                    clearInterval(cycleInterval);
+                    
+                    // Card explode animation sequence
+                    cards.forEach((card, idx) => {
+                        card.style.transform = `translate(${(idx - 1) * 140}px, -60px) scale(0.9) rotate(${idx * 15}deg)`;
+                        card.style.opacity = "0";
+                    });
+
+                    setTimeout(() => {
+                        preloader.style.transition = "opacity 0.6s ease";
+                        preloader.style.opacity = "0";
+                        setTimeout(() => preloader.style.display = "none", 600);
+                    }, 600);
+                }
+                counterElement.textContent = `${currentPct}%`;
+            }, 80);
+
+            // ─── DYNAMIC COLOR MATRIX INTERSECTION OBSERVATION ───
+            const sectionsToWatch = [document.getElementById("work"), document.getElementById("timeline")];
+            const body = document.body;
+
+            const trackingEngine = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        body.classList.add("dark-mode");
+                        body.style.backgroundColor = "var(--bg-serious)";
+                        body.style.color = "var(--text-light)";
+                    } else {
+                        // Validate viewport limits before switching back
+                        const bounds = entry.boundingClientRect;
+                        if (bounds.top > 0) {
+                            body.classList.remove("dark-mode");
+                            body.style.backgroundColor = "var(--bg-bright)";
+                            body.style.color = "var(--text-dark)";
+                        }
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            sectionsToWatch.forEach(section => { if(section) trackingEngine.observe(section); });
+
+            // ─── POPULATING THE REPOSITORY DATA STRUC ───
+            const repositories = [
+                { title: "Blinkit UI Structural System", cat: "Figma Frameworks", tool: "Figma Standalone" },
+                { title: "Rain Campus Discovery Interface", cat: "Product Architecture", tool: "Figma Engineering Prototype" },
+                { title: "Dynamic Video Content System", cat: "Media Production", tool: "Canva Pro / Premiere Asset Pipelines" }
+            ];
+
+            const targetGrid = document.getElementById("repository-injection-grid");
+            if(targetGrid) {
+                targetGrid.innerHTML = repositories.map(repo => `
+                    <article class="vertical-card">
+                        <div>
+                            <span style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--accent-red); letter-spacing:0.05em;">${repo.cat}</span>
+                            <h3 style="font-family:'Syne', sans-serif; font-size:1.6rem; font-weight:800; text-transform:uppercase; margin-top:0.5rem; line-height:1.1;">${repo.title}</h3>
+                        </div>
+                        <div class="card-media-slot"></div>
+                        <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted-light); font-weight:700;">Engine: ${repo.tool}</div>
+                    </article>
+                `).join('');
+            }
+
+            // ─── STICKER INTERACTION RIGGING ───
+            const stickers = document.querySelectorAll(".sticker");
+            stickers.forEach(sticker => {
+                let isMoving = false;
+                let currentX, currentY, initialX, initialY;
+                let offsetX = 0, offsetY = 0;
+
+                sticker.addEventListener("mousedown", (e) => {
+                    initialX = e.clientX - offsetX;
+                    initialY = e.clientY - offsetY;
+                    isMoving = true;
+                });
+
+                document.addEventListener("mousemove", (e) => {
+                    if (isMoving) {
+                        e.preventDefault();
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                        offsetX = currentX;
+                        offsetY = currentY;
+                        sticker.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${currentX * 0.05}deg)`;
+                    }
+                });
+
+                document.addEventListener("mouseup", () => isMoving = false);
+            });
+
+            // ─── STANDARD ACCORDIAN FAQ CONTROLLERS ───
+            const faqTriggers = document.querySelectorAll(".faq-trigger");
+            faqTriggers.forEach(trigger => {
+                trigger.addEventListener("click", () => {
+                    const content = trigger.nextElementSibling;
+                    const sign = trigger.querySelector("span");
+                    if (content.style.maxHeight && content.style.maxHeight !== "0px") {
+                        content.style.maxHeight = "0px";
+                        sign.textContent = "+";
+                    } else {
+                        content.style.maxHeight = `${content.scrollHeight}px`;
+                        sign.textContent = "-";
+                    }
+                });
+            });
+
+            // ─── MATRIX GENERATION FOR FLOWER INTERACTION LAYER ───
+            const matrixTarget = document.getElementById("flower-target-matrix");
+            if (matrixTarget) {
+                // Generate clean SVG markup explicitly inline for optimal rendering performance
+                const svgFlower = `
+                    <svg class="vector-flower" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="25" r="20" fill="var(--accent-red)"/>
+                        <circle cx="50" cy="75" r="20" fill="var(--accent-red)"/>
+                        <circle cx="25" cy="50" r="20" fill="var(--accent-red)"/>
+                        <circle cx="75" cy="50" r="20" fill="var(--accent-red)"/>
+                        <circle cx="50" cy="50" r="15" fill="var(--accent-yellow)"/>
+                    </svg>
+                `;
+                
+                let dynamicGridHTML = "";
+                for (let i = 0; i < 48; i++) {
+                    dynamicGridHTML += `<div class="flower-wrapper">${svgFlower}</div>`;
+                }
+                matrixTarget.innerHTML = dynamicGridHTML;
+
+                // Bind mouse transition listener matrices
+                const structuralFlowers = document.querySelectorAll(".vector-flower");
+                structuralFlowers.forEach(flower => {
+                    let currentRot = 0;
+                    flower.addEventListener("mouseenter", () => {
+                        currentRot += 180;
+                        flower.style.transform = `rotate(${currentRot}deg)`;
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
-
-
-//working on this codde for more changers

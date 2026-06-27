@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Mansi Toshniwal — Portfolio & Repositories</title>
+    <title>Mansi Toshniwal — Portfolio System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <!-- Professional, high-end architectural editorial typography selection -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
     <style>
         :root {
-            --bg-bright: #faf7f0;
-            --bg-serious: #0e0e10;
-            --text-dark: #0e0e10;
-            --text-light: #faf7f0;
-            --accent-red: #d93a1e;
-            --accent-green: #38b000;
-            --accent-yellow: #ffcc00;
-            --border-dark: #0e0e10;
-            --border-light: #faf7f0;
-            --muted-dark: #706756;
-            --muted-light: #8e8e93;
-            --border-width: 2px;
-            --radius: 4px;
+            --bg-bright: #f8f6f0;
+            --bg-serious: #0b0b0c;
+            --text-dark: #0b0b0c;
+            --text-light: #f8f6f0;
+            --accent-red: #e63946;
+            --accent-blue: #1d3557;
+            --accent-green: #2a9d8f;
+            --border-dark: #0b0b0c;
+            --border-light: #f8f6f0;
+            --muted-dark: #6c757d;
+            --muted-light: #adb5bd;
+            --border-width: 2.5px;
+            --radius: 0px; /* Brutalist sharp edge mechanics */
         }
 
         *, *::before, *::after {
@@ -35,15 +36,15 @@
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
             overflow-x: hidden;
             background-color: var(--bg-bright);
             color: var(--text-dark);
-            transition: background-color 0.5s ease, color 0.5s ease;
+            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ─── PRELOADER SYSTEM (Screenshot 2026-06-27 230220.png) ─── */
+        /* ─── MODIFIED PRELOADER TRACK (Screenshot 2026-06-27 230220.png) ─── */
         #preloader {
             position: fixed;
             inset: 0;
@@ -51,685 +52,612 @@
             color: var(--text-light);
             z-index: 9999;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 3rem;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
         }
 
-        .loader-marquee {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 8vw, 7rem);
-            font-weight: 800;
-            white-space: nowrap;
-            opacity: 0.05;
-            user-select: none;
-        }
-
-        .loader-center {
+        .loader-bg-marquee {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 380px;
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.08;
+            pointer-events: none;
         }
 
-        .loader-stack-card {
+        .marquee-inner {
+            display: flex;
+            animation: infiniteScroll 25s linear infinite;
+        }
+
+        @keyframes infiniteScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .loader-deck {
+            position: relative;
+            width: 320px;
+            height: 420px;
+            z-index: 10;
+        }
+
+        .loader-deck-card {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: #222;
             border: var(--border-width) solid var(--border-light);
-            border-radius: var(--radius);
+            background: #16161a;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 4rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
         }
 
-        .loader-counter {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(4rem, 10vw, 9rem);
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        /* ─── HEADER ARCHITECTURE ─── */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            border-bottom: var(--border-width) solid var(--border-dark);
-            background: rgba(254, 247, 240, 0.8);
-            backdrop-filter: blur(12px);
-            transition: background 0.3s, border-color 0.3s;
-        }
-
-        body.dark-mode header {
-            background: rgba(14, 14, 16, 0.8);
-            border-color: var(--border-light);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.25rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.5rem;
-            letter-spacing: -0.03em;
-        }
-
-        .logo span { color: var(--accent-red); }
-
-        .nav-menu {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-link {
-            font-size: 0.75rem;
+        .loader-hint {
+            position: absolute;
+            bottom: 3rem;
+            font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            text-decoration: none;
-            color: inherit;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+            animation: pulse 1.5s infinite;
         }
 
-        /* ─── VIBRANT HERO SECTION (Screenshot 2026-06-27 230135.png) ─── */
+        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+        /* ─── INTERACTIVE BRAND TYPOGRAPHY (Screenshot 2026-06-27 230205.png) ─── */
         .hero {
             min-height: 100vh;
-            display: grid;
-            align-content: center;
+            display: flex;
+            align-items: center;
             padding: 8rem 2rem 4rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
-            position: relative;
         }
 
-        .hero-layout {
-            display: grid;
-            grid-template-columns: 1fr minmax(300px, 450px);
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-title {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: clamp(3rem, 7.5vw, 7rem);
+        .interactive-name-wrap {
+            display: flex;
+            flex-direction: column;
             line-height: 0.85;
-            letter-spacing: -0.04em;
+            user-select: none;
+        }
+
+        .name-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .interactive-letter {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(4rem, 11vw, 11rem);
             text-transform: uppercase;
-        }
-
-        .hero-title span {
-            display: block;
+            letter-spacing: -0.03em;
+            cursor: pointer;
             position: relative;
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .hero-title .outline-text {
-            -webkit-text-stroke: var(--border-width) var(--border-dark);
-            color: transparent;
+        .interactive-letter:hover {
+            transform: scale(1.1) translateY(-5px);
+            color: var(--accent-red);
         }
 
-        body.dark-mode .hero-title .outline-text {
-            -webkit-text-stroke: var(--border-width) var(--border-light);
-        }
-
-        /* Interactive Sticker Elements */
-        .sticker-container {
-            position: relative;
+        /* Dynamic Popup Asset Slots */
+        .letter-popup-asset {
+            position: absolute;
+            width: 180px;
+            height: 130px;
             background: var(--bg-bright);
             border: var(--border-width) solid var(--border-dark);
-            height: 450px;
-            border-radius: var(--radius);
-            background-image: radial-gradient(var(--border-dark) 1.5px, transparent 1.5px);
-            background-size: 24px 24px;
-        }
-
-        .sticker {
-            position: absolute;
-            padding: 0.75rem 1.2rem;
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            transform-origin: bottom center;
+            z-index: 50;
+            box-shadow: 8px 8px 0 var(--border-dark);
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border: var(--border-width) solid var(--border-dark);
-            border-radius: 100px;
-            cursor: grab;
-            user-select: none;
-            box-shadow: 4px 4px 0 var(--border-dark);
-            transition: transform 0.1s ease;
-        }
-
-        .sticker:active { cursor: grabbing; }
-
-        /* ─── BIO WITH CUSTOM INLINE HIGHLIGHTING (image_98f4c9.png) ─── */
-        .bio-section {
-            background: var(--bg-serious);
-            color: var(--text-light);
-            padding: 6rem 2rem;
-        }
-
-        .bio-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .bio-text {
-            font-size: clamp(1.5rem, 3.5vw, 3rem);
-            line-height: 1.4;
-            color: #444448;
-            font-weight: 500;
-        }
-
-        /* High-contrast precision style extraction */
-        .bio-text strong {
-            color: var(--text-light);
             font-weight: 700;
+            text-transform: uppercase;
+            padding: 1rem;
+            text-align: center;
         }
 
-        /* ─── SERVICES MODULE (Screenshot 2026-06-27 230135.png) ─── */
-        .services-wrap {
+        .interactive-letter.active .letter-popup-asset {
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* ─── EXPANDABLE FUNCTIONAL CAPABILITIES (Screenshot 2026-06-27 230135.png) ─── */
+        .capabilities-section {
             max-width: 1400px;
             margin: 0 auto;
             padding: 6rem 2rem;
-        }
-
-        .services-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 4rem;
-            letter-spacing: -0.02em;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
             border-top: var(--border-width) solid var(--border-dark);
         }
 
-        .service-column {
-            padding: 2.5rem 1.5rem;
-            border-right: var(--border-width) solid var(--border-dark);
+        body.dark-mode .capabilities-section { border-color: var(--border-light); }
+
+        .section-header-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 4rem;
+        }
+
+        .capabilities-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .capability-node {
+            border: var(--border-width) solid var(--border-dark);
+            padding: 2.5rem 2rem;
+            background: var(--text-light);
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
-        .service-column:last-child { border-right: none; }
+        body.dark-mode .capability-node {
+            border-color: var(--border-light);
+            background: #141417;
+        }
 
-        .service-num {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.25rem;
+        .node-index {
+            font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
-            color: var(--muted-dark);
+            color: var(--accent-red);
         }
 
-        .service-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        /* ─── SERIOUS WORK GRID WITH EXPANDED VERTICAL SLOTS (Screenshot 2026-06-27 230205.png) ─── */
-        .work-section {
+        /* ─── FULL-WIDTH SEQUENTIAL VERTICAL SYSTEM (Screenshot 2026-06-27 230205.png) ─── */
+        .work-matrix-section {
             background: var(--bg-serious);
             color: var(--text-light);
             padding: 6rem 2rem;
         }
 
-        .work-container {
+        .matrix-container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        .vertical-work-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.5rem;
-            margin-top: 4rem;
+        .category-stream-block {
+            margin-bottom: 6rem;
         }
 
-        .vertical-card {
-            background: #141417;
-            border: var(--border-width) solid #2c2c35;
-            border-radius: var(--radius);
-            padding: 2rem;
-            min-height: 500px;
+        .category-stream-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            text-transform: uppercase;
+            border-bottom: var(--border-width) solid #2c2c35;
+            padding-bottom: 1rem;
+            margin-bottom: 3rem;
+            letter-spacing: 0.05em;
+        }
+
+        .vertical-asset-stream {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            transition: border-color 0.3s, transform 0.3s;
+            gap: 4rem;
         }
 
-        .vertical-card:hover {
-            border-color: var(--border-light);
-            transform: translateY(-5px);
-        }
-
-        .card-media-slot {
+        .vertical-long-box {
             width: 100%;
-            height: 240px;
-            background: #222;
+            min-height: 550px;
             border: var(--border-width) solid #2c2c35;
-            border-radius: var(--radius);
+            background: #121214;
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            cursor: pointer;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+
+        .vertical-long-box:hover {
+            border-color: var(--border-light);
+        }
+
+        .box-media-canvas {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1e;
+            border-right: var(--border-width) solid #2c2c35;
+            position: relative;
             overflow: hidden;
         }
 
-        /* ─── DUAL TIMELINE INFRASTRUCTURE ─── */
-        .timeline-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 5rem;
+        .box-media-canvas img, .box-media-canvas video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .timeline-block {
-            border-left: var(--border-width) solid #2c2c35;
-            padding-left: 2rem;
+        .box-description-sidebar {
+            padding: 3rem 2.5rem;
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
+            justify-content: space-between;
         }
 
-        .timeline-item { position: relative; }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: calc(-2rem - 6px);
-            top: 4px;
-            width: 10px;
-            height: 10px;
-            background: var(--accent-red);
-            border-radius: 50%;
+        /* ─── LIGHTBOX AGENT METRIC ─── */
+        #lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 11, 12, 0.98);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
-        /* ─── ACCORDIAN FAQ MATRIX ─── */
-        .faq-section {
-            max-width: 900px;
+        #lightbox-container {
+            max-width: 90%;
+            max-height: 85vh;
+            border: var(--border-width) solid var(--border-light);
+        }
+
+        #lightbox-container img, #lightbox-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* ─── CRITICALLY REFOCUSED CHRONOLOGICAL SECTIONS ─── */
+        .chronology-section {
+            max-width: 1400px;
             margin: 0 auto;
             padding: 6rem 2rem;
         }
 
-        .faq-item {
-            border-bottom: var(--border-width) solid var(--border-dark);
-        }
-
-        body.dark-mode .faq-item { border-color: var(--border-light); }
-
-        .faq-trigger {
-            width: 100%;
-            padding: 2rem 0;
-            background: none;
-            border: none;
-            text-align: left;
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
+        .timeline-linear-track {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: inherit;
+            flex-direction: column;
+            gap: 3rem;
+            margin-bottom: 5rem;
+            border-left: var(--border-width) solid var(--border-dark);
+            padding-left: 2.5rem;
         }
 
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            color: var(--muted-dark);
+        body.dark-mode .timeline-linear-track { border-color: var(--border-light); }
+
+        .timeline-node {
+            position: relative;
         }
 
-        body.dark-mode .faq-content { color: var(--muted-light); }
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: calc(-2.5rem - 7px);
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-red);
+        }
 
-        .faq-content p { padding-bottom: 2rem; line-height: 1.7; }
-
-        /* ─── ROTATING REPEATING FLOWER CANVAS (Screenshot 2026-06-27 230220.png) ─── */
+        /* ─── CENTRALIZED QUOTE MATRIX SYSTEM (Screenshot 2026-06-27 230220.png) ─── */
         .flower-canvas-footer {
             background: #fff;
             border-top: var(--border-width) solid var(--border-dark);
-            padding: 4rem 2rem;
-            overflow: hidden;
+            padding: 6rem 2rem;
+            position: relative;
         }
 
         .flower-grid-matrix {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 2.5rem;
             max-width: 1400px;
             margin: 0 auto;
+            opacity: 0.35;
         }
 
-        .flower-wrapper {
+        .centralized-quote-wrapper {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            aspect-ratio: 1;
+            pointer-events: none;
+            padding: 2rem;
+            text-align: center;
         }
 
-        .vector-flower {
-            width: 60px;
-            height: 60px;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* ─── DYNAMIC RESPONSIVE BREAKPOINTS ─── */
-        @media (max-width: 1024px) {
-            .hero-layout, .timeline-container { grid-template-columns: 1fr; }
-            .services-grid { grid-template-columns: repeat(2, 1fr); }
-            .vertical-work-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 640px) {
-            .services-grid { grid-template-columns: 1fr; }
-            .nav-menu { display: none; }
+        .centralized-quote-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--text-dark);
+            background: #fff;
+            padding: 1.5rem 3rem;
+            border: var(--border-width) solid var(--border-dark);
+            box-shadow: 12px 12px 0 var(--border-dark);
+            pointer-events: auto;
+            max-width: 850px;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <!-- LOADING SHUFFLE SYSTEM -->
-    <div id="preloader">
-        <div class="loader-marquee">MANSI TOSHNIWAL — CODE MATRIX CREATIVE SYSTEM</div>
-        <div class="loader-center">
-            <div class="loader-stack-card" style="z-index: 3; transform: rotate(-6deg);">📐</div>
-            <div class="loader-stack-card" style="z-index: 2; transform: rotate(4deg);">🎬</div>
-            <div class="loader-stack-card" style="z-index: 1; transform: rotate(-2deg);">💻</div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="max-width: 300px; font-family: 'Syne'; font-weight: 700; text-transform: uppercase;">Initializing Repository Layer...</div>
-            <div class="loader-counter" id="load-value">0%</div>
-        </div>
+    <!-- LIGHTBOX INTERFACE WINDOW -->
+    <div id="lightbox-overlay" onclick="closeFullscreen()">
+        <div id="lightbox-container" onclick="event.stopPropagation()"></div>
     </div>
 
-    <header>
-        <nav class="nav-container">
-            <div class="logo">Mansi<span>.</span></div>
-            <ul class="nav-menu">
-                <li><a href="#work" class="nav-link">Work Matrices</a></li>
-                <li><a href="#timeline" class="nav-link">Chronology</a></li>
-                <li><a href="#faq" class="nav-link">Inquiries</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- REFACTOR: SHUFFLE CONTAINER WITH SCROLLING TEXT BACKGROUND -->
+    <div id="preloader" onclick="dismissLoader()">
+        <div class="loader-bg-marquee">
+            <div class="marquee-inner">
+                <span>MANSI TOSHNIWAL — CODE MATRIX CREATIVE SYSTEM · STANDALONE FIGMA INTERFACES · CORE JAVA PIPELINES · </span>
+                <span>MANSI TOSHNIWAL — CODE MATRIX CREATIVE SYSTEM · STANDALONE FIGMA INTERFACES · CORE JAVA PIPELINES · </span>
+            </div>
+        </div>
+        <div class="loader-deck">
+            <div class="loader-deck-card" style="z-index: 3; transform: rotate(-5deg);">📐</div>
+            <div class="loader-deck-card" style="z-index: 2; transform: rotate(3deg);">🎬</div>
+            <div class="loader-deck-card" style="z-index: 1; transform: rotate(-1deg);">💻</div>
+        </div>
+        <div class="loader-hint">Click Interface To Enter Matrix</div>
+    </div>
 
     <main>
-        <!-- BRIGHT HERO ENTRY VIEW -->
-        <section class="hero" id="hero-view">
-            <div class="hero-layout">
-                <h1 class="hero-title">
-                    Mansi <br><span class="outline-text">Toshniwal</span> <span>Portfolio ©26</span>
-                </h1>
-                <div class="sticker-container">
-                    <div class="sticker" style="top: 40px; left: 30px; background: var(--accent-yellow);" data-speed="0.05">UI/UX · Figma</div>
-                    <div class="sticker" style="top: 160px; left: 140px; background: var(--accent-green); color: white;" data-speed="0.03">Java · Core Dev</div>
-                    <div class="sticker" style="top: 280px; left: 50px; background: var(--accent-red); color: white;" data-speed="0.07">Video Director</div>
+        <!-- PROFILE HERO CONTAINER -->
+        <section class="hero">
+            <div class="interactive-name-wrap">
+                <!-- Row 1: MANSI -->
+                <div class="name-row" style="margin-bottom: 1.5rem;">
+                    <div class="interactive-letter" data-asset="Figma UI Architecture Pipeline">M<div class="letter-popup-asset">Figma UI Architecture Pipeline</div></div>
+                    <div class="interactive-letter" data-asset="Core System Architecture Developer">A<div class="letter-popup-asset">Core System Architecture Developer</div></div>
+                    <div class="interactive-letter" data-asset="Advanced Dynamic Content Engineering">N<div class="letter-popup-asset">Advanced Dynamic Content Engineering</div></div>
+                    <div class="interactive-letter" data-asset="Scalable Software Interface Systems">S<div class="letter-popup-asset">Scalable Software Interface Systems</div></div>
+                    <div class="interactive-letter" data-asset="Integrated Media Production Modules">I<div class="letter-popup-asset">Integrated Media Production Modules</div></div>
+                </div>
+                <!-- Row 2: TOSHNIWAL -->
+                <div class="name-row">
+                    <div class="interactive-letter" data-asset="Technical Execution Substrate">T<div class="letter-popup-asset">Technical Execution Substrate</div></div>
+                    <div class="interactive-letter" data-asset="Optimized Performance Core Frameworks">O<div class="letter-popup-asset">Optimized Performance Core Frameworks</div></div>
+                    <div class="interactive-letter" data-asset="System Design Primitive Logic">S<div class="letter-popup-asset">System Design Primitive Logic</div></div>
+                    <div class="interactive-letter" data-asset="Hardware Accelerated Fluid Rendering">H<div class="letter-popup-asset">Hardware Accelerated Fluid Rendering</div></div>
+                    <div class="interactive-letter" data-asset="Dynamic Component State Controls">N<div class="letter-popup-asset">Dynamic Component State Controls</div></div>
+                    <div class="interactive-letter" data-asset="Unified Interface Validation Models">I<div class="letter-popup-asset">Unified Interface Validation Models</div></div>
+                    <div class="interactive-letter" data-asset="Structural DOM Pattern Management">W<div class="letter-popup-asset">Structural DOM Pattern Management</div></div>
+                    <div class="interactive-letter" data-asset="Creative Runtime Vector Matrix">A<div class="letter-popup-asset">Creative Runtime Vector Matrix</div></div>
+                    <div class="interactive-letter" data-asset="End-To-End Compilation Deployment">L<div class="letter-popup-asset">End-To-End Compilation Deployment</div></div>
                 </div>
             </div>
         </section>
 
-        <!-- SUBSTRATE EXTRACTED BIO PANEL -->
-        <section class="bio-section">
-            <div class="bio-container">
-                <p class="bio-text">
-                    I am a Computer Science Engineering student who executes production pipelines from structural logic to visual asset implementation. I <strong>Specialize</strong> in crafting functional, interactive interface matrices and deploying optimized execution systems that bring unified digital assets to life.
-                </p>
+        <!-- FUNCTIONAL CAPABILITIES REGISTRY MODULE -->
+        <section class="capabilities-section">
+            <h2 class="section-header-title">Functional Capabilities</h2>
+            <div class="capabilities-matrix" id="capabilities-target-node">
+                <!-- Explicit Node Expansion Engine Point -->
             </div>
         </section>
 
-        <!-- MULTI-COLUMN INTERACTION CAPABILITIES -->
-        <section class="services-wrap">
-            <h2 class="services-title">Functional Capabilities</h2>
-            <div class="services-grid">
-                <div class="service-column">
-                    <div class="service-num">01</div>
-                    <div class="service-name">Figma / Systems</div>
-                </div>
-                <div class="service-column">
-                    <div class="service-num">02</div>
-                    <div class="service-name">Core Dev / Java</div>
-                </div>
-                <div class="service-column">
-                    <div class="service-num">03</div>
-                    <div class="service-name">Video Architecture</div>
-                </div>
-                <div class="service-column">
-                    <div class="service-num">04</div>
-                    <div class="service-name">Social Assets</div>
-                </div>
+        <!-- CRITICAL REFOUSED LONG-BOX CONTENT ARCHITECTURE -->
+        <section class="work-matrix-section">
+            <div class="matrix-container" id="stream-injection-point">
+                <!-- Sequential Category Streams Inject Inline Here -->
             </div>
         </section>
 
-        <!-- SERIOUS HIGH-CONTRAST DEEP CARD GRID -->
-        <section class="work-section" id="work">
-            <div class="work-container">
-                <h2 class="services-title" style="color: var(--text-light)">Selected Repositories</h2>
-                <div class="vertical-work-grid" id="repository-injection-grid">
-                    <!-- Target element for database generation loops -->
-                </div>
-
-                <!-- CHRONOLOGICAL HISTORY SCALING MATRIX -->
-                <div class="timeline-container" id="timeline">
-                    <div>
-                        <h3 style="font-family:'Syne'; font-size: 1.75rem; margin-bottom: 2.5rem; text-transform: uppercase;">💼 Industry Validation</h3>
-                        <div class="timeline-block">
-                            <div class="timeline-item">
-                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">Startup Architecture Validation</h4>
-                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">RBU Technology Business Incubator Foundation</p>
-                            </div>
-                            <div class="timeline-item">
-                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">Interface Assessment & Strategy</h4>
-                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">AyLark Technical Operations</p>
-                            </div>
-                        </div>
+        <!-- VERTICALLY SEQUENCED CHRONOLOGY TIMELINES -->
+        <section class="chronology-section">
+            <div style="margin-bottom: 6rem;">
+                <h2 class="section-header-title">💼 Professional Internships</h2>
+                <div class="timeline-linear-track">
+                    <div class="timeline-node">
+                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">Product Validation Frameworks</h3>
+                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">RBU Technology Business Incubator Foundation</p>
                     </div>
-                    <div>
-                        <h3 style="font-family:'Syne'; font-size: 1.75rem; margin-bottom: 2.5rem; text-transform: uppercase;">🏆 Hackathons & Credentials</h3>
-                        <div class="timeline-block">
-                            <div class="timeline-item">
-                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">ByteQuest Systems Hackathon</h4>
-                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">System pipeline optimization and presentation under tight parameters.</p>
-                            </div>
-                            <div class="timeline-item">
-                                <h4 style="font-family:'Syne'; font-size: 1.25rem;">Data Structures & Python Systems</h4>
-                                <p style="color: var(--muted-light); font-size: 0.9rem; margin-top: 0.5rem;">Coursera Architecture Credentials</p>
-                            </div>
-                        </div>
+                    <div class="timeline-node">
+                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">Interface Assessment Engineering</h3>
+                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">AyLark Operations Matrix</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="section-header-title">🏆 Systems Hackathons</h2>
+                <div class="timeline-linear-track">
+                    <div class="timeline-node">
+                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">ByteQuest Architectural Hackathon</h3>
+                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">Pitched architectural structural validation logic and optimization constraints.</p>
+                    </div>
+                    <div class="timeline-node">
+                        <h3 style="font-family:'Space Grotesk'; font-size: 1.4rem;">Python & Systems Data Structures</h3>
+                        <p style="color: var(--muted-dark); margin-top: 0.5rem; font-weight: 500;">Coursera Certified Verification Credentials</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- COMPACT ACCORDIAN FAQ SYSTEM -->
-        <section class="faq-section" id="faq">
-            <h2 class="services-title">Inquiries</h2>
-            <div class="faq-item">
-                <button class="faq-trigger">What engineering stack drives these operations? <span>+</span></button>
-                <div class="faq-content">
-                    <p>Core system processing is constructed via native Java and Python engineering models. UI implementation passes from pixel-perfect standalone Figma assets directly to hardware-accelerated semantic frontend source architecture.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-trigger">How are media assets handled? <span>+</span></button>
-                <div class="faq-content">
-                    <p>Canva edited posts and edited video operations are structured using high-bitrate media protocols, responsive sizing algorithms, and precise content layout pipelines to preserve design continuity.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- HIGH-INTERACTION MATRIX FOOTER LAYER -->
+        <!-- COLORFUL CANVAS WITH CENTERED QUOTE WRAPPER -->
         <section class="flower-canvas-footer">
-            <div class="flower-grid-matrix" id="flower-target-matrix">
-                <!-- Programmatic population loops run here -->
+            <div class="flower-grid-matrix" id="matrix-flower-substrate"></div>
+            <div class="centralized-quote-wrapper">
+                <div class="centralized-quote-text">
+                    "Great design is always hidden in the plain sight."
+                </div>
             </div>
         </section>
     </main>
 
     <script>
+        // ─── INITIALIZING STORAGE MATRICES FOR PRODUCTION OVERWRITES ───
+        const capabilitiesRegistry = [
+            { id: "01", title: "Standalone Figma Frameworks", metrics: "Wireframe layout planning and user interaction mapping." },
+            { id: "02", title: "Core System Dev / Java", metrics: "Object-oriented software development and algorithm design patterns." },
+            { id: "03", title: "Media Asset Pipelines", metrics: "High-bitrate video architecture and content strategy layout planning." },
+            { id: "04", title: "Frontend Implementation", metrics: "Semantic source markup generation with raw structural layout models." }
+        ];
+
+        // HOW TO EXPAND PROJECTS: Simply append structural items inside this collection array
+        const projectVault = [
+            {
+                category: "Figma UI Architecture",
+                items: [
+                    { title: "Blinkit UI System Refactor", tech: "Figma Standalone Framework", src: "" },
+                    { title: "Rain Campus Discovery Prototype", tech: "Interaction Logic Design", src: "" }
+                ]
+            },
+            {
+                category: "Canva Creative Assets",
+                items: [
+                    { title: "Corporate Brand Communication Set", tech: "Vector Pro Production Layouts", src: "" }
+                ]
+            },
+            {
+                category: "Video Engineering Production",
+                items: [
+                    { title: "Cinematic Product Timeline Motion", tech: "High-Bitrate Timeline Master Cuts", src: "" }
+                ]
+            }
+        ];
+
+        const vibrantHexColors = ["#e63946", "#f4a261", "#2a9d8f", "#e9c46a", "#457b9d", "#a8dadc", "#1d3557", "#ffb703"];
+
         document.addEventListener("DOMContentLoaded", () => {
-            // ─── RUNNING PRELOADER COUNTER CYCLE ───
-            let currentPct = 0;
-            const counterElement = document.getElementById("load-value");
-            const preloader = document.getElementById("preloader");
-            const cards = document.querySelectorAll(".loader-stack-card");
+            // Populate Capabilities Matrix
+            const nodeTarget = document.getElementById("capabilities-target-node");
+            if (nodeTarget) {
+                nodeTarget.innerHTML = capabilitiesRegistry.map(node => `
+                    <div class="capability-node">
+                        <div class="node-index">${node.id}</div>
+                        <h3 style="font-family:'Space Grotesk'; font-size:1.4rem; text-transform:uppercase;">${node.title}</h3>
+                        <p style="color:var(--muted-dark); font-size:0.95rem; line-height:1.6;">${node.metrics}</p>
+                    </div>
+                `).join('');
+            }
 
-            const cycleInterval = setInterval(() => {
-                currentPct += Math.floor(Math.random() * 12) + 2;
-                if (currentPct >= 100) {
-                    currentPct = 100;
-                    clearInterval(cycleInterval);
-                    
-                    // Card explode animation sequence
-                    cards.forEach((card, idx) => {
-                        card.style.transform = `translate(${(idx - 1) * 140}px, -60px) scale(0.9) rotate(${idx * 15}deg)`;
-                        card.style.opacity = "0";
-                    });
+            // Populate Full-Width Vertical Content Stream Blocks
+            const streamTarget = document.getElementById("stream-injection-point");
+            if (streamTarget) {
+                streamTarget.innerHTML = projectVault.map(stream => `
+                    <div class="category-stream-block">
+                        <h3 class="category-stream-title">${stream.category}</h3>
+                        <div class="vertical-asset-stream">
+                            ${stream.items.map(item => `
+                                <div class="vertical-long-box" onclick="launchFullscreen('${item.src}', 'image')">
+                                    <div class="box-media-canvas">
+                                        <!-- Source media tag layers embed directly here inside execution runtimes -->
+                                    </div>
+                                    <div class="box-description-sidebar">
+                                        <h4 style="font-family:'Space Grotesk'; font-size:1.75rem; text-transform:uppercase; line-height:1.1;">${item.title}</h4>
+                                        <div style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted-light);">Engine: ${item.tech}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
 
-                    setTimeout(() => {
-                        preloader.style.transition = "opacity 0.6s ease";
-                        preloader.style.opacity = "0";
-                        setTimeout(() => preloader.style.display = "none", 600);
-                    }, 600);
-                }
-                counterElement.textContent = `${currentPct}%`;
-            }, 80);
+            // Interactive character state loops
+            const letters = document.querySelectorAll(".interactive-letter");
+            letters.forEach(letter => {
+                letter.addEventListener("click", () => {
+                    letter.classList.toggle("active");
+                    setTimeout(() => letter.classList.remove("active"), 2200);
+                });
+            });
 
-            // ─── DYNAMIC COLOR MATRIX INTERSECTION OBSERVATION ───
-            const sectionsToWatch = [document.getElementById("work"), document.getElementById("timeline")];
+            // Dynamic background switching triggers
+            const matrixContainerSection = document.querySelector(".work-matrix-section");
             const body = document.body;
-
-            const trackingEngine = new IntersectionObserver((entries) => {
+            
+            const substrateObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         body.classList.add("dark-mode");
                         body.style.backgroundColor = "var(--bg-serious)";
                         body.style.color = "var(--text-light)";
                     } else {
-                        // Validate viewport limits before switching back
-                        const bounds = entry.boundingClientRect;
-                        if (bounds.top > 0) {
+                        if (entry.boundingClientRect.top > 0) {
                             body.classList.remove("dark-mode");
                             body.style.backgroundColor = "var(--bg-bright)";
                             body.style.color = "var(--text-dark)";
                         }
                     }
                 });
-            }, { threshold: 0.15 });
+            }, { threshold: 0.1 });
 
-            sectionsToWatch.forEach(section => { if(section) trackingEngine.observe(section); });
+            if (matrixContainerSection) substrateObserver.observe(matrixContainerSection);
 
-            // ─── POPULATING THE REPOSITORY DATA STRUC ───
-            const repositories = [
-                { title: "Blinkit UI Structural System", cat: "Figma Frameworks", tool: "Figma Standalone" },
-                { title: "Rain Campus Discovery Interface", cat: "Product Architecture", tool: "Figma Engineering Prototype" },
-                { title: "Dynamic Video Content System", cat: "Media Production", tool: "Canva Pro / Premiere Asset Pipelines" }
-            ];
-
-            const targetGrid = document.getElementById("repository-injection-grid");
-            if(targetGrid) {
-                targetGrid.innerHTML = repositories.map(repo => `
-                    <article class="vertical-card">
-                        <div>
-                            <span style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--accent-red); letter-spacing:0.05em;">${repo.cat}</span>
-                            <h3 style="font-family:'Syne', sans-serif; font-size:1.6rem; font-weight:800; text-transform:uppercase; margin-top:0.5rem; line-height:1.1;">${repo.title}</h3>
+            // Populate Colorful Matrix Footer Layer
+            const flowerMatrixGrid = document.getElementById("matrix-flower-substrate");
+            if (flowerMatrixGrid) {
+                let flowerHTML = "";
+                for (let i = 0; i < 54; i++) {
+                    const pickingColor = vibrantHexColors[i % vibrantHexColors.length];
+                    const trackingCenterColor = vibrantHexColors[(i + 3) % vibrantHexColors.length];
+                    flowerHTML += `
+                        <div style="display:flex; align-items:center; justify-content:center; aspect-ratio:1;">
+                            <svg class="vector-flower" style="width:65px; height:65px; transition:transform 0.7s ease;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="22" r="18" fill="${pickingColor}"/>
+                                <circle cx="50" cy="78" r="18" fill="${pickingColor}"/>
+                                <circle cx="22" cy="50" r="18" fill="${pickingColor}"/>
+                                <circle cx="78" cy="50" r="18" fill="${pickingColor}"/>
+                                <circle cx="50" cy="50" r="14" fill="${trackingCenterColor}"/>
+                            </svg>
                         </div>
-                        <div class="card-media-slot"></div>
-                        <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted-light); font-weight:700;">Engine: ${repo.tool}</div>
-                    </article>
-                `).join('');
-            }
-
-            // ─── STICKER INTERACTION RIGGING ───
-            const stickers = document.querySelectorAll(".sticker");
-            stickers.forEach(sticker => {
-                let isMoving = false;
-                let currentX, currentY, initialX, initialY;
-                let offsetX = 0, offsetY = 0;
-
-                sticker.addEventListener("mousedown", (e) => {
-                    initialX = e.clientX - offsetX;
-                    initialY = e.clientY - offsetY;
-                    isMoving = true;
-                });
-
-                document.addEventListener("mousemove", (e) => {
-                    if (isMoving) {
-                        e.preventDefault();
-                        currentX = e.clientX - initialX;
-                        currentY = e.clientY - initialY;
-                        offsetX = currentX;
-                        offsetY = currentY;
-                        sticker.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${currentX * 0.05}deg)`;
-                    }
-                });
-
-                document.addEventListener("mouseup", () => isMoving = false);
-            });
-
-            // ─── STANDARD ACCORDIAN FAQ CONTROLLERS ───
-            const faqTriggers = document.querySelectorAll(".faq-trigger");
-            faqTriggers.forEach(trigger => {
-                trigger.addEventListener("click", () => {
-                    const content = trigger.nextElementSibling;
-                    const sign = trigger.querySelector("span");
-                    if (content.style.maxHeight && content.style.maxHeight !== "0px") {
-                        content.style.maxHeight = "0px";
-                        sign.textContent = "+";
-                    } else {
-                        content.style.maxHeight = `${content.scrollHeight}px`;
-                        sign.textContent = "-";
-                    }
-                });
-            });
-
-            // ─── MATRIX GENERATION FOR FLOWER INTERACTION LAYER ───
-            const matrixTarget = document.getElementById("flower-target-matrix");
-            if (matrixTarget) {
-                // Generate clean SVG markup explicitly inline for optimal rendering performance
-                const svgFlower = `
-                    <svg class="vector-flower" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="25" r="20" fill="var(--accent-red)"/>
-                        <circle cx="50" cy="75" r="20" fill="var(--accent-red)"/>
-                        <circle cx="25" cy="50" r="20" fill="var(--accent-red)"/>
-                        <circle cx="75" cy="50" r="20" fill="var(--accent-red)"/>
-                        <circle cx="50" cy="50" r="15" fill="var(--accent-yellow)"/>
-                    </svg>
-                `;
-                
-                let dynamicGridHTML = "";
-                for (let i = 0; i < 48; i++) {
-                    dynamicGridHTML += `<div class="flower-wrapper">${svgFlower}</div>`;
+                    `;
                 }
-                matrixTarget.innerHTML = dynamicGridHTML;
+                flowerMatrixGrid.innerHTML = flowerHTML;
 
-                // Bind mouse transition listener matrices
-                const structuralFlowers = document.querySelectorAll(".vector-flower");
-                structuralFlowers.forEach(flower => {
-                    let currentRot = 0;
+                const vectorFlowers = document.querySelectorAll(".vector-flower");
+                vectorFlowers.forEach(flower => {
+                    let rotState = 0;
                     flower.addEventListener("mouseenter", () => {
-                        currentRot += 180;
-                        flower.style.transform = `rotate(${currentRot}deg)`;
+                        rotState += 180;
+                        flower.style.transform = `rotate(${rotState}deg)`;
                     });
                 });
             }
         });
+
+        function dismissLoader() {
+            const preloader = document.getElementById("preloader");
+            preloader.style.transition = "opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)";
+            preloader.style.opacity = "0";
+            setTimeout(() => preloader.style.display = "none", 500);
+        }
+
+        function launchFullscreen(source, formatType) {
+            if(!source) return;
+            const overlay = document.getElementById("lightbox-overlay");
+            const container = document.getElementById("lightbox-container");
+            overlay.style.display = "flex";
+            container.innerHTML = formatType === 'video' 
+                ? `<video src="${source}" controls autoplay style="width:100%; height:100%;"></video>`
+                : `<img src="${source}" alt="Target Display Asset"/>`;
+        }
+
+        function closeFullscreen() {
+            document.getElementById("lightbox-overlay").style.display = "none";
+        }
     </script>
 </body>
 </html>

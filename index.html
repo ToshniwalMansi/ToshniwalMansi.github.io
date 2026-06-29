@@ -88,6 +88,28 @@ a{color:inherit;text-decoration:none}
   100%{opacity:0;visibility:hidden;filter:blur(8px)}
 }
 
+/* ─── FORCE THE CARDS TO FAN OUT ─── */
+
+/* Card 1 (Bottom Card) - Tilts left and shifts slightly left */
+.loader-card:nth-child(1) {
+  transform: translate(-40px, 0px) rotate(-8deg) !important;
+}
+
+/* Card 2 (Middle Card) - Sits perfectly straight in the center */
+.loader-card:nth-child(2) {
+  transform: translate(0px, 0px) rotate(0deg) !important;
+}
+
+/* Card 3 (Top Card) - Tilts right and shifts slightly right */
+.loader-card:nth-child(3) {
+  transform: translate(40px, 0px) rotate(8deg) !important;
+}
+
+/* Card 4 (If you add a fourth one) */
+.loader-card:nth-child(4) {
+  transform: translate(80px, 10px) rotate(12deg) !important;
+}
+
 /* ════════ NAV ════════ */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2rem;background:rgba(247,243,234,.85);backdrop-filter:blur(10px);border-bottom:1.5px solid rgba(12,12,13,.1);transition:top .35s ease,background .3s,border-color .3s}
 nav.dark{background:rgba(10,10,11,.85);border-bottom-color:rgba(247,243,234,.08)}
@@ -502,15 +524,21 @@ nav.dark .nav-links a{color:var(--muted-light)}
           ════════════════════════════════════════════════════
         -->
         <div class="vbox">
-          <div class="vbox-media" onclick="openLB('','image')">
-            <span class="vbox-media-placeholder">📐</span>
+          <div class="vbox-media" onclick="openLB('Ice-creamFigma.png','image')">
+            <img src="Ice-creamFigma.png" alt="Blinkit UI Redesign Preview" class="vbox-media-img">
+            <span class="vbox-media-placeholder">Ice-creamFigma.png</span>
             <span class="vbox-media-num">01</span>
+            <a href="https://www.figma.com/proto/OelsOkg6xtqyG0MakvL3sg/Mansi?node-id=87-193&t=HY3GBQhpGIF27lln-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=87%3A193" target="_blank" class="figma-link">
+      <button class="btn-figma">
+        <span>↗</span> OPEN IN FIGMA
           </div>
+
+
           <div class="vbox-sidebar">
             <div>
               <div class="vbox-tag">Figma / UI</div>
-              <div class="vbox-title">Blinkit UI Redesign</div>
-              <div class="vbox-desc">Pixel-perfect recreation of Blinkit's interface, rebuilt from scratch with an improved navigation system and component architecture.</div>
+              <div class="vbox-title">Taste the Magic of Summer: An Interactive UI Concept</div>
+              <div class="vbox-desc">Good design should make you crave the product. This high-fidelity interface combines bold, expressive typography with rich product visuals to create an immersive ice cream selection experience. Designed with interactive hover components in Figma, the layout smoothly transitions to reveal unique product descriptions (like the velvety details of Choco Lava), giving users an intuitive, playful, and irresistible way to explore options.</div>
               <div class="vbox-tools"><span class="vbox-tool">Figma</span><span class="vbox-tool">Auto Layout</span><span class="vbox-tool">Prototyping</span></div>
             </div>
             <div class="vbox-foot">
@@ -725,30 +753,52 @@ nav.dark .nav-links a{color:var(--muted-light)}
      { emoji: "📐" }
    ════════════════════════════════════════════════════════════ */
 const LOADER_IMAGES = [
-  { emoji: "📐" },
-  { emoji: "🎬" },
-  { emoji: "🎨" },
-  { emoji: "✦"  },
-  { emoji: "💻" },
-  { emoji: "📱" },
-  { emoji: "🖌️" },
-  { emoji: "🎮" },
-  { emoji: "📸" },
-  { emoji: "✏️" },
-  { emoji: "🌙" },
+  {img : "PreLoaderImages1.jpeg"},
+  {img : "PreLoaderImages2.jpeg"},
+  {img : "PreLoaderImages3.jpeg"},
+  {img : "PreLoaderImages4.jpeg"},
+  {img : "PreLoaderImages5.jpeg"},
+  {img : "PreLoaderImages6.jpeg"},
+  {img : "PreLoaderImages7.jpeg"},
+  {img : "PreLoaderImages8.jpeg"},
+  {img : "PreLoaderImages9.jpeg"},
+  {img : "PreLoaderImages10.jpeg"},
+  {img : "PreLoaderImages11.jpeg"},
+  {img : "PreLoaderImages12.jpeg"},
+  {img : "PreLoaderImages13.jpeg"},
+  {img : "PreLoaderImages14.jpeg"},
+  {img : "PreLoaderImages15.jpeg"},
+  
+  
 ];
 
 const deck = document.getElementById('loaderDeck');
 const cardEls = [];
 
-LOADER_IMAGES.forEach((item, i)=>{
+LOADER_IMAGES.forEach((item, i) => {
   const card = document.createElement('div');
   card.className = 'loader-card';
   card.id = 'lc' + i;
+  
+  // 1. Maintain proper layering depth
   card.style.zIndex = LOADER_IMAGES.length - i;
-  card.innerHTML = item.img
-    ? `<img src="${item.img}" alt=""/><div class="impact-flash"></div>`
-    : `${item.emoji || '✦'}<div class="impact-flash"></div>`;
+  
+  // 2. Safely extract the image path string
+  const imgPath = item.img ? item.img : item;
+  card.innerHTML = `<img src="${imgPath}" alt="Portfolio Work"/><div class="impact-flash"></div>`;
+  
+  // 3. THE FIX: Calculate distinct positioning values for each card
+  // This spaces the cards horizontally (-30px, 0px, 30px) and rotates them (-8deg, 0deg, 8deg)
+  const totalCards = LOADER_IMAGES.length;
+  const offsetIndex = i - (totalCards - 1) / 2; // e.g., if 3 cards: -1, 0, 1
+  
+  const rotationAngle = offsetIndex * 8;       // Spreads the rotational fan out
+  const horizontalShift = offsetIndex * 35;     // Pushes them sideways so they don't block each other
+  
+  // 4. Inject these parameters into the CSS custom properties the animation looks for
+  card.style.setProperty('--land-rot', `${rotationAngle}deg`);
+  card.style.setProperty('--land-transform', `translate(${horizontalShift}px, 0px)`);
+  
   deck.appendChild(card);
   cardEls.push(card);
 });
